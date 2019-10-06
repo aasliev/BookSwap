@@ -8,22 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F243234925BB00F4E537 /* AppDelegate.swift */; };
-		B302F246234925BB00F4E537 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F245234925BB00F4E537 /* ViewController.swift */; };
 		B302F249234925BB00F4E537 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B302F247234925BB00F4E537 /* Main.storyboard */; };
 		B302F24B234925BF00F4E537 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B302F24A234925BF00F4E537 /* Assets.xcassets */; };
 		B302F24E234925BF00F4E537 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B302F24C234925BF00F4E537 /* LaunchScreen.storyboard */; };
 		B302F256234929E000F4E537 /* bookcrab.png in Resources */ = {isa = PBXBuildFile; fileRef = B302F255234929E000F4E537 /* bookcrab.png */; };
+		B302F25E2349596300F4E537 /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F25D2349596300F4E537 /* ProfileScreen.swift */; };
+		B302F2602349598400F4E537 /* FriendListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F25F2349598400F4E537 /* FriendListScreen.swift */; };
+		B302F263234959C100F4E537 /* OwnedBookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F262234959C100F4E537 /* OwnedBookScreen.swift */; };
+		B302F265234959DE00F4E537 /* WishListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F264234959DE00F4E537 /* WishListScreen.swift */; };
+		B302F26723495A1500F4E537 /* HoldingBookListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26623495A1500F4E537 /* HoldingBookListScreen.swift */; };
+		B302F26923495A5E00F4E537 /* GlobalBookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26823495A5E00F4E537 /* GlobalBookList.swift */; };
+		B302F26B23495A7F00F4E537 /* HistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26A23495A7F00F4E537 /* HistoryScreen.swift */; };
+		B302F26D234967A100F4E537 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26C234967A100F4E537 /* HomeScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B302F240234925BB00F4E537 /* BookSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B302F243234925BB00F4E537 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B302F245234925BB00F4E537 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B302F248234925BB00F4E537 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B302F24A234925BF00F4E537 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B302F24D234925BF00F4E537 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B302F24F234925BF00F4E537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B302F255234929E000F4E537 /* bookcrab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookcrab.png; sourceTree = "<group>"; };
+		B302F25D2349596300F4E537 /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
+		B302F25F2349598400F4E537 /* FriendListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListScreen.swift; sourceTree = "<group>"; };
+		B302F262234959C100F4E537 /* OwnedBookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedBookScreen.swift; sourceTree = "<group>"; };
+		B302F264234959DE00F4E537 /* WishListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListScreen.swift; sourceTree = "<group>"; };
+		B302F26623495A1500F4E537 /* HoldingBookListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldingBookListScreen.swift; sourceTree = "<group>"; };
+		B302F26823495A5E00F4E537 /* GlobalBookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalBookList.swift; sourceTree = "<group>"; };
+		B302F26A23495A7F00F4E537 /* HistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScreen.swift; sourceTree = "<group>"; };
+		B302F26C234967A100F4E537 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +70,62 @@
 		B302F242234925BB00F4E537 /* BookSwap */ = {
 			isa = PBXGroup;
 			children = (
-				B302F243234925BB00F4E537 /* AppDelegate.swift */,
-				B302F245234925BB00F4E537 /* ViewController.swift */,
-				B302F247234925BB00F4E537 /* Main.storyboard */,
-				B302F24A234925BF00F4E537 /* Assets.xcassets */,
-				B302F24C234925BF00F4E537 /* LaunchScreen.storyboard */,
 				B302F24F234925BF00F4E537 /* Info.plist */,
-				B302F255234929E000F4E537 /* bookcrab.png */,
+				B302F2592349589700F4E537 /* Model */,
+				B302F25A234958B600F4E537 /* View */,
+				B302F25B234958C200F4E537 /* Controller */,
+				B302F25C2349590900F4E537 /* Other */,
 			);
 			path = BookSwap;
+			sourceTree = "<group>";
+		};
+		B302F2592349589700F4E537 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B302F243234925BB00F4E537 /* AppDelegate.swift */,
+				B302F24A234925BF00F4E537 /* Assets.xcassets */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B302F25A234958B600F4E537 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B302F24C234925BF00F4E537 /* LaunchScreen.storyboard */,
+				B302F247234925BB00F4E537 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B302F25B234958C200F4E537 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B302F2612349599E00F4E537 /* Books */,
+				B302F26C234967A100F4E537 /* HomeScreen.swift */,
+				B302F25D2349596300F4E537 /* ProfileScreen.swift */,
+				B302F25F2349598400F4E537 /* FriendListScreen.swift */,
+				B302F26823495A5E00F4E537 /* GlobalBookList.swift */,
+				B302F26A23495A7F00F4E537 /* HistoryScreen.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B302F25C2349590900F4E537 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				B302F255234929E000F4E537 /* bookcrab.png */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		B302F2612349599E00F4E537 /* Books */ = {
+			isa = PBXGroup;
+			children = (
+				B302F262234959C100F4E537 /* OwnedBookScreen.swift */,
+				B302F264234959DE00F4E537 /* WishListScreen.swift */,
+				B302F26623495A1500F4E537 /* HoldingBookListScreen.swift */,
+			);
+			path = Books;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,8 +200,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B302F246234925BB00F4E537 /* ViewController.swift in Sources */,
+				B302F2602349598400F4E537 /* FriendListScreen.swift in Sources */,
+				B302F25E2349596300F4E537 /* ProfileScreen.swift in Sources */,
 				B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */,
+				B302F26B23495A7F00F4E537 /* HistoryScreen.swift in Sources */,
+				B302F26723495A1500F4E537 /* HoldingBookListScreen.swift in Sources */,
+				B302F26D234967A100F4E537 /* HomeScreen.swift in Sources */,
+				B302F265234959DE00F4E537 /* WishListScreen.swift in Sources */,
+				B302F263234959C100F4E537 /* OwnedBookScreen.swift in Sources */,
+				B302F26923495A5E00F4E537 /* GlobalBookList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

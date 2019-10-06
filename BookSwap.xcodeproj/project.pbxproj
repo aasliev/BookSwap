@@ -20,6 +20,7 @@
 		B302F26923495A5E00F4E537 /* GlobalBookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26823495A5E00F4E537 /* GlobalBookList.swift */; };
 		B302F26B23495A7F00F4E537 /* HistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26A23495A7F00F4E537 /* HistoryScreen.swift */; };
 		B302F26D234967A100F4E537 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F26C234967A100F4E537 /* HomeScreen.swift */; };
+		B38807DD234A9DC900CB43D0 /* photo-1533299346856-b1a85808f2ec.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B38807DC234A9DC900CB43D0 /* photo-1533299346856-b1a85808f2ec.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		B302F26823495A5E00F4E537 /* GlobalBookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalBookList.swift; sourceTree = "<group>"; };
 		B302F26A23495A7F00F4E537 /* HistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScreen.swift; sourceTree = "<group>"; };
 		B302F26C234967A100F4E537 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		B38807DC234A9DC900CB43D0 /* photo-1533299346856-b1a85808f2ec.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "photo-1533299346856-b1a85808f2ec.jpeg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		B302F25C2349590900F4E537 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				B38807DC234A9DC900CB43D0 /* photo-1533299346856-b1a85808f2ec.jpeg */,
 				B302F255234929E000F4E537 /* bookcrab.png */,
 			);
 			path = Other;
@@ -187,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B302F24E234925BF00F4E537 /* LaunchScreen.storyboard in Resources */,
+				B38807DD234A9DC900CB43D0 /* photo-1533299346856-b1a85808f2ec.jpeg in Resources */,
 				B302F24B234925BF00F4E537 /* Assets.xcassets in Resources */,
 				B302F256234929E000F4E537 /* bookcrab.png in Resources */,
 				B302F249234925BB00F4E537 /* Main.storyboard in Resources */,

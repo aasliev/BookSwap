@@ -10,6 +10,9 @@ import UIKit
 
 class HomeScreen: UIViewController {
 
+    @IBOutlet weak var userNameLbl: UITextField!
+    @IBOutlet weak var pswdLbl: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,5 +29,22 @@ class HomeScreen: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    
+    @IBAction func logInBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "toProfileScreen",  sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toProfileScreen"{
+            
+            let destinationScreen = segue.destination as! ProfileScreen
+            
+            destinationScreen.userNameReciver = userNameLbl.text!
+            
+        }
+    }
+    
+    @IBAction func unwindToHomeScreen(_ sender: UIStoryboardSegue){}
+    
 }

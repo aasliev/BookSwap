@@ -10,13 +10,21 @@ import UIKit
 
 class ProfileScreen: UIViewController {
 
+    var userNameReciver : String?
+    @IBOutlet weak var userNameLbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        setUserDetails()
     }
     
-
+    func setUserDetails(){
+        
+        userNameLbl.text = userNameReciver
+    }
     /*
     // MARK: - Navigation
 

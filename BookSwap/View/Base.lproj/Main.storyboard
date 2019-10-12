@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CyO-cN-SFn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CyO-cN-SFn">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -503,6 +503,9 @@
                                                 <state key="normal" title="Sign Up">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="signUpPressed:" destination="6uB-oO-Ruo" eventType="touchUpInside" id="k05-m3-1HD"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -526,6 +529,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fwl-5O-9DE"/>
                     </view>
+                    <connections>
+                        <outlet property="confirmPasswordTextField" destination="vhn-g5-zta" id="iDT-gi-xfY"/>
+                        <outlet property="emailTextField" destination="cOd-Ni-fQF" id="Ej1-3S-uz6"/>
+                        <outlet property="passwordTextField" destination="iX1-tX-kUz" id="CZa-OC-MWf"/>
+                        <outlet property="userNameTextField" destination="PzP-tj-0fH" id="7Y3-hU-DoA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

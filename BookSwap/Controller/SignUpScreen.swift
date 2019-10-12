@@ -35,30 +35,31 @@ class SignUpScreen: UIViewController {
     
     @IBAction func signUpPressed(_ sender: Any) {
         
-        if (checkIfEmpty(userNameTextField) && checkIfEmpty(emailTextField) && checkIfEmpty(passwordTextField) && checkIfEmpty(confirmPasswordTextField)){}
+        if (checkIfTextFieldIsEmpty() ){}
         
         print(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))
     }
     
     func checkIfTextFieldIsEmpty() -> Bool {
         
-        checkIfEmpty(userNameTextField)
-        checkIfEmpty(emailTextField)
-        checkIfEmpty(passwordTextField)
-        checkIfEmpty(confirmPasswordTextField)
+        let userNameCheckStatus = checkIfEmpty(userNameTextField)
+        let emailCheckStatus =  checkIfEmpty(emailTextField)
+        let passwordCheckStatus =  checkIfEmpty(passwordTextField)
+        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField)
         
-        return true
+        return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
     }
     
     func checkIfEmpty(_ textField: UITextField) -> Bool{
         
         if textField.text!.isEmpty {
-            //change color of the text field to red to inform user
+            //Making changes to inform user that text field is empty
             textField.backgroundColor = UIColor.red
             return false
             
         }else{
             
+            // Revert the changes made in if statment
             textField.backgroundColor = UIColor.white
             return true
             

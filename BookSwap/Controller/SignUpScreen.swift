@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SignUpScreen: UIViewController {
 
@@ -35,9 +36,24 @@ class SignUpScreen: UIViewController {
     
     @IBAction func signUpPressed(_ sender: Any) {
         
-        if (checkIfTextFieldIsEmpty() ){}
+        if (checkIfTextFieldIsEmpty() ){
+            
+            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
+                (user, error) in
+                
+                if error != nil {
+                    print(error!)
+                }
+                    
+                else{
+                    //Success
+                    print("Registration Successful!")
+                    
+                    self.performSegue(withIdentifier: "toProfileScreen", sender: self)
+                }
+            }
+        }
         
-        print(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))
     }
     
     func checkIfTextFieldIsEmpty() -> Bool {

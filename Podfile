@@ -8,6 +8,7 @@ target 'BookSwap' do
   # Pods for BookSwap
 # add the Firebase pod for Google Analytics
 pod 'Firebase/Analytics'
+pod 'Firebase/Auth'
 # add pods for any other desired Firebase products
 # https://firebase.google.com/docs/ios/setup#available-pods
 

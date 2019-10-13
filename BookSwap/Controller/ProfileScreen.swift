@@ -23,7 +23,7 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
-        userNameLbl.text = userNameReciver
+        if case userNameLbl.text = userNameReciver{}
     }
     /*
     // MARK: - Navigation

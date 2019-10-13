@@ -534,6 +534,7 @@
                         <outlet property="emailTextField" destination="cOd-Ni-fQF" id="Ej1-3S-uz6"/>
                         <outlet property="passwordTextField" destination="iX1-tX-kUz" id="CZa-OC-MWf"/>
                         <outlet property="userNameTextField" destination="PzP-tj-0fH" id="7Y3-hU-DoA"/>
+                        <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="2hC-oz-7LO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -544,5 +545,8 @@
     <resources>
         <image name="bookcrab.png" width="279" height="253"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="2hC-oz-7LO"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

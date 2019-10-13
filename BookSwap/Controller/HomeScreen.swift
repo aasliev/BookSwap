@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeScreen: UIViewController {
-
-    @IBOutlet weak var userNameLbl: UITextField!
-    @IBOutlet weak var pswdLbl: UITextField!
+    
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,32 +20,63 @@ class HomeScreen: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     
     @IBAction func logInBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "toProfileScreen",  sender: self)
+    
+        if (checkIfTextFieldIsEmpty()){
+            //Log in the user
+            Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
+                
+                if (error != nil){
+                    print(error!)
+                } else{
+                    print("Log in Successful!")
+                    
+                    self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+                }
+            }
+        } 
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toProfileScreen"{
+    
+    //Same as Sign Up Screen function.
+    func checkIfTextFieldIsEmpty() -> Bool {
+        
+        let userNameCheckStatus = checkIfEmpty(userNameTextField, "User Name")
+        let passwordCheckStatus =  checkIfEmpty(passwordTextField, "Password")
+        
+        return userNameCheckStatus && passwordCheckStatus
+    }
+    
+    
+    func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
+        
+        if textField.text!.isEmpty {
+            //Making changes to inform user that text field is empty
+            textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            //textField.backgroundColor = UIColor.red
+            return false
             
-            let destinationScreen = segue.destination as! ProfileScreen
+        }else{
             
-            destinationScreen.userNameReciver = userNameLbl.text!
+            // Revert the changes made in if statment
+            textField.backgroundColor = UIColor.white
+            return true
             
         }
     }
     
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "toProfileScreen"{
+//
+//            let destinationScreen = segue.destination as! ProfileScreen
+//
+//            destinationScreen.userNameReciver = userNameLbl.text!
+//
+//        }
+//    }
+//
     @IBAction func unwindToHomeScreen(_ sender: UIStoryboardSegue){}
     
 }

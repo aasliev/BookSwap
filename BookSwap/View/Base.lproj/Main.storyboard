@@ -61,7 +61,7 @@
                                     <constraint firstAttribute="width" constant="315" id="kqF-vf-OcK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ier-7g-17M">
                                 <rect key="frame" x="49.5" y="518" width="315" height="50"/>
@@ -124,8 +124,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="M5y-CK-2nS"/>
                     <connections>
-                        <outlet property="pswdLbl" destination="oc6-bC-945" id="fyD-5s-Iew"/>
-                        <outlet property="userNameLbl" destination="VVy-XH-Fsm" id="5Wu-OU-Pj5"/>
+                        <outlet property="passwordTextField" destination="oc6-bC-945" id="fyD-5s-Iew"/>
+                        <outlet property="userNameTextField" destination="VVy-XH-Fsm" id="5Wu-OU-Pj5"/>
                         <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="E2E-40-u3V"/>
                     </connections>
                 </viewController>
@@ -487,14 +487,14 @@
                                                 <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vhn-g5-zta">
                                                 <rect key="frame" x="0.0" y="210" width="315" height="50"/>
                                                 <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pp5-ID-ONg" userLabel="Sign Up">
                                                 <rect key="frame" x="0.0" y="280" width="315" height="50"/>

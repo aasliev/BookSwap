@@ -58,19 +58,21 @@ class SignUpScreen: UIViewController {
     
     func checkIfTextFieldIsEmpty() -> Bool {
         
-        let userNameCheckStatus = checkIfEmpty(userNameTextField)
-        let emailCheckStatus =  checkIfEmpty(emailTextField)
-        let passwordCheckStatus =  checkIfEmpty(passwordTextField)
-        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField)
+        let userNameCheckStatus = checkIfEmpty(userNameTextField, "User Name")
+        let emailCheckStatus =  checkIfEmpty(emailTextField, "Email")
+        let passwordCheckStatus =  checkIfEmpty(passwordTextField, "Password")
+        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField, "Confirm Password")
         
         return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
     }
     
-    func checkIfEmpty(_ textField: UITextField) -> Bool{
+    func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
         
         if textField.text!.isEmpty {
             //Making changes to inform user that text field is empty
-            textField.backgroundColor = UIColor.red
+            textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            //textField.backgroundColor = UIColor.red
             return false
             
         }else{

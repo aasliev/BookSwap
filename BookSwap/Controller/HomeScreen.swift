@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
+
 
 class HomeScreen: UIViewController {
     
@@ -23,22 +25,19 @@ class HomeScreen: UIViewController {
     
     @IBAction func logInBtnPressed(_ sender: Any) {
     
+        
+        
         if (checkIfTextFieldIsEmpty()){
             //Log in the user
+            SVProgressHUD.show()
             Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
                 
                 if (error != nil){
                     print(error!)
-                    
-                    let alert = UIAlertController(title: "Error", message: error as! String, preferredStyle: .alert)
-                    
-                    let action = UIAlertAction(title: "Action Title", style: .default, handler: { (action) in
-                        print(error!)
-                    })
-                    alert.addAction(action)
-                    present(alert, animated: true, completion: nil)
+                    SVProgressHUD.dismiss()
                 } else{
                     print("Log in Successful!")
+                    SVProgressHUD.dismiss()
                     
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                 }

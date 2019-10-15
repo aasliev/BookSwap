@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class SignUpScreen: UIViewController {
 
@@ -38,6 +39,8 @@ class SignUpScreen: UIViewController {
         
         if (checkIfTextFieldIsEmpty() ){
             
+            SVProgressHUD.show()
+            
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                 (user, error) in
                 
@@ -47,6 +50,7 @@ class SignUpScreen: UIViewController {
                     
                 else{
                     //Success
+                    SVProgressHUD.dismiss(withDelay: 100)
                     print("Registration Successful!")
                     
                     self.performSegue(withIdentifier: "toProfileScreen", sender: self)

@@ -557,6 +557,19 @@
             </objects>
             <point key="canvasLocation" x="21.739130434782609" y="401.08695652173918"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nbX-R1-E4j">
+            <objects>
+                <navigationController id="jBt-36-7zj" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AGK-t7-OAi">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xiG-MU-Czi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1496" y="935"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bookcrab.png" width="279" height="253"/>

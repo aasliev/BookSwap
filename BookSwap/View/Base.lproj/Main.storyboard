@@ -236,7 +236,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nCO-yG-4og"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5sC-V1-NeE"/>
+                    <navigationItem key="navigationItem" title="Home Page" id="5sC-V1-NeE"/>
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                     </connections>
@@ -545,6 +545,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cvs-Da-KAN">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.16495131690000001" green="0.1317200737" blue="0.1696081606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -560,7 +562,7 @@
         <image name="bookcrab.png" width="279" height="253"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2hC-oz-7LO"/>
+        <segue reference="E2E-40-u3V"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -29,6 +29,14 @@ class HomeScreen: UIViewController {
                 
                 if (error != nil){
                     print(error!)
+                    
+                    let alert = UIAlertController(title: "Error", message: error as! String, preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "Action Title", style: .default, handler: { (action) in
+                        print(error!)
+                    })
+                    alert.addAction(action)
+                    present(alert, animated: true, completion: nil)
                 } else{
                     print("Log in Successful!")
                     

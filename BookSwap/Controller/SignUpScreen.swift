@@ -11,6 +11,7 @@ import Firebase
 //import SVProgressHUD
 
 class SignUpScreen: UIViewController {
+    let alert = UIalert()
 
     //Labels and TextFields from Main.Storyboard
     
@@ -38,27 +39,39 @@ class SignUpScreen: UIViewController {
     @IBAction func signUpPressed(_ sender: Any) {
         
         if (checkIfTextFieldIsEmpty() ){
+
             
             //SVProgressHUD.show()
             
+
+            if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){
+                self.alert.createUIalert("Passwords are not matching.", self)
+            }
+            else
+                {
+
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                 (user, error) in
                 
                 if error != nil {
-                    print(error!)
+                    self.alert.createUIalert("Check the email.", self)
                 }
                     
                 else{
                     //Success
+
                     //SVProgressHUD.dismiss()
-                    print("Registration Successful!")
-                    
+
                     self.performSegue(withIdentifier: "toProfileScreen", sender: self)
                 }
+                    }
+                    
+                }
+                
             }
         }
         
-    }
+    
     
     func checkIfTextFieldIsEmpty() -> Bool {
         
@@ -76,6 +89,7 @@ class SignUpScreen: UIViewController {
             //Making changes to inform user that text field is empty
             textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            self.alert.createUIalert("Add missing information.", self)
             //textField.backgroundColor = UIColor.red
             return false
             
@@ -91,10 +105,9 @@ class SignUpScreen: UIViewController {
     
     func checkPassword(_ pswd1: String,_ pswd2: String ) -> Bool{
     
-        if (pswd1 == pswd2 && !(pswd1.isEmpty)){
+        if (pswd1 == pswd2){
             return true
         }
-        
         return false
         
     }

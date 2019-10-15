@@ -11,8 +11,10 @@ import Firebase
 //import SVProgressHUD
 
 
+
 class HomeScreen: UIViewController {
     
+    let alert = UIalert()
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -31,10 +33,11 @@ class HomeScreen: UIViewController {
             //Log in the user
             //SVProgressHUD.show()
             Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
-                
+
                 if (error != nil){
-                    print(error!)
-                    //SVProgressHUD.dismiss()
+
+                    self.alert.createUIalert("Sorry, we cannot find an account with these information.\nPlease, re-enter your information.", self)
+
                 } else{
                     print("Log in Successful!")
                     //SVProgressHUD.dismiss()
@@ -62,6 +65,8 @@ class HomeScreen: UIViewController {
             //Making changes to inform user that text field is empty
             textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            self.alert.createUIalert("Add missing information.", self)
+            
             //textField.backgroundColor = UIColor.red
             return false
             

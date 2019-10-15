@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CyO-cN-SFn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,14 +19,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.19873896552957354" green="0.19794560317164631" blue="0.28876938242913752" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textAttributes>
                     </navigationBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="p0w-mM-pDC"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxE-4k-vGh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1564" y="-19"/>
+            <point key="canvasLocation" x="-787" y="-304"/>
         </scene>
         <!--Home Screen-->
         <scene sceneID="tne-QT-ifu">
@@ -37,14 +40,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="6lf-ZO-M9j">
-                                <rect key="frame" x="107" y="128" width="200" height="200"/>
+                                <rect key="frame" x="107" y="84" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="M0Y-no-mJC"/>
                                     <constraint firstAttribute="height" constant="200" id="VjG-fM-mSI"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-XH-Fsm" userLabel="userName">
-                                <rect key="frame" x="49.5" y="358" width="315" height="50"/>
+                                <rect key="frame" x="49.5" y="314" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.90794340285612507" green="0.90794340285612507" blue="0.90794340285612507" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="4Jh-RF-I76"/>
@@ -54,7 +57,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-bC-945" userLabel="password">
-                                <rect key="frame" x="49.5" y="408" width="315" height="50"/>
+                                <rect key="frame" x="49.5" y="364" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.91711868523316065" green="0.91711868523316065" blue="0.91711868523316065" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="GMI-gE-5iU"/>
@@ -64,7 +67,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ier-7g-17M">
-                                <rect key="frame" x="49.5" y="518" width="315" height="50"/>
+                                <rect key="frame" x="49.5" y="474" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.66666668653488159" green="0.28554551179807469" blue="0.25157694663061153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="8d0-Zh-wiJ"/>
@@ -78,7 +81,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG8-gU-ZvX">
-                                <rect key="frame" x="145.5" y="478" width="123" height="30"/>
+                                <rect key="frame" x="145.5" y="434" width="123" height="30"/>
                                 <state key="normal" title="Forgot password?">
                                     <color key="titleColor" red="0.19760299592482131" green="0.63396533533113786" blue="0.76362348977098438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -126,12 +129,12 @@
                     <connections>
                         <outlet property="passwordTextField" destination="oc6-bC-945" id="fyD-5s-Iew"/>
                         <outlet property="userNameTextField" destination="VVy-XH-Fsm" id="5Wu-OU-Pj5"/>
-                        <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="E2E-40-u3V"/>
+                        <segue destination="Ybh-Gq-wLw" kind="show" identifier="toProfileScreen" id="QOY-Gz-QMP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-839.20000000000005" y="-19.211822660098523"/>
+            <point key="canvasLocation" x="-1907" y="-685"/>
         </scene>
         <!--Profile-->
         <scene sceneID="R7G-Lv-SZI">
@@ -254,6 +257,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nCO-yG-4og"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Profile" largeTitleDisplayMode="always" id="Kwl-bu-thY"/>
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                     </connections>
@@ -261,7 +265,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECG-3E-LEK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="W63-RQ-gX8" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="20.289855072463769" y="-304.01785714285711"/>
+            <point key="canvasLocation" x="930.43478260869574" y="-304.01785714285711"/>
         </scene>
         <!--History Screen-->
         <scene sceneID="BX4-fJ-1BG">
@@ -321,7 +325,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UHm-GL-bOY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872.79999999999995" y="57.635467980295566"/>
+            <point key="canvasLocation" x="1782.608695652174" y="57.589285714285708"/>
         </scene>
         <!--Friend List Screen-->
         <scene sceneID="yXG-Tz-q5u">
@@ -381,7 +385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4w-Ic-OaK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872.79999999999995" y="-677.58620689655174"/>
+            <point key="canvasLocation" x="1782.608695652174" y="-677.67857142857144"/>
         </scene>
         <!--Owned Book Screen-->
         <scene sceneID="np8-pd-yOM">
@@ -441,7 +445,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ban-ge-99w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1565.5999999999999" y="-303.69458128078821"/>
+            <point key="canvasLocation" x="2475.36231884058" y="-304.01785714285711"/>
         </scene>
         <!--Sign Up-->
         <scene sceneID="Zni-Fc-I7a">
@@ -452,7 +456,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-Q2-NLd">
-                                <rect key="frame" x="0.0" y="61" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="39" width="414" height="818"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="Tqa-hh-mwG">
                                         <rect key="frame" x="107" y="40" width="200" height="200"/>
@@ -534,19 +538,41 @@
                         <outlet property="emailTextField" destination="cOd-Ni-fQF" id="Ej1-3S-uz6"/>
                         <outlet property="passwordTextField" destination="iX1-tX-kUz" id="CZa-OC-MWf"/>
                         <outlet property="userNameTextField" destination="PzP-tj-0fH" id="7Y3-hU-DoA"/>
-                        <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="2hC-oz-7LO"/>
+                        <segue destination="Ybh-Gq-wLw" kind="show" identifier="toProfileScreen" id="Kcj-ng-0ck"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="21.739130434782609" y="401.78571428571428"/>
+            <point key="canvasLocation" x="-1907" y="38"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yqH-4e-QPc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ybh-Gq-wLw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="blackTranslucent" id="wfx-j1-TWV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="WG9-qJ-nC0" kind="relationship" relationship="rootViewController" id="OaM-vp-djH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ctH-Yd-jWy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="20.289855072463769" y="-304.01785714285711"/>
         </scene>
     </scenes>
     <resources>
         <image name="bookcrab.png" width="279" height="253"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2hC-oz-7LO"/>
+        <segue reference="QOY-Gz-QMP"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

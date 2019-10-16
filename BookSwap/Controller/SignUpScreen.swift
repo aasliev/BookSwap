@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class SignUpScreen: UIViewController {
     let aFunctions = additionalFunctions()
@@ -24,16 +25,6 @@ class SignUpScreen: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @IBAction func signUpPressed(_ sender: Any) {
         
@@ -43,10 +34,16 @@ class SignUpScreen: UIViewController {
             }
             else                    //if they are matching check the email, if it's valid
                 {
+
+            SVProgressHUD.show()
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                 user, error in
-                //----------------------
+              
+                SVProgressHUD.dismiss()
+              
+              
                 if error != nil {
+                  
                     if let errorMsg = AuthErrorCode(rawValue: error!._code){
                         switch errorMsg{
                             case .invalidEmail:
@@ -65,15 +62,11 @@ class SignUpScreen: UIViewController {
                         }
                         
                     }
-                    
-                else{
-                    //Success
-                    self.performSegue(withIdentifier: "toProfileScreen", sender: self)
-                }
-                    }
+    
+                    //Show showing the processing screen
+                    SVProgressHUD.show()
                     
                 }
-                
             }
         }
         

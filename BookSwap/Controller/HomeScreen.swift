@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-
+import SVProgressHUD
 
 class HomeScreen: UIViewController {
     
@@ -26,6 +26,8 @@ class HomeScreen: UIViewController {
     @IBAction func logInBtnPressed(_ sender: Any) {
     
         if (checkIfTextFieldIsEmpty()){
+            
+            SVProgressHUD.show()
             //Log in the user
             Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
 
@@ -35,6 +37,8 @@ class HomeScreen: UIViewController {
                     print("Log in Successful!")
                     
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+                    
+                    SVProgressHUD.dismiss()
                 }
             }
         } 

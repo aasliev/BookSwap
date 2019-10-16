@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -109,14 +108,12 @@
                     <connections>
                         <outlet property="passwordTextField" destination="oc6-bC-945" id="fyD-5s-Iew"/>
                         <outlet property="userNameTextField" destination="VVy-XH-Fsm" id="5Wu-OU-Pj5"/>
-
-                        <segue destination="Ybh-Gq-wLw" kind="show" identifier="toProfileScreen" id="QOY-Gz-QMP"/>
-
+                        <segue destination="pRQ-c8-yaQ" kind="show" identifier="toProfileScreen" id="E2E-40-u3V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1907" y="-685"/>
+            <point key="canvasLocation" x="-839.20000000000005" y="-19.211822660098523"/>
         </scene>
         <!--Profile-->
         <scene sceneID="R7G-Lv-SZI">
@@ -239,8 +236,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nCO-yG-4og"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" largeTitleDisplayMode="always" id="Kwl-bu-thY"/>
-
+                    <navigationItem key="navigationItem" title="Home Page" id="5sC-V1-NeE"/>
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                     </connections>
@@ -308,9 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UHm-GL-bOY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-
-            <point key="canvasLocation" x="1782.608695652174" y="57.589285714285708"/>
-
+            <point key="canvasLocation" x="1782.608695652174" y="56.919642857142854"/>
         </scene>
         <!--Friend List Screen-->
         <scene sceneID="yXG-Tz-q5u">
@@ -440,10 +434,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-Q2-NLd">
-                                <rect key="frame" x="0.0" y="39" width="414" height="818"/>
-
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvO-mQ-m8J">
+                                <rect key="frame" x="0.0" y="-20" width="414" height="882"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JQB-AH-TEp" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="882"/>
@@ -504,32 +496,27 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                    </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jg7-dP-3OY">
-                                        <rect key="frame" x="10" y="0.0" width="46" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        <state key="normal" title="Back">
-                                            <color key="titleColor" red="0.16470588235294117" green="0.45490196078431372" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="Z0i-16-WwB" kind="unwind" unwindAction="unwindToHomeScreen:" id="N38-sh-1JX"/>
-                                        </connections>
-                                    </button>
+                                        <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="cYd-uV-tym" firstAttribute="centerX" secondItem="JQB-AH-TEp" secondAttribute="centerX" id="4K2-4A-bxo"/>
+                                            <constraint firstAttribute="bottom" secondItem="cYd-uV-tym" secondAttribute="bottom" constant="120" id="ALg-yT-WgR"/>
+                                            <constraint firstItem="cYd-uV-tym" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Tqa-hh-mwG" secondAttribute="bottom" constant="40" id="Gvx-3X-LSG"/>
+                                            <constraint firstItem="Tqa-hh-mwG" firstAttribute="centerX" secondItem="JQB-AH-TEp" secondAttribute="centerX" id="HWE-rg-gX4"/>
+                                            <constraint firstItem="Tqa-hh-mwG" firstAttribute="top" secondItem="JQB-AH-TEp" secondAttribute="top" constant="120" id="tRZ-HZ-nDJ"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="cYd-uV-tym" firstAttribute="centerX" secondItem="FZZ-Q2-NLd" secondAttribute="centerX" id="BgY-Ab-Lxd"/>
-                                    <constraint firstAttribute="bottom" secondItem="cYd-uV-tym" secondAttribute="bottom" constant="57" id="Muv-LZ-dIw"/>
-                                    <constraint firstItem="Tqa-hh-mwG" firstAttribute="centerX" secondItem="FZZ-Q2-NLd" secondAttribute="centerX" id="YzD-es-IVe"/>
-                                    <constraint firstItem="cYd-uV-tym" firstAttribute="top" secondItem="Tqa-hh-mwG" secondAttribute="bottom" constant="70" id="fGe-ZO-ObF"/>
-                                    <constraint firstItem="Tqa-hh-mwG" firstAttribute="top" secondItem="FZZ-Q2-NLd" secondAttribute="top" constant="40" id="hW1-YX-e0a"/>
-                                    <constraint firstItem="jg7-dP-3OY" firstAttribute="top" secondItem="FZZ-Q2-NLd" secondAttribute="top" id="iQQ-Y8-qvB"/>
-                                    <constraint firstItem="jg7-dP-3OY" firstAttribute="leading" secondItem="FZZ-Q2-NLd" secondAttribute="leading" constant="10" id="p6F-Vn-dMI"/>
-                                    <constraint firstAttribute="trailing" secondItem="Tqa-hh-mwG" secondAttribute="trailing" constant="107" id="sei-vn-xVW"/>
-
+                                    <constraint firstItem="JQB-AH-TEp" firstAttribute="leading" secondItem="fvO-mQ-m8J" secondAttribute="leading" id="Byh-gc-DVk"/>
+                                    <constraint firstItem="JQB-AH-TEp" firstAttribute="width" secondItem="fvO-mQ-m8J" secondAttribute="width" id="QKb-TX-mjP"/>
+                                    <constraint firstAttribute="bottom" secondItem="JQB-AH-TEp" secondAttribute="bottom" id="SmX-jP-Gdt"/>
+                                    <constraint firstItem="JQB-AH-TEp" firstAttribute="height" secondItem="fvO-mQ-m8J" secondAttribute="height" priority="250" id="YQ7-6e-ipt"/>
+                                    <constraint firstItem="JQB-AH-TEp" firstAttribute="top" secondItem="fvO-mQ-m8J" secondAttribute="top" id="jPd-Vt-IRc"/>
+                                    <constraint firstAttribute="trailing" secondItem="JQB-AH-TEp" secondAttribute="trailing" id="vsy-Pf-f9a"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fwl-5O-9DE" firstAttribute="trailing" secondItem="fvO-mQ-m8J" secondAttribute="trailing" id="HBq-94-MWk"/>
                             <constraint firstItem="fwl-5O-9DE" firstAttribute="bottom" secondItem="fvO-mQ-m8J" secondAttribute="bottom" id="gC9-U6-Rl7"/>
@@ -543,36 +530,30 @@
                         <outlet property="emailTextField" destination="cOd-Ni-fQF" id="Ej1-3S-uz6"/>
                         <outlet property="passwordTextField" destination="iX1-tX-kUz" id="CZa-OC-MWf"/>
                         <outlet property="userNameTextField" destination="PzP-tj-0fH" id="7Y3-hU-DoA"/>
-
-                        <segue destination="Ybh-Gq-wLw" kind="show" identifier="toProfileScreen" id="Kcj-ng-0ck"/>
-
+                        <segue destination="pRQ-c8-yaQ" kind="show" identifier="toProfileScreen" id="2hC-oz-7LO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Z0i-16-WwB" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1907.2463768115942" y="37.5"/>
+            <point key="canvasLocation" x="21.739130434782609" y="401.08695652173918"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="yqH-4e-QPc">
+        <scene sceneID="Tuu-iI-xlT">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ybh-Gq-wLw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pRQ-c8-yaQ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="blackTranslucent" id="wfx-j1-TWV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cvs-Da-KAN">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        </textAttributes>
+                        <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.16495131690000001" green="0.1317200737" blue="0.1696081606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="WG9-qJ-nC0" kind="relationship" relationship="rootViewController" id="OaM-vp-djH"/>
+                        <segue destination="WG9-qJ-nC0" kind="relationship" relationship="rootViewController" id="PIG-JT-uXC"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ctH-Yd-jWy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i54-rv-3jG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="20.289855072463769" y="-304.01785714285711"/>
         </scene>
@@ -581,9 +562,7 @@
         <image name="bookcrab.png" width="279" height="253"/>
     </resources>
     <inferredMetricsTieBreakers>
-
-        <segue reference="Kcj-ng-0ck"/>
-
+        <segue reference="E2E-40-u3V"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

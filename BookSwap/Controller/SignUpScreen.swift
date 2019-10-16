@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-//import SVProgressHUD
 
 class SignUpScreen: UIViewController {
     let alert = UIalert()
@@ -39,17 +38,11 @@ class SignUpScreen: UIViewController {
     @IBAction func signUpPressed(_ sender: Any) {
         
         if (checkIfTextFieldIsEmpty() ){
-
-            
-            //SVProgressHUD.show()
-            
-
             if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){
                 self.alert.createUIalert("Passwords are not matching.", self)
             }
             else
                 {
-
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                 (user, error) in
                 
@@ -59,9 +52,6 @@ class SignUpScreen: UIViewController {
                     
                 else{
                     //Success
-
-                    //SVProgressHUD.dismiss()
-
                     self.performSegue(withIdentifier: "toProfileScreen", sender: self)
                 }
                     }

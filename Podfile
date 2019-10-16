@@ -7,7 +7,7 @@ target 'BookSwap' do
 
   # Pods for BookSwap
 # add the Firebase pod for Google Analytics
-pod 'Firebase/Analytics'
+#pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'SVProgressHUD'
 # add pods for any other desired Firebase products

@@ -25,6 +25,49 @@ class SignUpScreen: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    func checkIfTextFieldIsEmpty() -> Bool {
+        
+        let userNameCheckStatus = checkIfEmpty(userNameTextField, "User Name")
+        let emailCheckStatus =  checkIfEmpty(emailTextField, "Email")
+        let passwordCheckStatus =  checkIfEmpty(passwordTextField, "Password")
+        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField, "Confirm Password")
+        
+        return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
+    }
+    
+    func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
+        
+        if textField.text!.isEmpty {
+            //Making changes to inform user that text field is empty
+            textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            self.aFunctions.createUIalert("Add missing information.", self)
+            //textField.backgroundColor = UIColor.red
+            return false
+            
+        }else{
+            
+            // Revert the changes made in if statment
+            textField.backgroundColor = UIColor.white
+            return true
+            
+        }
+    }
+    
+    
+    func checkPassword(_ pswd1: String,_ pswd2: String ) -> Bool{
+        
+        if (pswd1 == pswd2){
+            return true
+        }
+        return false
+        
+    }
+    
+    
+    
+    
+    
     
     @IBAction func signUpPressed(_ sender: Any) {
         
@@ -62,6 +105,10 @@ class SignUpScreen: UIViewController {
                         }
                         
                     }
+                else
+                {
+                    self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+                }
     
                     //Show showing the processing screen
                     SVProgressHUD.show()
@@ -69,47 +116,5 @@ class SignUpScreen: UIViewController {
                 }
             }
         }
-        
-    
-    
-    func checkIfTextFieldIsEmpty() -> Bool {
-        
-        let userNameCheckStatus = checkIfEmpty(userNameTextField, "User Name")
-        let emailCheckStatus =  checkIfEmpty(emailTextField, "Email")
-        let passwordCheckStatus =  checkIfEmpty(passwordTextField, "Password")
-        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField, "Confirm Password")
-        
-        return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
     }
-    
-    func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
-        
-        if textField.text!.isEmpty {
-            //Making changes to inform user that text field is empty
-            textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            self.aFunctions.createUIalert("Add missing information.", self)
-            //textField.backgroundColor = UIColor.red
-            return false
-            
-        }else{
-            
-            // Revert the changes made in if statment
-            textField.backgroundColor = UIColor.white
-            return true
-            
-        }
-    }
-    
-    
-    func checkPassword(_ pswd1: String,_ pswd2: String ) -> Bool{
-    
-        if (pswd1 == pswd2){
-            return true
-        }
-        return false
-        
-    }
-    
-
 }

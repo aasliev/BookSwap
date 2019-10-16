@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class UIalert{
+class additionalFunctions{
 
     func createUIalert(_ message : String, _ screen : UIViewController )
     {

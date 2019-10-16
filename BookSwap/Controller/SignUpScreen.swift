@@ -10,9 +10,9 @@ import UIKit
 import Firebase
 
 class SignUpScreen: UIViewController {
-    let alert = UIalert()
+    let aFunctions = additionalFunctions()
 
-    //Labels and TextFields from Main.Storyboard
+    //Labels and TextFields from signUp.Storyboard
     
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -37,18 +37,34 @@ class SignUpScreen: UIViewController {
     
     @IBAction func signUpPressed(_ sender: Any) {
         
-        if (checkIfTextFieldIsEmpty() ){
-            if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){
-                self.alert.createUIalert("Passwords are not matching.", self)
+        if (checkIfTextFieldIsEmpty() ){                                                //text if the fields are empty
+            if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){          //check if the pswds are matching
+                self.aFunctions.createUIalert("Passwords are not matching.", self)
             }
-            else
+            else                    //if they are matching check the email, if it's valid
                 {
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
-                (user, error) in
-                
+                user, error in
+                //----------------------
                 if error != nil {
-                    self.alert.createUIalert("Check the email.", self)
-                }
+                    if let errorMsg = AuthErrorCode(rawValue: error!._code){
+                        switch errorMsg{
+                            case .invalidEmail:
+                                self.aFunctions.createUIalert("Invalid Email", self)
+                                //print("invalid email")
+                                break
+                            case .emailAlreadyInUse:
+                                self.aFunctions.createUIalert("Email is already in use.", self)
+                                //print("Email is already in use")
+                                break
+                            default :
+                                self.aFunctions.createUIalert("Other.", self)
+                                //print("other")
+                        }
+                            
+                        }
+                        
+                    }
                     
                 else{
                     //Success
@@ -79,7 +95,7 @@ class SignUpScreen: UIViewController {
             //Making changes to inform user that text field is empty
             textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            self.alert.createUIalert("Add missing information.", self)
+            self.aFunctions.createUIalert("Add missing information.", self)
             //textField.backgroundColor = UIColor.red
             return false
             

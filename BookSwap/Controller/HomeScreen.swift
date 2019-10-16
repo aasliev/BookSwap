@@ -12,7 +12,7 @@ import Firebase
 
 class HomeScreen: UIViewController {
     
-    let alert = UIalert()
+    let aFunctions = additionalFunctions()
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -30,7 +30,7 @@ class HomeScreen: UIViewController {
             Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
 
                 if (error != nil){
-                    self.alert.createUIalert("Sorry, we cannot find an account with these information.\nPlease, re-enter your information.", self)
+                    self.aFunctions.createUIalert("Sorry, we cannot find an account with these information.\nPlease, re-enter your information.", self)
                 } else{
                     print("Log in Successful!")
                     
@@ -57,7 +57,7 @@ class HomeScreen: UIViewController {
             //Making changes to inform user that text field is empty
             textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            self.alert.createUIalert("Add missing information.", self)
+            self.aFunctions.createUIalert("Add missing information.", self)
             
             //textField.backgroundColor = UIColor.red
             return false

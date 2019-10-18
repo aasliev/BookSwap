@@ -27,18 +27,38 @@ class HomeScreen: UIViewController {
     
         if (checkIfTextFieldIsEmpty()){
             
-            SVProgressHUD.show()
+            //SVProgressHUD.show()
             //Log in the user
             Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
 
                 if (error != nil){
-                    self.aFunctions.createUIalert("Sorry, we cannot find an account with these information.\nPlease, re-enter your information.", self)
+                    if let errorMsg = AuthErrorCode(rawValue: error!._code){
+                        switch errorMsg{
+                            case .networkError:
+                                self.aFunctions.createUIalert("Network Error.", self)
+                                break
+                            case .userNotFound:
+                                self.aFunctions.createUIalert("user not found", self)
+                                break
+                            case .wrongPassword:
+                                self.aFunctions.createUIalert("wrong password", self)
+                                break
+                            case .tooManyRequests:
+                                self.aFunctions.createUIalert("too many request", self)
+                            default:
+                                print("other")
+                            
+                            
+                    }
+                    }
+
+                    
                 } else{
                     print("Log in Successful!")
                     
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     
-                    SVProgressHUD.dismiss()
+                   // SVProgressHUD.dismiss()
                 }
             }
         } 

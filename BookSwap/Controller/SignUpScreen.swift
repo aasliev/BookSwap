@@ -78,17 +78,20 @@ class SignUpScreen: UIViewController {
             else                    //if they are matching check the email, if it's valid
                 {
 
-            SVProgressHUD.show()
+            //SVProgressHUD.show()
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                 user, error in
               
-                SVProgressHUD.dismiss()
+                //SVProgressHUD.dismiss()
               
               
                 if error != nil {
                   
                     if let errorMsg = AuthErrorCode(rawValue: error!._code){
                         switch errorMsg{
+                            case .networkError:
+                                self.aFunctions.createUIalert("Network Error.", self)
+                                break
                             case .invalidEmail:
                                 self.aFunctions.createUIalert("Invalid Email", self)
                                 //print("invalid email")
@@ -96,6 +99,9 @@ class SignUpScreen: UIViewController {
                             case .emailAlreadyInUse:
                                 self.aFunctions.createUIalert("Email is already in use.", self)
                                 //print("Email is already in use")
+                                break
+                            case .weakPassword:
+                                self.aFunctions.createUIalert("weak password", self)
                                 break
                             default :
                                 self.aFunctions.createUIalert("Other.", self)
@@ -111,7 +117,7 @@ class SignUpScreen: UIViewController {
                 }
     
                     //Show showing the processing screen
-                    SVProgressHUD.show()
+                    //SVProgressHUD.show()
                     
                 }
             }

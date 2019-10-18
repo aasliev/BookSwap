@@ -123,4 +123,7 @@ class SignUpScreen: UIViewController {
             }
         }
     }
+    @IBAction func backToHomeScreen(_ sender: Any) {
+        self.performSegue(withIdentifier: "toHomeScreen", sender: self)
+    }
 }

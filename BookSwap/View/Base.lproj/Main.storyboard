@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,7 +113,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1280" y="-413"/>
+            <point key="canvasLocation" x="-1322" y="-546"/>
         </scene>
         <!--Profile-->
         <scene sceneID="R7G-Lv-SZI">
@@ -519,13 +519,13 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIc-1L-eMT" userLabel="back">
-                                                <rect key="frame" x="15" y="65" width="47" height="39"/>
+                                                <rect key="frame" x="15" y="65" width="48" height="39"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                <state key="normal" title="back">
+                                                <state key="normal" title="Back">
                                                     <color key="titleColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="backToHomeScreen:" destination="6uB-oO-Ruo" eventType="touchUpInside" id="gSv-F6-ePw"/>
+                                                    <segue destination="PzM-Am-mZy" kind="unwind" unwindAction="unwindToHomeScreen:" id="HXk-9k-tU6"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -566,12 +566,12 @@
                         <outlet property="passwordTextField" destination="iX1-tX-kUz" id="CZa-OC-MWf"/>
                         <outlet property="userNameTextField" destination="PzP-tj-0fH" id="7Y3-hU-DoA"/>
                         <segue destination="pRQ-c8-yaQ" kind="show" identifier="toProfileScreen" id="2hC-oz-7LO"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="toHomeScreen" id="DuU-1H-nAa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="PzM-Am-mZy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="21.739130434782609" y="401.08695652173918"/>
+            <point key="canvasLocation" x="-1359.4202898550725" y="327.45535714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Tuu-iI-xlT">
@@ -599,7 +599,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2hC-oz-7LO"/>
-        <segue reference="iTj-6L-mLF"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

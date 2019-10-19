@@ -35,6 +35,7 @@ class SignUpScreen: UIViewController {
         return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
     }
     
+    
     func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
         
         if textField.text!.isEmpty {
@@ -63,10 +64,6 @@ class SignUpScreen: UIViewController {
         return false
         
     }
-    
-    
-    
-    
     
     
     @IBAction func signUpPressed(_ sender: Any) {
@@ -122,8 +119,5 @@ class SignUpScreen: UIViewController {
                 }
             }
         }
-    }
-    @IBAction func backToHomeScreen(_ sender: Any) {
-        self.performSegue(withIdentifier: "toHomeScreen", sender: self)
     }
 }

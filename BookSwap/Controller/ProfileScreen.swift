@@ -39,7 +39,8 @@ class ProfileScreen: UIViewController {
     @IBAction func signOutButton(_ sender: Any) {
         //create UIAlert with yes/no option
         let alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in self.performSegue(withIdentifier: "toHomeScreen",  sender: self)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
             self.navigationController?.navigationBar.isHidden = true;
         }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel))

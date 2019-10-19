@@ -66,6 +66,55 @@ class SignUpScreen: UIViewController {
     }
     
     
+    func chechError(_ error: Optional<Any>){
+        
+        if error != nil {
+            
+            if let errorMsg = AuthErrorCode(rawValue: (error! as AnyObject).code){
+                
+                switch errorMsg{
+                
+                case .networkError:
+                    self.aFunctions.createUIalert("Network Error.", self)
+                    break
+                
+                case .invalidEmail:
+                    self.aFunctions.createUIalert("Invalid Email", self)
+                    break
+                
+                case .emailAlreadyInUse:
+                    self.aFunctions.createUIalert("Email is already in use.", self)
+                    break
+                
+                case .weakPassword:
+                    self.aFunctions.createUIalert("weak password", self)
+                    break
+                
+                default :
+                    self.aFunctions.createUIalert("Other.", self)
+                    //print("other")
+                }
+            }
+            
+        }
+        else
+        {
+            self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+        }
+    }
+    
+    
+    func addUserName(){
+        
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = userNameTextField.text!
+        changeRequest?.commitChanges { (error) in
+            // ...
+        }
+        
+    }
+    
+    
     @IBAction func signUpPressed(_ sender: Any) {
         
         if (checkIfTextFieldIsEmpty() ){                                                //text if the fields are empty
@@ -75,49 +124,27 @@ class SignUpScreen: UIViewController {
             else                    //if they are matching check the email, if it's valid
                 {
 
-            //SVProgressHUD.show()
-            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
-                user, error in
-              
-                //SVProgressHUD.dismiss()
-              
-              
-                if error != nil {
-                  
-                    if let errorMsg = AuthErrorCode(rawValue: error!._code){
-                        switch errorMsg{
-                            case .networkError:
-                                self.aFunctions.createUIalert("Network Error.", self)
-                                break
-                            case .invalidEmail:
-                                self.aFunctions.createUIalert("Invalid Email", self)
-                                //print("invalid email")
-                                break
-                            case .emailAlreadyInUse:
-                                self.aFunctions.createUIalert("Email is already in use.", self)
-                                //print("Email is already in use")
-                                break
-                            case .weakPassword:
-                                self.aFunctions.createUIalert("weak password", self)
-                                break
-                            default :
-                                self.aFunctions.createUIalert("Other.", self)
-                                //print("other")
-                        }
-                            
-                        }
-                        
-                    }
-                else
-                {
-                    self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
-                }
-    
                     //Show showing the processing screen
                     //SVProgressHUD.show()
-                    
+                    Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
+                        user, error in
+                        
+                        //SVProgressHUD.dismiss()
+                        
+                        self.chechError(error)
+                        
+                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                        changeRequest?.displayName = self.userNameTextField.text!
+                        changeRequest?.commitChanges { (error) in
+                            // ...
+                        }
+                        //self.addUserName()
+    
                 }
             }
         }
+        
+        print("\n\n\n\n\n\n\n\n\nThis is current user\(Auth.auth().currentUser?.email)")
+        print("This is current user's display name\(Auth.auth().currentUser?.displayName)\n\n\n\n\n\n\n")
     }
 }

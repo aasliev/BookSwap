@@ -99,17 +99,22 @@ class SignUpScreen: UIViewController {
         }
         else
         {
-            self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+            addUserNameAndPerformSegue()
         }
     }
     
     
-    func addUserName(){
+    func addUserNameAndPerformSegue(){
         
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-        changeRequest?.displayName = userNameTextField.text!
+        changeRequest?.displayName = self.userNameTextField.text!
         changeRequest?.commitChanges { (error) in
-            // ...
+            
+            if error == nil {
+                self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
+            } else {
+                print("An error occured while adding username\(String(describing: error))")
+            }
         }
         
     }
@@ -120,6 +125,7 @@ class SignUpScreen: UIViewController {
         if (checkIfTextFieldIsEmpty() ){                                                //text if the fields are empty
             if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){          //check if the pswds are matching
                 self.aFunctions.createUIalert("Passwords are not matching.", self)
+                
             }
             else                    //if they are matching check the email, if it's valid
                 {
@@ -132,19 +138,8 @@ class SignUpScreen: UIViewController {
                         //SVProgressHUD.dismiss()
                         
                         self.chechError(error)
-                        
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        changeRequest?.displayName = self.userNameTextField.text!
-                        changeRequest?.commitChanges { (error) in
-                            // ...
-                        }
-                        //self.addUserName()
-    
                 }
             }
         }
-        
-        print("\n\n\n\n\n\n\n\n\nThis is current user\(Auth.auth().currentUser?.email)")
-        print("This is current user's display name\(Auth.auth().currentUser?.displayName)\n\n\n\n\n\n\n")
     }
 }

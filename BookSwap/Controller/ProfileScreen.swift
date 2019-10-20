@@ -27,10 +27,16 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
-        //print("\n\n\n\n\(Auth.auth().currentUser?.displayName)\n\n\n\n")
-        //var userName : String  = (Auth.auth().currentUser?.displayName!)!
+       //print("\n\n\n\n\(Auth.auth().currentUser?.displayName)\n\n\n\n")
+        let userName : String  = (Auth.auth().currentUser?.displayName ?? "Username")
         
-        //userNameLbl.text = userName
+        userNameLbl.text = userName
+        
+//        if userName.isEmpty {
+//            //Auth.auth().currentUser?.displayName is nil
+//            //Add another page to let user enter an username again
+//            userNameLbl.text = "Username"   }
+//        else { userNameLbl.text = userName    }
         
     }
     

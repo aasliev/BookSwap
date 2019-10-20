@@ -47,10 +47,10 @@ class ProfileScreen: UIViewController {
         let alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-        
-            self.dismiss(animated: true, completion: nil)
             
             self.navigationController?.navigationBar.isHidden = true;
+            
+            self.performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
         
         }))
         

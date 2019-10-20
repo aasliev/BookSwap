@@ -240,9 +240,11 @@
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="toHomeScreen" id="iTj-6L-mLF"/>
+                        <segue destination="v7r-yg-rZx" kind="unwind" identifier="unwindToHomeScreen" unwindAction="unwindToHomeScreen:" id="oNc-HQ-c4W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECG-3E-LEK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="v7r-yg-rZx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="930.43478260869574" y="-304.01785714285711"/>
         </scene>

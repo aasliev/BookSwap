@@ -16,10 +16,10 @@ class HomeScreen: UIViewController {
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
     
     
@@ -29,7 +29,8 @@ class HomeScreen: UIViewController {
             
             //SVProgressHUD.show()
             //Log in the user
-            Auth.auth().signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
+            let firebaseAuth = Auth.auth()
+            firebaseAuth.signIn(withEmail: userNameTextField.text!, password: passwordTextField.text!) { (user , error) in
 
                 if (error != nil){
                     if let errorMsg = AuthErrorCode(rawValue: error!._code){

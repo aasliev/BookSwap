@@ -14,6 +14,9 @@ class ProfileScreen: UIViewController {
     
     @IBOutlet weak var userNameLbl: UILabel!
     
+    //Firebase Authentication instance
+    let firebaseAuth = Auth.auth()
+    
     
     override func viewDidLoad() {
     
@@ -27,13 +30,12 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
-       //print("\n\n\n\n\(Auth.auth().currentUser?.displayName)\n\n\n\n")
-        let userName : String  = (Auth.auth().currentUser?.displayName ?? "Username")
+        let userName : String  = (firebaseAuth.currentUser?.displayName ?? "Username")
         
         userNameLbl.text = userName
         
 //        if userName.isEmpty {
-//            //Auth.auth().currentUser?.displayName is nil
+//            //firebaseAuth.currentUser?.displayName is nil
 //            //Add another page to let user enter an username again
 //            userNameLbl.text = "Username"   }
 //        else { userNameLbl.text = userName    }
@@ -47,6 +49,14 @@ class ProfileScreen: UIViewController {
         let alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            
+            // Sign Out the user from Firebase Auth
+            do {
+                try self.firebaseAuth.signOut()
+                
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
             
             self.navigationController?.navigationBar.isHidden = true;
             

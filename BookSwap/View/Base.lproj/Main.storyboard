@@ -237,7 +237,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nCO-yG-4og"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home Page" id="5sC-V1-NeE"/>
+                    <navigationItem key="navigationItem" title="Profile" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="always" id="5sC-V1-NeE"/>
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                     </connections>
@@ -560,7 +560,11 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="barTintColor" red="0.16495131690000001" green="0.1317200737" blue="0.1696081606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="textShadowColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -627,5 +631,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="XfD-Sc-k2y"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.16495131687070791" green="0.13172007374205552" blue="0.16960816062176165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>

@@ -173,6 +173,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signOutButton:" destination="WG9-qJ-nC0" eventType="touchUpInside" id="Q15-Av-7pU"/>
+                                    <segue destination="v7r-yg-rZx" kind="unwind" unwindAction="unwindToLaunchScreen:" id="9pD-hc-eMa"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N5p-vK-QNJ">
@@ -239,7 +240,6 @@
                     <navigationItem key="navigationItem" title="Home Page" id="5sC-V1-NeE"/>
                     <connections>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
-                        <segue destination="v7r-yg-rZx" kind="unwind" identifier="unwindToHomeScreen" unwindAction="unwindToHomeScreen:" id="oNc-HQ-c4W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECG-3E-LEK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -564,7 +564,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="WG9-qJ-nC0" kind="relationship" relationship="rootViewController" id="PIG-JT-uXC"/>
+                        <segue destination="WG9-qJ-nC0" kind="relationship" relationship="rootViewController" id="QjQ-80-cIB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i54-rv-3jG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -586,23 +586,28 @@
                                     <constraint firstAttribute="width" constant="270" id="HqH-fd-Ith"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPL-z2-BVL">
-                                <rect key="frame" x="66" y="683" width="282" height="72"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <state key="normal" title="LET'S GOOO">
-                                    <color key="titleColor" red="0.96620899439999997" green="0.14937510330000001" blue="0.22504395090000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4t-g3-UyU">
+                                <rect key="frame" x="57" y="623" width="300" height="60"/>
+                                <color key="backgroundColor" red="0.1282249712571184" green="0.55766541870686615" blue="0.87450980389999999" alpha="0.76000642123287676" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="2pI-r2-fUX"/>
+                                    <constraint firstAttribute="width" constant="300" id="VYJ-df-TdR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="LET'S GOOO"/>
                                 <connections>
-                                    <action selector="btnPressed:" destination="72o-Pt-Q9O" eventType="touchUpInside" id="mLH-sO-2ks"/>
+                                    <action selector="btnPressed:" destination="72o-Pt-Q9O" eventType="touchUpInside" id="hWB-XJ-0WI"/>
+                                    <action selector="logInBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cxh-3Z-RUr"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.16862745100000001" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jRM-iC-FxQ" firstAttribute="centerY" secondItem="a62-Rt-rDT" secondAttribute="centerY" id="MMF-aF-stQ"/>
+                            <constraint firstItem="Q4t-g3-UyU" firstAttribute="top" secondItem="jRM-iC-FxQ" secondAttribute="bottom" constant="40" id="lDc-9H-FqK"/>
+                            <constraint firstItem="Q4t-g3-UyU" firstAttribute="centerX" secondItem="a62-Rt-rDT" secondAttribute="centerX" id="lwm-R4-EMR"/>
                             <constraint firstItem="jRM-iC-FxQ" firstAttribute="centerX" secondItem="a62-Rt-rDT" secondAttribute="centerX" id="mMi-9y-djm"/>
-                            <constraint firstItem="kPL-z2-BVL" firstAttribute="top" secondItem="jRM-iC-FxQ" secondAttribute="bottom" constant="100" id="txl-q7-UTB"/>
-                            <constraint firstItem="kPL-z2-BVL" firstAttribute="centerX" secondItem="a62-Rt-rDT" secondAttribute="centerX" id="zH8-01-SqD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="a80-Xp-POg"/>
                     </view>

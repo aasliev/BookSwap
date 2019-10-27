@@ -32,4 +32,7 @@ class LaunchScreen: UIViewController {
         }
         
     }
+    
+    @IBAction func unwindToLaunchScreen(_ sender: UIStoryboardSegue){}
+    
 }

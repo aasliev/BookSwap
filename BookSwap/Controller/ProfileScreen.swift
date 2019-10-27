@@ -60,7 +60,7 @@ class ProfileScreen: UIViewController {
             
             self.navigationController?.navigationBar.isHidden = true;
             
-            self.performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
+            self.performSegue(withIdentifier: "unwindToLaunchScreen", sender: self)
         
         }))
         

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HistoryScreen: UIViewController {
+class HistoryScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

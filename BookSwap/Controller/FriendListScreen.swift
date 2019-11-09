@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendListScreen: UIViewController {
+class FriendListScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

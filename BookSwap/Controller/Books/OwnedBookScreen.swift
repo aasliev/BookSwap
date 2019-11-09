@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OwnedBookScreen: UIViewController {
+class OwnedBookScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

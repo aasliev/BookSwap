@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HoldingBookListScreen: UIViewController {
+class HoldingBookListScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

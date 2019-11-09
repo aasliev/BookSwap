@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		363A8FFD235645E30071CC45 /* fucntions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A8FFC235645E30071CC45 /* fucntions.swift */; };
+		364751F92377440C00F05613 /* booksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364751F82377440C00F05613 /* booksPageViewController.swift */; };
+		364751FB2377442800F05613 /* historyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364751FA2377442800F05613 /* historyPageViewController.swift */; };
 		36FB89EB23524B750070EA0F /* SignUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FB89EA23524B750070EA0F /* SignUpScreen.swift */; };
 		6A71AB847878157F745B8132 /* Pods_BookSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C8A0D0E0A192D8D4D3F46 /* Pods_BookSwap.framework */; };
 		B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F243234925BB00F4E537 /* AppDelegate.swift */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		108D1839F26450719EAD6186 /* Pods-BookSwap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSwap.debug.xcconfig"; path = "Target Support Files/Pods-BookSwap/Pods-BookSwap.debug.xcconfig"; sourceTree = "<group>"; };
 		363A8FFC235645E30071CC45 /* fucntions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fucntions.swift; sourceTree = "<group>"; };
+		364751F82377440C00F05613 /* booksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = booksPageViewController.swift; sourceTree = "<group>"; };
+		364751FA2377442800F05613 /* historyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historyPageViewController.swift; sourceTree = "<group>"; };
 		36FB89EA23524B750070EA0F /* SignUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreen.swift; sourceTree = "<group>"; };
 		4F0C8A0D0E0A192D8D4D3F46 /* Pods_BookSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E5055D44AF66E2E269DF385 /* Pods-BookSwap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSwap.release.xcconfig"; path = "Target Support Files/Pods-BookSwap/Pods-BookSwap.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				36FB89EA23524B750070EA0F /* SignUpScreen.swift */,
 				363A8FFC235645E30071CC45 /* fucntions.swift */,
 				B3034E6C2360EF3D00DA8164 /* LaunchScreen.swift */,
+				364751F82377440C00F05613 /* booksPageViewController.swift */,
+				364751FA2377442800F05613 /* historyPageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -291,7 +297,9 @@
 				B302F26D234967A100F4E537 /* HomeScreen.swift in Sources */,
 				B3034E6D2360EF3D00DA8164 /* LaunchScreen.swift in Sources */,
 				B302F265234959DE00F4E537 /* WishListScreen.swift in Sources */,
+				364751F92377440C00F05613 /* booksPageViewController.swift in Sources */,
 				B302F263234959C100F4E537 /* OwnedBookScreen.swift in Sources */,
+				364751FB2377442800F05613 /* historyPageViewController.swift in Sources */,
 				B302F26923495A5E00F4E537 /* GlobalBookList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,10 +10,17 @@ import UIKit
 
 class HistoryScreen: UITableViewController {
 
+    @IBOutlet weak var historyNavigationItem: UINavigationItem!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.title = "History"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.historyNavigationItem.title = "History"
+        
     }
     
 

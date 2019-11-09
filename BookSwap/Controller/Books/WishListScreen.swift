@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WishListScreen: UIViewController {
+class WishListScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -177,7 +177,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="ysN-qv-XJO" kind="show" identifier="toBooksList" id="3Rv-Ip-0J5"/>
+                                            <segue destination="Scc-aj-RSZ" kind="show" identifier="toBooksPageController" id="vFB-ik-VlG"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YeZ-fT-tnT">
@@ -202,7 +202,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="eDR-aI-45F" kind="show" identifier="toHistory" id="OjU-1a-XJa"/>
+                                                    <segue destination="nX2-Jv-OgF" kind="show" id="yne-zZ-O4H"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -245,11 +245,12 @@
         <!--History-->
         <scene sceneID="Tuh-kl-eib">
             <objects>
-                <tableViewController id="eDR-aI-45F" userLabel="History" customClass="HistoryScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="history" id="eDR-aI-45F" userLabel="History" customClass="HistoryScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EyS-tn-1Yh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyCell" id="DVr-tN-I8h">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
@@ -266,19 +267,31 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="HSW-KN-auc"/>
+                    <connections>
+                        <outlet property="historyNavigationItem" destination="HSW-KN-auc" id="unx-1n-RUF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zbv-KI-T8E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1825" y="90"/>
+            <point key="canvasLocation" x="1929" y="958"/>
+        </scene>
+        <!--Books Page View Controller-->
+        <scene sceneID="cI9-vA-KML">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Scc-aj-RSZ" userLabel="Books Page View Controller" customClass="booksPageViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ARf-4V-KGE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2996" y="-1296"/>
         </scene>
         <!--Books-->
         <scene sceneID="osp-ty-yVY">
             <objects>
-                <tableViewController id="ysN-qv-XJO" userLabel="Books" customClass="OwnedBookScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="books" id="ysN-qv-XJO" userLabel="Books" customClass="OwnedBookScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="j9P-Jv-1Cu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="6ky-fg-F4p">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -306,19 +319,28 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yV-Dt-vRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3296" y="-331"/>
+            <point key="canvasLocation" x="2581" y="-624"/>
         </scene>
         <!--Wish List-->
         <scene sceneID="vaE-SN-a3c">
             <objects>
-                <tableViewController id="15P-kC-sAX" userLabel="Wish List" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="wishList" id="15P-kC-sAX" userLabel="Wish List" customClass="WishListScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zNu-bc-6yS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="KHH-oY-oqR">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="15P-kC-sAX" id="yjK-cP-2Cp"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="wishListCell" id="ijo-2J-R5S">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ijo-2J-R5S" id="prm-nF-buZ">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -331,22 +353,40 @@
                             <outlet property="delegate" destination="15P-kC-sAX" id="Lhm-gQ-dh6"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Wish List" id="IAi-0i-XFG"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56l-zd-K1X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4322" y="-307"/>
+            <point key="canvasLocation" x="3391" y="-624"/>
+        </scene>
+        <!--History Page View Controller-->
+        <scene sceneID="iVf-3N-g77">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="nX2-Jv-OgF" userLabel="History Page View Controller" customClass="historyPageViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wZ4-lt-W4k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2430" y="238"/>
         </scene>
         <!--Hold Books-->
         <scene sceneID="k6I-gf-7un">
             <objects>
-                <tableViewController id="Qca-Mb-IkP" userLabel="Hold Books" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="holdBooks" id="Qca-Mb-IkP" userLabel="Hold Books" customClass="HoldingBookListScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KgF-VA-wCD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="OoT-4g-LEs">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="Qca-Mb-IkP" id="d1f-s1-U1v"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="holdListCell" id="Je9-0X-ERs">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Je9-0X-ERs" id="Lg5-7l-xA8">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -362,7 +402,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyC-51-wSe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3248" y="436"/>
+            <point key="canvasLocation" x="2788" y="958"/>
         </scene>
         <!--Friends List-->
         <scene sceneID="sze-rH-pPF">
@@ -399,7 +439,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzN-FW-4ae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1825" y="-867"/>
+            <point key="canvasLocation" x="1612" y="-1296"/>
         </scene>
         <!--Sign Up-->
         <scene sceneID="Zni-Fc-I7a">

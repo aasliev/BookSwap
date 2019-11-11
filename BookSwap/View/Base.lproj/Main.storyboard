@@ -130,13 +130,19 @@
                                         <rect key="frame" x="0.0" y="230" width="414" height="110"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUJ-vg-khb">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="23.5"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2A-0f-gxA">
+                                                <rect key="frame" x="0.0" y="43.5" width="414" height="23"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rating/number of swaps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kw8-hg-o0E">
-                                                <rect key="frame" x="0.0" y="65" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="86.5" width="414" height="23.5"/>
                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="25"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -191,6 +197,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
+                                                    <action selector="friendsBtnPressed:" destination="WG9-qJ-nC0" eventType="touchUpInside" id="1Hm-Vx-y7D"/>
                                                     <segue destination="Plm-ST-jS3" kind="show" identifier="toFriendsList" id="38Y-2K-xft"/>
                                                 </connections>
                                             </button>
@@ -233,6 +240,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tempNumberOfFriends" destination="l2A-0f-gxA" id="maX-2r-yny"/>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                         <segue destination="v7r-yg-rZx" kind="unwind" identifier="toHomeScreen" unwindAction="unwindToHomeScreen:" id="cfD-fO-wL9"/>
                     </connections>

@@ -13,6 +13,8 @@ class ProfileScreen: UIViewController {
 
     
     @IBOutlet weak var userNameLbl: UILabel!
+
+    @IBOutlet weak var tempNumberOfFriends: UILabel!
     
     //Firebase Authentication instance
     let firebaseAuth = Auth.auth()
@@ -25,6 +27,10 @@ class ProfileScreen: UIViewController {
         // Do any additional setup after loading the view.
         
         setUserDetails()
+
+        FirebaseDatabase.init().getNumberOfFriends(((Auth.auth().currentUser?.email)!))
+        print("Count is: \(FirebaseDatabase.init().numberOfFriends)")
+        tempNumberOfFriends.text = "\(FirebaseDatabase.init().numberOfFriends)"
     }
     
     
@@ -33,12 +39,6 @@ class ProfileScreen: UIViewController {
         let userName : String  = (firebaseAuth.currentUser?.displayName ?? "Username")
         
         userNameLbl.text = userName
-        
-//        if userName.isEmpty {
-//            //firebaseAuth.currentUser?.displayName is nil
-//            //Add another page to let user enter an username again
-//            userNameLbl.text = "Username"   }
-//        else { userNameLbl.text = userName    }
         
     }
     
@@ -65,7 +65,15 @@ class ProfileScreen: UIViewController {
         }))
         
         
+        
+        
         self.present(alert, animated: true, completion: nil)
 
+    }
+    @IBAction func friendsBtnPressed(_ sender: Any) {
+        
+        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 1")
+        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 2")
+        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 1")
     }
 }

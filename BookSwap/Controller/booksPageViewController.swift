@@ -20,7 +20,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         return [self.newVc(viewController: "books"),
                 self.newVc(viewController: "wishList")]
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self
@@ -30,6 +30,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         // This sets up the first view that will show up on our page control
         if let firstViewController = orderedViewControllers.first {
+            //self.title = "Owned Books"
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true,
@@ -39,6 +40,8 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         configurePageControl()
         
         // Do any additional setup after loading the view.
+        
+       // var vcIndex = orderedViewControllers.index(of: viewController)
     }
     
     func configurePageControl() {
@@ -60,8 +63,18 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     // MARK: Delegate methords
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let pageContentViewController = pageViewController.viewControllers![0]
+        
         self.pageControl.currentPage = orderedViewControllers.index(of: pageContentViewController)!
+        self.navigationItem.title = pageContentViewController.navigationItem.title
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     // MARK: Data source functions.
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -82,7 +95,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         guard orderedViewControllers.count > previousIndex else {
             return nil
         }
-        
         return orderedViewControllers[previousIndex]
     }
     
@@ -107,6 +119,49 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         }
         
         return orderedViewControllers[nextIndex]
+    }
+    
+    
+    
+    //MARK: Add Button Pressed
+    
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var bookTitle : String = ""
+        var bookAuthor : String = ""
+        var titleTextField = UITextField()
+        var authorTextField = UITextField()
+        let alert = UIAlertController(title: "Add New Book", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Book", style: .default) { (action) in
+            //what will happen when the user clicks the add button
+            bookTitle = titleTextField.text!
+            bookAuthor = authorTextField.text!
+            
+            //if in the owned books page, save it to owned books (or set the boolean to true, if we are using bool)
+            //else save it to wish list
+            
+            
+            print(bookTitle)
+            print(bookAuthor)
+        }
+        
+        
+        
+        
+        
+        
+        alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = "Title of the Book"
+                titleTextField = alertTextField
+            }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Author"
+            authorTextField = alertTextField
+        }
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
     }
     
     

@@ -13,9 +13,12 @@ class FirebaseDatabase {
     let db = Firestore.firestore()
     let USERS_MAIN_COLLECTIN = "Users"
     let FRIENDS_SUB_COLLECTION = "Friends"
+    let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
+    let WHISHLIST_SUB_COLLECTION = "WhishList"
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
     let RATING_FIELD = "Rating"
+    //let BOOKNAME_FIELD = "BookName"
     let AUTHOR_FIELD = "Author"
     let BOOK_STATUS_FIELD = "BooksStatus"
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
@@ -62,7 +65,24 @@ class FirebaseDatabase {
     
     
     
-    //func addNewFriend(_ userEmail: String, _ name: String, _ todayDate: Date) {
+    func addNewOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document(bookName).setData([
+            
+            //BOOKNAME_FIELD: bookName,
+            AUTHOR_FIELD: bookAuthor,
+            BOOK_STATUS_FIELD: true
+            
+        ]) { err in
+            
+            if let err = err {
+                print("Error writing OwnedBool: \(err)")
+            } else {
+                print("OwnedBook is successfully written!")
+            }
+        }
+    }
+    
+    
     func addNewFriend(currentUserEmail: String,friendsEmail: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail).setData([
             

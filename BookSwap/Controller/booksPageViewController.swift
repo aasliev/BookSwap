@@ -8,6 +8,7 @@
 
 
 import UIKit
+import Firebase
 
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
@@ -121,13 +122,32 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         return orderedViewControllers[nextIndex]
     }
     
+    //MARK: Add book to Firestore
+    func updateToFirestore(bookName: String, bookAuthor: String, trueForOwnedBook_falseForWishList: Bool) {
+        
+        //Checking for extra space at the start or end of the String
+        let name = bookName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let author = bookAuthor.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if (trueForOwnedBook_falseForWishList) {
+            
+            FirebaseDatabase.init().addNewOwnedBook(currentUserEmail: (Auth.auth().currentUser?.email)!, bookName: name, bookAuthor: author)
+            
+        } else {
+            //add book to WishList
+            
+        }
+
+        
+    }
+    
     
     
     //MARK: Add Button Pressed
     
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        
+       
         var bookTitle : String = ""
         var bookAuthor : String = ""
         var titleTextField = UITextField()
@@ -135,6 +155,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         let alert = UIAlertController(title: "Add New Book", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Book", style: .default) { (action) in
+            
             //what will happen when the user clicks the add button
             bookTitle = titleTextField.text!
             bookAuthor = authorTextField.text!
@@ -142,17 +163,20 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             //if in the owned books page, save it to owned books (or set the boolean to true, if we are using bool)
             //else save it to wish list
             let tmp = self.navigationItem.title
+            
             if (tmp == "Owned Books"){
                 self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
                 print("Inside the owned books")
+                self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: true)
+                
             } else {
                 self.saveBooks(viewControllerNumber: 2, title: bookTitle, author: bookAuthor)
                 print("inside wish list")
+                
             }
             
-//            print(bookTitle)
-//            print(bookAuthor)
         }
+        
         alert.addTextField { (alertTextField) in
                 alertTextField.placeholder = "Title of the Book"
                 titleTextField = alertTextField
@@ -161,6 +185,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             alertTextField.placeholder = "Author"
             authorTextField = alertTextField
         }
+        
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
     }

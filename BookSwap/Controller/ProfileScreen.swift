@@ -28,12 +28,10 @@ class ProfileScreen: UIViewController {
         
         setUserDetails()
 
-        FirebaseDatabase.init().getNumberOfFriends(usersEmail: ((Auth.auth().currentUser?.email)!)) { numberOfFriends in
-            print("Inside ProfileScreen Number Of Friends = \(numberOfFriends)")
-            self.tempNumberOfFriends.text = "\(numberOfFriends)"
-            
-        }
-//        print("Count is: \(FirebaseDatabase.init().numberOfFriends)")
+//        FirebaseDatabase.init().getNumberOfFriends(usersEmail: ((Auth.auth().currentUser?.email)!)) { numberOfFriends in
+//            print("Inside ProfileScreen Number Of Friends = \(numberOfFriends)")
+//            self.tempNumberOfFriends.text = "\(numberOfFriends)"
+//        }
         
     }
     

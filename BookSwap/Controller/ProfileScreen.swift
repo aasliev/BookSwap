@@ -28,9 +28,13 @@ class ProfileScreen: UIViewController {
         
         setUserDetails()
 
-        FirebaseDatabase.init().getNumberOfFriends(((Auth.auth().currentUser?.email)!))
-        print("Count is: \(FirebaseDatabase.init().numberOfFriends)")
-        tempNumberOfFriends.text = "\(FirebaseDatabase.init().numberOfFriends)"
+        FirebaseDatabase.init().getNumberOfFriends(usersEmail: ((Auth.auth().currentUser?.email)!)) { numberOfFriends in
+            print("Inside ProfileScreen Number Of Friends = \(numberOfFriends)")
+            self.tempNumberOfFriends.text = "\(numberOfFriends)"
+            
+        }
+//        print("Count is: \(FirebaseDatabase.init().numberOfFriends)")
+        
     }
     
     
@@ -72,8 +76,7 @@ class ProfileScreen: UIViewController {
     }
     @IBAction func friendsBtnPressed(_ sender: Any) {
         
-        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 1")
-        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 2")
-        FirebaseDatabase.init().addNewFriend((firebaseAuth.currentUser?.email)!,"Friend 1")
+        //FirebaseDatabase.init().addNewFriend(currentUserEmail: (firebaseAuth.currentUser?.email)!,friendsEmail: "Friend 3")
+        
     }
 }

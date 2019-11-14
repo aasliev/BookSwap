@@ -141,17 +141,18 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             
             //if in the owned books page, save it to owned books (or set the boolean to true, if we are using bool)
             //else save it to wish list
+            let tmp = self.navigationItem.title
+            if (tmp == "Owned Books"){
+                self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
+                print("Inside the owned books")
+            } else {
+                self.saveBooks(viewControllerNumber: 2, title: bookTitle, author: bookAuthor)
+                print("inside wish list")
+            }
             
-            
-            print(bookTitle)
-            print(bookAuthor)
+//            print(bookTitle)
+//            print(bookAuthor)
         }
-        
-        
-        
-        
-        
-        
         alert.addTextField { (alertTextField) in
                 alertTextField.placeholder = "Title of the Book"
                 titleTextField = alertTextField
@@ -164,5 +165,15 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             present(alert, animated: true, completion: nil)
     }
     
+    
+    func saveBooks(viewControllerNumber: Int, title: String, author: String){
+        //write a function to save functions
+        if(viewControllerNumber == 1){
+            //save inside the owned books
+            
+        } else {
+            //save inside the wish list
+        }
+    }
     
 }

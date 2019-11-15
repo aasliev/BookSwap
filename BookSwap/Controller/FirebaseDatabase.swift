@@ -10,11 +10,16 @@ import Firebase
 
 class FirebaseDatabase {
     
+    //MARK: Firestore Database Istance
     let db = Firestore.firestore()
+    
+    //MARK: Firestore Collection Names
     let USERS_MAIN_COLLECTIN = "Users"
     let FRIENDS_SUB_COLLECTION = "Friends"
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
     let WIHSHLIST_SUB_COLLECTION = "WhishList"
+    
+    //MARK: Firestore Fields Names
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
     let RATING_FIELD = "Rating"
@@ -23,6 +28,7 @@ class FirebaseDatabase {
     let BOOK_STATUS_FIELD = "BooksStatus"
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
+    
     var numberOfFriends = 0
     
 
@@ -31,6 +37,7 @@ class FirebaseDatabase {
     }
     
     
+    //MARK: Adding New User to Firestore when user Sign Up
     func addNewUserToFirestore(userName: String, email: String) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(email).setData([
@@ -47,7 +54,7 @@ class FirebaseDatabase {
         }
     }
     
-    
+    //MARK: Get Number of Friends
     func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
@@ -82,6 +89,7 @@ class FirebaseDatabase {
         }
     }
     
+    
     //MARK: Adding Book to WishList
     func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WIHSHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
@@ -99,7 +107,7 @@ class FirebaseDatabase {
         }
     }
     
-    
+    //MARK: Add New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail).setData([
             
@@ -122,34 +130,8 @@ class FirebaseDatabase {
             }
         }
     }
+
     
-//    
-//    func getNumberOfFriends (_ currentUser: String){
-//        
-////        db.collection(currentUser).getDocuments()
-////            {
-////                (querySnapshot, err) in
-////
-////                if let err = err
-////                {
-////                    print("Error getting documents: \(err)");
-////                }
-////                else
-////                {
-////                    var count = 0
-////                    for document in querySnapshot!.documents {
-////                        count += 1
-////                        print("\(document.documentID) => \(document.data())");
-////                    }
-////                    self.numberOfFriends = count
-////                    print("Count = \(count)");
-////                }
-////        }
-////
-////
-////        //return numberOfFriends
-//        
-//            }
 }
 
 

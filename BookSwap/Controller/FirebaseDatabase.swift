@@ -14,7 +14,7 @@ class FirebaseDatabase {
     let USERS_MAIN_COLLECTIN = "Users"
     let FRIENDS_SUB_COLLECTION = "Friends"
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
-    let WHISHLIST_SUB_COLLECTION = "WhishList"
+    let WIHSHLIST_SUB_COLLECTION = "WhishList"
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
     let RATING_FIELD = "Rating"
@@ -64,9 +64,9 @@ class FirebaseDatabase {
     }
     
     
-    
-    func addNewOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document(bookName).setData([
+    //MARK: Adding Book to OwnedBook Collection
+    func addToOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
             //BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
@@ -75,9 +75,26 @@ class FirebaseDatabase {
         ]) { err in
             
             if let err = err {
-                print("Error writing OwnedBool: \(err)")
+                print("Error writing OwnedBook: \(err)")
             } else {
                 print("OwnedBook is successfully written!")
+            }
+        }
+    }
+    
+    //MARK: Adding Book to WishList
+    func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WIHSHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+            
+            //BOOKNAME_FIELD: bookName,
+            AUTHOR_FIELD: bookAuthor
+            
+        ]) { err in
+            
+            if let err = err {
+                print("Error writing WishList: \(err)")
+            } else {
+                print("WishList is successfully written!")
             }
         }
     }

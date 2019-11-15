@@ -8,12 +8,12 @@
 
 
 import UIKit
-import Firebase
 
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     
     var pageControl = UIPageControl()
+    let firebaseAuth = FirebaseAuth.init()
     
     // MARK: UIPageViewControllerDataSource
     
@@ -70,13 +70,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     }
     
     
-    
-    
-    
-    
-    
-    
-    
     // MARK: Data source functions.
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -98,6 +91,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         }
         return orderedViewControllers[previousIndex]
     }
+    
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -130,11 +124,12 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         let author = bookAuthor.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if (trueForOwnedBook_falseForWishList) {
-            
-            FirebaseDatabase.init().addNewOwnedBook(currentUserEmail: (Auth.auth().currentUser?.email)!, bookName: name, bookAuthor: author)
+            //add book to OwnedBook
+            FirebaseDatabase.init().addToOwnedBook(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         } else {
             //add book to WishList
+            FirebaseDatabase.init().addToWishList(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         }
 
@@ -167,11 +162,14 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             if (tmp == "Owned Books"){
                 self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
                 print("Inside the owned books")
+                
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: true)
                 
             } else {
                 self.saveBooks(viewControllerNumber: 2, title: bookTitle, author: bookAuthor)
                 print("inside wish list")
+                
+                self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: false)
                 
             }
             

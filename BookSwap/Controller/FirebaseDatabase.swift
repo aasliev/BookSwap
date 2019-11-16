@@ -23,7 +23,7 @@ class FirebaseDatabase {
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
     let RATING_FIELD = "Rating"
-    //let BOOKNAME_FIELD = "BookName"
+    let BOOKNAME_FIELD = "BookName"
     let AUTHOR_FIELD = "Author"
     let BOOK_STATUS_FIELD = "BooksStatus"
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
@@ -36,7 +36,7 @@ class FirebaseDatabase {
         
     }
     
-    
+    //MARK: Add Methods to Firestore
     //MARK: Adding New User to Firestore when user Sign Up
     func addNewUserToFirestore(userName: String, email: String) {
         
@@ -54,28 +54,12 @@ class FirebaseDatabase {
         }
     }
     
-    //MARK: Get Number of Friends
-    func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
-        
-        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
-            
-            if let document = document, document.exists {
-                self.numberOfFriends = document.get(self.NUMBEROFFRIENDS_FIELD)as! Int
-            
-                print("Number of Friends from Firestore: \(self.numberOfFriends )")
-            } else {
-                print("\(self.NUMBEROFFRIENDS_FIELD) field does not exist")
-            }
-            completion(self.numberOfFriends)
-        }
-    }
-    
     
     //MARK: Adding Book to OwnedBook Collection
     func addToOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
-            //BOOKNAME_FIELD: bookName,
+            BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
             BOOK_STATUS_FIELD: true
             
@@ -94,7 +78,7 @@ class FirebaseDatabase {
     func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WIHSHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
-            //BOOKNAME_FIELD: bookName,
+            BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor
             
         ]) { err in
@@ -130,6 +114,44 @@ class FirebaseDatabase {
             }
         }
     }
+    
+    
+    //MARK: Read Methods from Firestore
+    //MARK: Get Number of Friends
+    func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
+            
+            if let document = document, document.exists {
+                self.numberOfFriends = document.get(self.NUMBEROFFRIENDS_FIELD)as! Int
+                
+                print("Number of Friends from Firestore: \(self.numberOfFriends )")
+            } else {
+                print("\(self.NUMBEROFFRIENDS_FIELD) field does not exist")
+            }
+            completion(self.numberOfFriends)
+        }
+    }
+    
+    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String  , Any>)->()){
+    //func getListOfFriends(usersEmail: String){
+        
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+            
+            var dictionary : Dictionary<String, Any> = [:]
+            
+            if let err = error {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                for document in querySnapshot!.documents {
+                    dictionary[document.documentID] = document.data()
+                }
+            }
+            completion(dictionary)
+        }
+    }
+
 
     
 }

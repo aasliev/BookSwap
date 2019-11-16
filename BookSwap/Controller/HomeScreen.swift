@@ -21,6 +21,10 @@ class HomeScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //FirebaseDatabase.init().incrementNumberOfSwaps(currentUserEmail: (Auth.auth().currentUser?.email)!, friendsEmail: "Friend 1")
+//        FirebaseDatabase.init().getUserName(usersEmail: ((Auth.auth().currentUser?.email)!)) {userName in
+//            print("\n\n\n\nThis is user name: \(userName)")
+//        }
     }
     
     

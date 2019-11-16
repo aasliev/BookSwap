@@ -93,8 +93,16 @@ class FirebaseDatabase {
     
     //MARK: Add New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String) {
+       
+        var uN = ""
+        
+        getUserName(usersEmail: currentUserEmail) {
+            userName in
+            uN = userName
+        }
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail).setData([
             
+            USERNAME_FIELD: uN,
             FRIENDSEMAIL_FIELD: friendsEmail,
             NUMBER_OF_SWAPS_FIELD: 0
             
@@ -116,6 +124,21 @@ class FirebaseDatabase {
     }
     
     
+    //MARK: Add Number of Swaps
+    func incrementNumberOfSwaps(currentUserEmail: String,friendsEmail: String) {
+        
+        let ref = db.collection(USERS_MAIN_COLLECTIN).document(currentUserEmail).collection(FRIENDS_SUB_COLLECTION).document(friendsEmail) //self.db.collection("(\(self.USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)/").document(friendsEmail)
+        
+        // Incrememnt the NumberOfSwaps field by 1.
+        ref.updateData([
+            self.NUMBER_OF_SWAPS_FIELD: FieldValue.increment(Int64(1))
+        ]){
+            error in
+            print("This is Increment Number of Swaps Error: \(error)")
+        }
+    }
+    
+    
     //MARK: Read Methods from Firestore
     //MARK: Get Number of Friends
     func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
@@ -130,6 +153,22 @@ class FirebaseDatabase {
                 print("\(self.NUMBEROFFRIENDS_FIELD) field does not exist")
             }
             completion(self.numberOfFriends)
+        }
+    }
+    
+    
+    func getUserName(usersEmail: String, completion: @escaping (String)->()){
+        
+        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
+            var userName = ""
+            if let document = document, document.exists {
+                userName = document.get(self.USERNAME_FIELD) as! String
+                
+                print("Username of Friends from Firestore: \(self.numberOfFriends )")
+            } else {
+                print("\(self.USERNAME_FIELD) field does not exist")
+            }
+            completion(userName)
         }
     }
     

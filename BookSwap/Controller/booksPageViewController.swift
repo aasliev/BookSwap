@@ -8,9 +8,9 @@
 
 
 import UIKit
+import CoreData
 
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    
     
     var pageControl = UIPageControl()
     let firebaseAuth = FirebaseAuth.init()
@@ -147,8 +147,9 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         var bookAuthor : String = ""
         var titleTextField = UITextField()
         var authorTextField = UITextField()
-        let alert = UIAlertController(title: "Add New Book", message: "", preferredStyle: .alert)
         
+        
+        let alert = UIAlertController(title: "Add New Book", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Book", style: .default) { (action) in
             
             //what will happen when the user clicks the add button
@@ -193,9 +194,10 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         //write a function to save functions
         if(viewControllerNumber == 1){
             //save inside the owned books
-            
+            //tmp.saveItems()
+            print("saved items")
         } else {
-            //save inside the wish list
+            //
         }
     }
     

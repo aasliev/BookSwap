@@ -8,9 +8,10 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class additionalFunctions{
-
+    
     func createUIalert(_ message : String, _ screen : UIViewController )
     {
     let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -19,6 +20,8 @@ class additionalFunctions{
     screen.present(alertController, animated: true, completion: nil)
     
     }
+    
+    
     
 }
 

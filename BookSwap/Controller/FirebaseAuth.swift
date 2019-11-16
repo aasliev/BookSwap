@@ -12,7 +12,6 @@ import Firebase
 class FirebaseAuth {
     
     func getCurrentUserEmail() -> String {
-        
         return (Auth.auth().currentUser?.email)!
         
     }

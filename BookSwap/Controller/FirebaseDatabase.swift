@@ -17,7 +17,7 @@ class FirebaseDatabase {
     let USERS_MAIN_COLLECTIN = "Users"
     let FRIENDS_SUB_COLLECTION = "Friends"
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
-    let WIHSHLIST_SUB_COLLECTION = "WhishList"
+    let WIHSHLIST_SUB_COLLECTION = "WishList"
     
     //MARK: Firestore Fields Names
     let USERNAME_FIELD = "UserName"

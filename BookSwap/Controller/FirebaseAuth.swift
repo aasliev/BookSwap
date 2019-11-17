@@ -12,7 +12,7 @@ import Firebase
 class FirebaseAuth {
     
     let authInstance = Auth.auth()
-    let aFunctions = additionalFunctions.init()
+    let commonFunctions = CommonFunctions.init()
     
     init() {
         //FirebaseApp.configure()

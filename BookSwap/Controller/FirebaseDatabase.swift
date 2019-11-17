@@ -8,10 +8,13 @@
 
 import Firebase
 
+
 class FirebaseDatabase {
     
     //MARK: Firestore Database Istance
+    let sm = FirebaseApp.configure()
     let db = Firestore.firestore()
+    let authInstance = FirebaseAuth.init()
     
     //MARK: Firestore Collection Names
     let USERS_MAIN_COLLECTIN = "Users"
@@ -31,6 +34,9 @@ class FirebaseDatabase {
     
     var numberOfFriends = 0
     
+    init() {
+        //FirebaseApp.configure()
+    }
 
     func getFriendsData () {
         
@@ -79,24 +85,20 @@ class FirebaseDatabase {
     }
     
     //MARK: Add New Friend
-    func addNewFriend(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
+    func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool) {
        
-        var uN = ""
+        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail)
         
-        getUserName(usersEmail: currentUserEmail) {
-            userName in
-            uN = userName
-        }
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail).setData([
+            ref.setData([
             
-            USERNAME_FIELD: uN,
+            USERNAME_FIELD: friendsUserName,
             FRIENDSEMAIL_FIELD: friendsEmail,
             NUMBER_OF_SWAPS_FIELD: 0
             
         ]) { err in
             
             if(self.checkError(error: err, whileDoing: "adding new friend") && recursion){
-                self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, recursion: false)
+                self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getUserName(), recursion: false)
             }
         }
     }
@@ -161,7 +163,7 @@ class FirebaseDatabase {
             if let document = document, document.exists {
                 userName = document.get(self.USERNAME_FIELD) as! String
                 
-                print("Username of Friends from Firestore: \(self.numberOfFriends )")
+                print("Username of Friends from Firestore: \(userName )")
             } else {
                 print("\(self.USERNAME_FIELD) field does not exist")
             }

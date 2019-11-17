@@ -11,8 +11,42 @@ import Firebase
 
 class FirebaseAuth {
     
+    let authInstance = Auth.auth()
+    let aFunctions = additionalFunctions.init()
+    
+    init() {
+        //FirebaseApp.configure()
+    }
+    
     func getCurrentUserEmail() -> String {
-        return (Auth.auth().currentUser?.email)!
+        return (authInstance.currentUser?.email)!
         
     }
+    
+    func getUserName()-> String {
+        
+        return (authInstance.currentUser?.displayName) ?? "User Name"
+    }
+    
+    func signInToFirebaseAuth (email: String, password: String, screen: UIViewController) -> Bool {
+        
+        var boolean: Bool = false
+        authInstance.signIn(withEmail: email, password: password) { (user, error) in
+            
+            if (error != nil){
+                if let errorMsg = AuthErrorCode(rawValue: error!._code){
+                    
+                }
+                boolean = false
+            } else {
+                print("Log in Successful!")
+                boolean = true
+            }
+            
+        }
+        
+        return boolean
+    }
+    
+    
 }

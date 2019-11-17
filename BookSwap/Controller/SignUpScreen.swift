@@ -11,7 +11,7 @@ import Firebase
 import SVProgressHUD
 
 class SignUpScreen: UIViewController {
-    let aFunctions = additionalFunctions()
+    let commonFunctions = CommonFunctions()
 
     //Labels and TextFields from signUp.Storyboard
     
@@ -27,32 +27,12 @@ class SignUpScreen: UIViewController {
     
     func checkIfTextFieldIsEmpty() -> Bool {
         
-        let userNameCheckStatus = checkIfEmpty(userNameTextField, "User Name")
-        let emailCheckStatus =  checkIfEmpty(emailTextField, "Email")
-        let passwordCheckStatus =  checkIfEmpty(passwordTextField, "Password")
-        let confirmPasswordCheckStatus =  checkIfEmpty(confirmPasswordTextField, "Confirm Password")
+        let userNameCheckStatus = commonFunctions.checkIfEmpty(userNameTextField, "User Name", screen: self)
+        let emailCheckStatus =  commonFunctions.checkIfEmpty(emailTextField, "Email", screen: self)
+        let passwordCheckStatus =  commonFunctions.checkIfEmpty(passwordTextField, "Password", screen: self)
+        let confirmPasswordCheckStatus =  commonFunctions.checkIfEmpty(confirmPasswordTextField, "Confirm Password", screen: self)
         
         return userNameCheckStatus && emailCheckStatus && passwordCheckStatus && confirmPasswordCheckStatus
-    }
-    
-    
-    func checkIfEmpty(_ textField: UITextField,_ paceholderText: String) -> Bool{
-        
-        if textField.text!.isEmpty {
-            //Making changes to inform user that text field is empty
-            textField.attributedPlaceholder = NSAttributedString(string: paceholderText,
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-            self.aFunctions.createUIalert("Add missing information.", self)
-            //textField.backgroundColor = UIColor.red
-            return false
-            
-        }else{
-            
-            // Revert the changes made in if statment
-            textField.backgroundColor = UIColor.white
-            return true
-            
-        }
     }
     
     
@@ -66,39 +46,14 @@ class SignUpScreen: UIViewController {
     }
     
     
-    func chechError(_ error: Optional<Any>){
+    func chechError(_ error: Error?){
         
         if error != nil {
             
             if let errorMsg = AuthErrorCode(rawValue: (error! as AnyObject).code){
-                
-                switch errorMsg{
-                
-                case .networkError:
-                    self.aFunctions.createUIalert("Network Error.", self)
-                    break
-                
-                case .invalidEmail:
-                    self.aFunctions.createUIalert("Invalid Email", self)
-                    break
-                
-                case .emailAlreadyInUse:
-                    self.aFunctions.createUIalert("Email is already in use.", self)
-                    break
-                
-                case .weakPassword:
-                    self.aFunctions.createUIalert("weak password", self)
-                    break
-                
-                default :
-                    self.aFunctions.createUIalert("Other.", self)
-                    //print("other")
-                }
+                self.commonFunctions.showError(error: error, errorMsg: errorMsg, screen: self)
             }
-            
-        }
-        else
-        {
+        } else {
             addUserNameAndPerformSegue()
         }
     }
@@ -126,7 +81,7 @@ class SignUpScreen: UIViewController {
         
         if (checkIfTextFieldIsEmpty() ){                                                //text if the fields are empty
             if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){          //check if the pswds are matching
-                self.aFunctions.createUIalert("Passwords are not matching.", self)
+                self.commonFunctions.createUIalert("Passwords are not matching.", self)
                 
             }
             else                    //if they are matching check the email, if it's valid

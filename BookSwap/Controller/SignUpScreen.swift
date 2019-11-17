@@ -66,34 +66,14 @@ class SignUpScreen: UIViewController {
     }
     
     
-    func chechError(_ error: Optional<Any>){
+    func chechError(_ error: Error?){
         
         if error != nil {
             
             if let errorMsg = AuthErrorCode(rawValue: (error! as AnyObject).code){
                 
-                switch errorMsg{
+                self.aFunctions.showError(error: error, errorMsg: errorMsg, screen: self)
                 
-                case .networkError:
-                    self.aFunctions.createUIalert("Network Error.", self)
-                    break
-                
-                case .invalidEmail:
-                    self.aFunctions.createUIalert("Invalid Email", self)
-                    break
-                
-                case .emailAlreadyInUse:
-                    self.aFunctions.createUIalert("Email is already in use.", self)
-                    break
-                
-                case .weakPassword:
-                    self.aFunctions.createUIalert("weak password", self)
-                    break
-                
-                default :
-                    self.aFunctions.createUIalert("Other.", self)
-                    //print("other")
-                }
             }
             
         }

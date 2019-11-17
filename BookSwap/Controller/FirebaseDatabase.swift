@@ -45,12 +45,7 @@ class FirebaseDatabase {
             NUMBER_OF_SWAPS_FIELD : 0,
             RATING_FIELD : 5.0])
         { err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
-                print("Document successfully written!")
-            }
-            
+             _ = self.checkError(error: err, whileDoing: "adding new user to firebase")
         }
     }
     
@@ -65,11 +60,7 @@ class FirebaseDatabase {
             
         ]) { err in
             
-            if let err = err {
-                print("Error writing OwnedBook: \(err)")
-            } else {
-                print("OwnedBook is successfully written!")
-            }
+             _ = self.checkError(error: err, whileDoing: "adding book to OwnedBook")
         }
     }
     
@@ -83,16 +74,12 @@ class FirebaseDatabase {
             
         ]) { err in
             
-            if let err = err {
-                print("Error writing WishList: \(err)")
-            } else {
-                print("WishList is successfully written!")
-            }
+            _ = self.checkError(error: err, whileDoing: "adding book to WishList")
         }
     }
     
     //MARK: Add New Friend
-    func addNewFriend(currentUserEmail: String,friendsEmail: String) {
+    func addNewFriend(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
        
         var uN = ""
         
@@ -108,34 +95,44 @@ class FirebaseDatabase {
             
         ]) { err in
             
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
-                print("Document successfully written!")
-                
-                let ref = self.db.collection(self.USERS_MAIN_COLLECTIN).document(currentUserEmail)
-                
-                // Atomically incrememnt the NumberOfFriends field by 1.
-                ref.updateData([
-                    self.NUMBEROFFRIENDS_FIELD: FieldValue.increment(Int64(1))
-                    ])
+            if(self.checkError(error: err, whileDoing: "adding new friend") && recursion){
+                self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, recursion: false)
             }
         }
     }
     
     
     //MARK: Add Number of Swaps
-    func incrementNumberOfSwaps(currentUserEmail: String,friendsEmail: String) {
+    func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
         
-        let ref = db.collection(USERS_MAIN_COLLECTIN).document(currentUserEmail).collection(FRIENDS_SUB_COLLECTION).document(friendsEmail) //self.db.collection("(\(self.USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)/").document(friendsEmail)
+        let ref = db.collection(USERS_MAIN_COLLECTIN).document(currentUserEmail)
+        
+        incrementNumberOfSwapsInUserCollection(currentUserEmail: currentUserEmail, ref: ref)
         
         // Incrememnt the NumberOfSwaps field by 1.
-        ref.updateData([
+        ref.collection(FRIENDS_SUB_COLLECTION).document(friendsEmail).updateData([
             self.NUMBER_OF_SWAPS_FIELD: FieldValue.increment(Int64(1))
         ]){
             error in
-            print("This is Increment Number of Swaps Error: \(error)")
+            if (self.checkError(error: error, whileDoing: "increasing number of swaps of friend") && recursion){
+                
+                //increasing number swaps in friends database a well
+                self.incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, recursion: false)
+            }
         }
+    }
+    
+    
+    private func incrementNumberOfSwapsInUserCollection (currentUserEmail: String, ref: DocumentReference) {
+        
+        // Incrememnt the NumberOfFriends field by 1.
+        ref.updateData([
+            self.NUMBER_OF_SWAPS_FIELD: FieldValue.increment(Int64(1))
+        ]) {
+            error in
+            _ = self.checkError(error: error, whileDoing: "increasing number of swaps of current user")
+        }
+        
     }
     
     
@@ -172,6 +169,7 @@ class FirebaseDatabase {
         }
     }
     
+    
     func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String  , Any>)->()){
     //func getListOfFriends(usersEmail: String){
         
@@ -179,19 +177,34 @@ class FirebaseDatabase {
             
             var dictionary : Dictionary<String, Any> = [:]
             
-            if let err = error {
-                print("Error getting documents: \(err)")
-            } else {
+            if (self.checkError(error: error! , whileDoing: "getting list of friends")) {
                 
                 for document in querySnapshot!.documents {
                     dictionary[document.documentID] = document.data()
                 }
             }
+    
             completion(dictionary)
         }
     }
-
-
+    
+    
+    //MARK: Error
+    func checkError (error: Error?, whileDoing: String) -> Bool{
+        
+        //ternary operator
+        //(error == err) ? print("Number of Swaps for Current User is incremented.") : print("Error while \(whileDoing): \(String(describing: error))")
+        
+        if error?.localizedDescription == nil{
+            print("Successful \(whileDoing)!")
+            return true
+        } else {
+            print("Error while \(whileDoing) .: \(String(describing: error))")
+            return false
+        }
+            
+    }
+    
     
 }
 

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import FirebaseAuth
 
-class additionalFunctions{
+class CommonFunctions{
 
     func createUIalert(_ message : String, _ screen : UIViewController )
     {

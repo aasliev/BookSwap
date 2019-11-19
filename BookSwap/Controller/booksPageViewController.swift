@@ -14,7 +14,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     var pageControl = UIPageControl()
     let firebaseAuth = FirebaseAuth.sharedFirebaseAuth
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {
@@ -194,10 +194,22 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         //write a function to save functions
         if(viewControllerNumber == 1){
             //save inside the owned books
-            //tmp.saveItems()
-            print("saved items")
+            let tmpBook = OwnedBook(context: self.context)
+            let tmpBookScreen = OwnedBookScreen()
+            tmpBook.author = author
+            tmpBook.bookName = title
+            tmpBook.status = true
+            tmpBookScreen.saveItems()
+            //tmpBookScreen.tableView.reloadData()
+            //tmpBookScreen.loadItems()
+            //print("saved items")
         } else {
             //
+            let tmpWishBook = WishList(context: self.context)
+            let tmpBookScreen = WishListScreen()
+            tmpWishBook.author = author
+            tmpWishBook.bookName = title
+            tmpBookScreen.saveItems()
         }
     }
     

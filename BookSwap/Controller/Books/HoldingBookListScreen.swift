@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class HoldingBookListScreen: UITableViewController {
 

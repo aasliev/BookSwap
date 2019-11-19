@@ -12,9 +12,9 @@ import SVProgressHUD
 
 class HomeScreen: UIViewController {
     
-    let commonFunctions = CommonFunctions.init()
-    let databaseIstance = FirebaseDatabase.init()
-    let authInstance = FirebaseAuth.init()
+    let commonFunctions = CommonFunctions.sharedCommonFunction
+    let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
 
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!

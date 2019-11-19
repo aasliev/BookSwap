@@ -11,6 +11,12 @@ import UIKit
 import FirebaseAuth
 
 class CommonFunctions{
+    
+    static let sharedCommonFunction = CommonFunctions()
+    
+    private init() {
+        
+    }
 
     func createUIalert(_ message : String, _ screen : UIViewController )
     {

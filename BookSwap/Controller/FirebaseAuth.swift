@@ -12,9 +12,11 @@ import Firebase
 class FirebaseAuth {
     
     let authInstance = Auth.auth()
-    let commonFunctions = CommonFunctions.init()
+    let commonFunctions = CommonFunctions.sharedCommonFunction
     
-    init() {
+    static let sharedFirebaseAuth = FirebaseAuth()
+    
+    private init() {
         //FirebaseApp.configure()
     }
     

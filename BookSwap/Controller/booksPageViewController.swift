@@ -13,7 +13,7 @@ import CoreData
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     var pageControl = UIPageControl()
-    let firebaseAuth = FirebaseAuth.init()
+    let firebaseAuth = FirebaseAuth.sharedFirebaseAuth
     
     // MARK: UIPageViewControllerDataSource
     
@@ -125,11 +125,11 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         if (trueForOwnedBook_falseForWishList) {
             //add book to OwnedBook
-            FirebaseDatabase.init().addToOwnedBook(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
+            FirebaseDatabase.shared.addToOwnedBook(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         } else {
             //add book to WishList
-            FirebaseDatabase.init().addToWishList(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
+            FirebaseDatabase.shared.addToWishList(currentUserEmail: firebaseAuth.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         }
 

@@ -60,3 +60,35 @@ class WishListScreen: UITableViewController {
 
     
 }
+
+
+
+
+//MARK: Search
+
+extension WishListScreen: UISearchBarDelegate
+{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<WishList> = WishList.fetchRequest()
+        request.predicate = NSPredicate(format: "bookName CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+        
+        loadItems(with: request)
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count==0{
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            loadItems()
+            tableView.reloadData()
+        }
+    }
+    
+}
+

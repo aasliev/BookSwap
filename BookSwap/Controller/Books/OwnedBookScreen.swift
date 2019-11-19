@@ -39,6 +39,8 @@ class OwnedBookScreen: UITableViewController {
     //MARK: - Model Manipulation Methods
     func loadItems(with request: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()) {
         do {
+            //let request = request
+            //request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
             itemArray = try context.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
@@ -55,7 +57,35 @@ class OwnedBookScreen: UITableViewController {
             print("Error saving context \(error)")
         }
         self.tableView.reloadData()
-        
     }
 
+}
+
+
+//MARK: Search
+
+extension OwnedBookScreen: UISearchBarDelegate
+{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
+        request.predicate = NSPredicate(format: "bookName CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+        
+        loadItems(with: request)
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count==0{
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            loadItems()
+            tableView.reloadData()
+        }
+    }
+    
 }

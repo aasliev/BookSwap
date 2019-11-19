@@ -11,10 +11,13 @@ import Firebase
 
 class FirebaseDatabase {
     
+    //Singleton
+    static let shared = FirebaseDatabase()
+    
     //MARK: Firestore Database Istance
     let sm = FirebaseApp.configure()
     let db = Firestore.firestore()
-    let authInstance = FirebaseAuth.init()
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
     
     //MARK: Firestore Collection Names
     let USERS_MAIN_COLLECTIN = "Users"
@@ -34,8 +37,7 @@ class FirebaseDatabase {
     
     var numberOfFriends = 0
     
-    init() {
-        //FirebaseApp.configure()
+    private init() {
     }
 
     func getFriendsData () {

@@ -11,7 +11,7 @@ import Firebase
 import SVProgressHUD
 
 class SignUpScreen: UIViewController {
-    let commonFunctions = CommonFunctions()
+    let commonFunctions = CommonFunctions.sharedCommonFunction
 
     //Labels and TextFields from signUp.Storyboard
     
@@ -67,7 +67,7 @@ class SignUpScreen: UIViewController {
             
             if error == nil {
                 
-                FirebaseDatabase.init().addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!)
+                FirebaseDatabase.shared.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!)
                 self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
             } else {
                 print("An error occured while adding username\(String(describing: error))")

@@ -16,7 +16,6 @@ class OwnedBookScreen: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         print("inside ownedBookScreen")
         loadItems()
@@ -29,8 +28,9 @@ class OwnedBookScreen: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].bookName
+        let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
+        cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
+        cell.authorOfTheBook?.text = itemArray[indexPath.row].author
         return cell
     }
     

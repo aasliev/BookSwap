@@ -33,10 +33,10 @@ class FriendListScreen: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "friendsCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].friendsEmail
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendsCell", for: indexPath) as! FriendsTableViewCell
+        cell.userName?.text = itemArray[indexPath.row].friendsEmail
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps
-        cell.imageView!.image = UIImage(named: "bookcrab.png")
+        //cell.imageView!.image = UIImage(named: "bookcrab.png")
         return cell
     }
     
@@ -67,14 +67,8 @@ class FriendListScreen: UITableViewController {
     
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
+
+

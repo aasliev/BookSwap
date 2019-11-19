@@ -28,8 +28,9 @@ class WishListScreen: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "wishCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].bookName
+        let cell = tableView.dequeueReusableCell(withIdentifier: "wishCell", for: indexPath) as! WishListTableViewCell
+        cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
+        cell.authorOfTheBook?.text = itemArray[indexPath.row].author
         return cell
     }
     

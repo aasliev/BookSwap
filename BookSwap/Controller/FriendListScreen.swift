@@ -63,12 +63,34 @@ class FriendListScreen: UITableViewController {
         self.tableView.reloadData()
         
     }
-    
-    
-    
-    
-    
 
 }
 
-
+//MARK: Search Extention
+//searches the list of your friends...
+//we have to add another query to search the Firebase database
+extension FriendListScreen: UISearchBarDelegate
+{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Friends> = Friends.fetchRequest()
+        request.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "friendsEmail", ascending: true)]
+        
+        loadItems(with: request)
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count==0{
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            loadItems()
+            tableView.reloadData()
+        }
+    }
+    
+}

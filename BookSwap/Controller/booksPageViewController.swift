@@ -139,8 +139,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     
     //MARK: Add Button Pressed
-    
-    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
        
         var bookTitle : String = ""
@@ -195,6 +193,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         if(viewControllerNumber == 1){
             //save inside the owned books
             let tmpBook = OwnedBook(context: self.context)
+            
             let tmpBookScreen = OwnedBookScreen()
             tmpBook.author = author
             tmpBook.bookName = title

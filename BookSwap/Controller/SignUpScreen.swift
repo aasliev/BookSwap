@@ -68,6 +68,7 @@ class SignUpScreen: UIViewController {
             if error == nil {
                 
                 FirebaseDatabase.shared.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!)
+                
                 self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
             } else {
                 print("An error occured while adding username\(String(describing: error))")

@@ -24,6 +24,18 @@ class HomeScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
+//            //print(dict as AnyObject)
+//            CoreDataClass.sharedCoreData.addBooksIntoOwnedBook(dictionary: dict)
+//            var j = 0
+//            for (index, data) in dict {
+//
+//                //print("Index is: \(index) \nData is: \(data) \nData[BookName] : \(data["BookName"])")
+//                //print("Data is:BookName is \(dict[j]!["BookName"]!), Auther is\(dict[j]!["Author"]!), Status is \(type(of: dict[j]!["BooksStatus"]!)) ")
+//                j += 1
+//            }
+//        }
+        
     }
     
     
@@ -47,9 +59,15 @@ class HomeScreen: UIViewController {
                 } else{
                     print("Log in Successful!")
                     
+                    self.databaseIstance.getListOfOwnedBookOrWishList(usersEmail: self.authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
+                        
+                        CoreDataClass.sharedCoreData.addBooksIntoOwnedBook(dictionary: dict)
+                    }
+                    
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     
-                   // SVProgressHUD.dismiss()
+    
+                    // SVProgressHUD.dismiss()
                 }
             }
         } 

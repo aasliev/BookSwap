@@ -23,7 +23,7 @@ class FirebaseDatabase {
     let USERS_MAIN_COLLECTIN = "Users"
     let FRIENDS_SUB_COLLECTION = "Friends"
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
-    let WIHSHLIST_SUB_COLLECTION = "WishList"
+    let WISHLIST_SUB_COLLECTION = "WishList"
     
     //MARK: Firestore Fields Names
     let USERNAME_FIELD = "UserName"
@@ -75,7 +75,7 @@ class FirebaseDatabase {
     
     //MARK: Adding Book to WishList
     func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WIHSHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WISHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor
@@ -158,6 +158,7 @@ class FirebaseDatabase {
     }
     
     
+    //Method gets username of given email of a user
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
@@ -188,6 +189,32 @@ class FirebaseDatabase {
                 }
             }
     
+            completion(dictionary)
+        }
+    }
+    
+    
+    //Get list of books from OwnedBook collection or WishList.
+    func getListOfOwnedBookOrWishList(usersEmail: String, trueForOwnedBookFalseForWishList: Bool, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()){
+        
+        //If "trueForOwnedBookFalseForWishList" is true SUB_COLLECTION = OwnedBook,
+        //if false SUB_COLLECTION = WishList
+        let SUB_COLLECTION = (trueForOwnedBookFalseForWishList) ? OWNEDBOOK_SUB_COLLECTION : WISHLIST_SUB_COLLECTION
+        
+        //Users/"user'sEmail"/SubCollection
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+            
+            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+            
+            if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
+                
+                var index = 0
+                for document in querySnapshot!.documents {
+                    dictionary[index] = document.data()
+                    index += 1
+                }
+            }
+            
             completion(dictionary)
         }
     }

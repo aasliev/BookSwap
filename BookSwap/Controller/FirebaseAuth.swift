@@ -17,7 +17,6 @@ class FirebaseAuth {
     static let sharedFirebaseAuth = FirebaseAuth()
     
     private init() {
-        //FirebaseApp.configure()
     }
     
     func getCurrentUserEmail() -> String {

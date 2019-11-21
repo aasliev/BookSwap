@@ -28,22 +28,24 @@ class CoreDataClass {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
-    
+    //MARK: Update all entities
     func updateCoreData () {
         
-        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
+        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()!) { (dict) in
             self.addFriendList(dictionary: dict)
         }
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: true) { (dict) in
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
         
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: false) { (dict) in
             self.addBooksIntoWishList(dictionary: dict)
         }
         
     }
     
+    
+    //MARK: Add methods to add data to entities
     //Adding books into OwnedBook when user signUp
     func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
         
@@ -91,7 +93,7 @@ class CoreDataClass {
             //Getting the latest Context, as saveContext is called before loop ends
             let contextRef = Friends(context: getContext())
             
-            contextRef.friendsEmail = (userEmail as! String)
+            contextRef.friendsEmail = userEmail
             contextRef.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
             contextRef.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
             
@@ -100,12 +102,18 @@ class CoreDataClass {
     }
     
     
+    //Adding history data to core data model
+    func addHistoryData (dictionary : Dictionary<String, Dictionary<String, Any>>) {
+        
+    }
+    
+    
     //Use of this function is when user sign out, this method will clear all data from all entities
     func clearAllEntity ()  {
         
         let currentUser = FirebaseAuth.sharedFirebaseAuth.getCurrentUserEmail()
         //Checking if user is still loged in
-        if currentUser.isEmpty {
+        if currentUser == nil {
             
             deleteAllData(entity: FRIENDS_ENTITY)
             deleteAllData(entity: OWNED_BOOK_ENTITY)
@@ -143,6 +151,7 @@ class CoreDataClass {
                 let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
                 managedContext.delete(managedObjectData)
             }
+            print("All data deleted in entity: \(entity)")
         } catch let error as NSError {
             print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
         }

@@ -24,6 +24,7 @@ class FirebaseDatabase {
     let FRIENDS_SUB_COLLECTION = "Friends"
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
     let WISHLIST_SUB_COLLECTION = "WishList"
+    let HISTORY_SUB_COLLECTION = "History"
     
     //MARK: Firestore Fields Names
     let USERNAME_FIELD = "UserName"
@@ -45,7 +46,7 @@ class FirebaseDatabase {
     }
     
     //MARK: Add Methods to Firestore
-    //MARK: Adding New User to Firestore when user Sign Up
+    //Adding New User to Firestore when user Sign Up
     func addNewUserToFirestore(userName: String, email: String) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(email).setData([
@@ -58,7 +59,7 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Adding Book to OwnedBook Collection
+    //Adding Book to OwnedBook Collection
     func addToOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
@@ -73,7 +74,7 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Adding Book to WishList
+    //Adding Book to WishList
     func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WISHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
@@ -86,7 +87,7 @@ class FirebaseDatabase {
         }
     }
     
-    //MARK: Add New Friend
+    //Add a New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool) {
        
         let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail)
@@ -106,11 +107,12 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Add Number of Swaps
+    //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
     func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
         
         let ref = db.collection(USERS_MAIN_COLLECTIN).document(currentUserEmail)
         
+        //Incrementing number of swap field stored inside Firestore:Users/currentUser
         incrementNumberOfSwapsInUserCollection(currentUserEmail: currentUserEmail, ref: ref)
         
         // Incrememnt the NumberOfSwaps field by 1.
@@ -127,6 +129,7 @@ class FirebaseDatabase {
     }
     
     
+    //Method increments field "numberOfSwaps" inside Firestore: Users/currentUser document
     private func incrementNumberOfSwapsInUserCollection (currentUserEmail: String, ref: DocumentReference) {
         
         // Incrememnt the NumberOfFriends field by 1.
@@ -140,8 +143,8 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Read Methods from Firestore
-    //MARK: Get Number of Friends
+    //MARK: Get Methods from Firestore
+    //Get Number of Friends
     func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
@@ -174,10 +177,8 @@ class FirebaseDatabase {
         }
     }
     
-    
+    //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
     func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
-    //func getListOfFriends(usersEmail: String){
-        
         db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
             
             var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
@@ -207,6 +208,28 @@ class FirebaseDatabase {
             var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
             
             if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
+                
+                var index = 0
+                for document in querySnapshot!.documents {
+                    dictionary[index] = document.data()
+                    index += 1
+                }
+            }
+            
+            completion(dictionary)
+        }
+    }
+    
+    
+    //Get history data from Firestore: Users/currentUser/History/friendsEmail/
+    func getHistoryData (usersEmail: String, friendsEmail: String, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()){
+        
+        //Users/"user'sEmail"/SubCollection
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+            
+            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+            
+            if (self.checkError(error: error , whileDoing: "getting history data from History Collection")) {
                 
                 var index = 0
                 for document in querySnapshot!.documents {

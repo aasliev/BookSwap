@@ -19,8 +19,8 @@ class FirebaseAuth {
     private init() {
     }
     
-    func getCurrentUserEmail() -> String {
-        return (authInstance.currentUser?.email)!
+    func getCurrentUserEmail() -> String? {
+        return authInstance.currentUser?.email
         
     }
     

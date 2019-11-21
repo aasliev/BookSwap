@@ -24,17 +24,17 @@ class HomeScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
-//            //print(dict as AnyObject)
-//            CoreDataClass.sharedCoreData.addBooksIntoOwnedBook(dictionary: dict)
-//            var j = 0
-//            for (index, data) in dict {
+//        let anArray = ["pirova@mani.zha", "aolimov@gmail.com", "Smith@gmail.com", "dryzhko@gmail.com"]
 //
-//                //print("Index is: \(index) \nData is: \(data) \nData[BookName] : \(data["BookName"])")
-//                //print("Data is:BookName is \(dict[j]!["BookName"]!), Auther is\(dict[j]!["Author"]!), Status is \(type(of: dict[j]!["BooksStatus"]!)) ")
-//                j += 1
+//        for i in anArray {
+//            databaseIstance.getUserName(usersEmail: i) { (userName) in
+//
+//                self.databaseIstance.addNewFriend(currentUserEmail: self.authInstance.getCurrentUserEmail(), friendsEmail: i, friendsUserName: userName, recursion: true)
 //            }
-//        }
+        databaseIstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            CoreDataClass.sharedCoreData.addFriendList(dictionary: dict)
+            
+        }
         
     }
     
@@ -59,11 +59,8 @@ class HomeScreen: UIViewController {
                 } else{
                     print("Log in Successful!")
                     
-                    self.databaseIstance.getListOfOwnedBookOrWishList(usersEmail: self.authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
-                        
-                        CoreDataClass.sharedCoreData.addBooksIntoOwnedBook(dictionary: dict)
-                    }
-                    
+                    CoreDataClass.sharedCoreData.updateCoreData()
+                
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     
     

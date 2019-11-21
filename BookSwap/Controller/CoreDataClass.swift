@@ -19,6 +19,7 @@ class CoreDataClass {
     //Singleton
     static let sharedCoreData = CoreDataClass()
     let databaseInstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     private init() {}
@@ -27,6 +28,21 @@ class CoreDataClass {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
+    
+    func updateCoreData () {
+        
+        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            self.addFriendList(dictionary: dict)
+        }
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
+            self.addBooksIntoOwnedBook(dictionary: dict)
+        }
+        
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
+            self.addBooksIntoWishList(dictionary: dict)
+        }
+        
+    }
     
     //Adding books into OwnedBook when user signUp
     func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {

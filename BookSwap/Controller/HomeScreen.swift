@@ -59,11 +59,8 @@ class HomeScreen: UIViewController {
                 } else{
                     print("Log in Successful!")
                     
-                    self.databaseIstance.getListOfOwnedBookOrWishList(usersEmail: self.authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
-                        
-                        CoreDataClass.sharedCoreData.addBooksIntoOwnedBook(dictionary: dict)
-                    }
-                    
+                    CoreDataClass.sharedCoreData.updateCoreData()
+                
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     
     

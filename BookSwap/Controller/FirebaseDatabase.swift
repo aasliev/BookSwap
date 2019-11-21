@@ -175,14 +175,14 @@ class FirebaseDatabase {
     }
     
     
-    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String  , Any>)->()){
+    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
     //func getListOfFriends(usersEmail: String){
         
         db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
             
-            var dictionary : Dictionary<String, Any> = [:]
+            var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
             
-            if (self.checkError(error: error! , whileDoing: "getting list of friends")) {
+            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
                 
                 for document in querySnapshot!.documents {
                     dictionary[document.documentID] = document.data()

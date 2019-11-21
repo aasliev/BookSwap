@@ -31,10 +31,6 @@ class HomeScreen: UIViewController {
 //
 //                self.databaseIstance.addNewFriend(currentUserEmail: self.authInstance.getCurrentUserEmail(), friendsEmail: i, friendsUserName: userName, recursion: true)
 //            }
-        databaseIstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
-            CoreDataClass.sharedCoreData.addFriendList(dictionary: dict)
-            
-        }
         
     }
     

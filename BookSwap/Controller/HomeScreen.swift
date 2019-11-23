@@ -31,7 +31,7 @@ class HomeScreen: UIViewController {
 //
 //                self.databaseIstance.addNewFriend(currentUserEmail: self.authInstance.getCurrentUserEmail(), friendsEmail: i, friendsUserName: userName, recursion: true)
 //            }
-        
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     
@@ -55,7 +55,7 @@ class HomeScreen: UIViewController {
                 } else{
                     print("Log in Successful!")
                     
-                    CoreDataClass.sharedCoreData.updateCoreData()
+                    //CoreDataClass.sharedCoreData.updateCoreData()
                 
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     

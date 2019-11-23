@@ -15,7 +15,7 @@ class FirebaseDatabase {
     static let shared = FirebaseDatabase()
     
     //MARK: Firestore Database Istance
-    let sm = FirebaseApp.configure()
+    let config = FirebaseApp.configure()
     let db = Firestore.firestore()
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     
@@ -239,6 +239,44 @@ class FirebaseDatabase {
             }
             
             completion(dictionary)
+        }
+    }
+    
+    
+    //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
+    func getRating(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        
+        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
+            var userRating : Int = 0
+            
+            if let document = document, document.exists {
+                userRating = document.get(self.RATING_FIELD)as! Int
+                
+                print("Rating from Firestore: \(userRating )")
+            } else {
+                print("\(self.RATING_FIELD) field does not exist")
+            }
+            completion(userRating)
+        }
+    }
+    
+    //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfFriends"
+    func getNumberOfSwaps(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        
+        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
+            var numberOfSwaps : Int = 0
+            
+            if let document = document, document.exists {
+                
+                numberOfSwaps = document.get(self.NUMBER_OF_SWAPS_FIELD)as! Int
+                
+                print("Rating from Firestore: \(numberOfSwaps )")
+            } else {
+                print("\(self.NUMBER_OF_SWAPS_FIELD) field does not exist")
+            }
+            completion(numberOfSwaps)
         }
     }
     

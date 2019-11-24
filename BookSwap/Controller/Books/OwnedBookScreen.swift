@@ -31,6 +31,7 @@ class OwnedBookScreen: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
         cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
         cell.authorOfTheBook?.text = itemArray[indexPath.row].author
+        cell.swap.isHidden = true
         return cell
     }
     

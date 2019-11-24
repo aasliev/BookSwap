@@ -11,6 +11,8 @@ import UIKit
 class FriendsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var add: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

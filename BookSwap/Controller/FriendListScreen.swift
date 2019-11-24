@@ -35,6 +35,7 @@ class FriendListScreen: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendsCell", for: indexPath) as! FriendsTableViewCell
         cell.userName?.text = itemArray[indexPath.row].friendsEmail
+        cell.add.isHidden = true
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps
         //cell.imageView!.image = UIImage(named: "bookcrab.png")
         return cell

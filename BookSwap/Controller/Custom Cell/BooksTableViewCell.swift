@@ -12,8 +12,9 @@ class BooksTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var nameOfTheBook: UILabel!
-    
     @IBOutlet weak var authorOfTheBook: UILabel!
+    @IBOutlet weak var swap: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

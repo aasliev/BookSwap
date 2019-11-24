@@ -27,6 +27,7 @@ class FirebaseDatabase {
     let HISTORY_SUB_COLLECTION = "History"
     
     //MARK: Firestore Fields Names
+    let USER_EMAIL_FIELD = "Email"
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
     let RATING_FIELD = "Rating"
@@ -50,9 +51,11 @@ class FirebaseDatabase {
     func addNewUserToFirestore(userName: String, email: String) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(email).setData([
+            USER_EMAIL_FIELD: email,
             USERNAME_FIELD  : userName,
             NUMBER_OF_SWAPS_FIELD : 0,
-            RATING_FIELD : 5.0])
+            RATING_FIELD : 5.0,
+            NUMBEROFFRIENDS_FIELD: 0])
         { err in
              _ = self.checkError(error: err, whileDoing: "adding new user to firebase")
         }
@@ -100,13 +103,17 @@ class FirebaseDatabase {
             
         ]) { err in
             
-            if(self.checkError(error: err, whileDoing: "adding new friend") && recursion){
-                self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getUserName(), recursion: false)
+            if(self.checkError(error: err, whileDoing: "adding new friend")){
+                self.incrementNumberOfFriends(userEmail: currentUserEmail)
+                if(recursion) {
+                    self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getUserName(), recursion: false)
+                    
+                }
             }
         }
     }
     
-    
+    //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
     func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
         
@@ -143,25 +150,41 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Get Methods from Firestore
-    //Get Number of Friends
-    func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
+    //Method increments field "numberOfFriends" inside Firestore: Users/currentUser document
+    private func incrementNumberOfFriends (userEmail: String) {
         
-        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
-            
-            if let document = document, document.exists {
-                self.numberOfFriends = document.get(self.NUMBEROFFRIENDS_FIELD)as! Int
-                
-                print("Number of Friends from Firestore: \(self.numberOfFriends )")
-            } else {
-                print("\(self.NUMBEROFFRIENDS_FIELD) field does not exist")
-            }
-            completion(self.numberOfFriends)
+        let ref = db.collection(USERS_MAIN_COLLECTIN).document(userEmail)
+        // Incrememnt the NumberOfFriends field by 1.
+        ref.updateData([
+            self.NUMBEROFFRIENDS_FIELD: FieldValue.increment(Int64(1))
+        ]) {
+            error in
+            _ = self.checkError(error: error, whileDoing: "increasing number of swaps of current user")
         }
+        
     }
     
     
     //MARK: Get Document
+    //Search Friends
+    func getListOfSearchFriends(usersEmail: String, contains: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
+        
+        db.collection(USERS_MAIN_COLLECTIN).whereField(USER_EMAIL_FIELD, arrayContains: contains).getDocuments { (querySnapshot, error) in
+            
+            var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
+            
+            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
+                
+                for document in querySnapshot!.documents {
+                    dictionary[document.documentID] = document.data()
+                }
+            }
+            
+            completion(dictionary)
+        }
+    }
+    
+    
     //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
     func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
         db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
@@ -228,7 +251,7 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Get Fields of Document
+    //MARK: Get Fieldsof Document
     //Gets the field of current user from Firestore: Users/currentUser/Document "Field"
     func getFieldData(usersEmail: String, fieldName: String, completion: @escaping (Any)->()) {
         
@@ -250,6 +273,18 @@ class FirebaseDatabase {
         }
     }
     
+    
+    //Get Number of Friends
+    func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        getFieldData(usersEmail: usersEmail, fieldName: NUMBEROFFRIENDS_FIELD) { numberOfFriends in
+            
+            completion(numberOfFriends as! Int)
+            
+        }
+    }
+    
+    
     //Method gets username of given email of a user
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
@@ -270,7 +305,7 @@ class FirebaseDatabase {
         }
     }
     
-    //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfFriends"
+    //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfSwaps"
     func getNumberOfSwaps(usersEmail: String, completion: @escaping (Int)->()) {
         
         getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in

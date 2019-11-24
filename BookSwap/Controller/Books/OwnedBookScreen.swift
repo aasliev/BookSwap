@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class OwnedBookScreen: UITableViewController {
     var itemArray = [OwnedBook]()
@@ -19,6 +20,7 @@ class OwnedBookScreen: UITableViewController {
         // Do any additional setup after loading the view.
         print("inside ownedBookScreen")
         loadItems()
+        tableView.rowHeight = 80
     }
     
     
@@ -32,6 +34,7 @@ class OwnedBookScreen: UITableViewController {
         cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
         cell.authorOfTheBook?.text = itemArray[indexPath.row].author
         cell.swap.isHidden = true
+        cell.delegate = self
         return cell
     }
     
@@ -88,5 +91,24 @@ extension OwnedBookScreen: UISearchBarDelegate
             tableView.reloadData()
         }
     }
+    
+}
+
+//MARK: SwipeCellKit
+extension OwnedBookScreen: SwipeTableViewCellDelegate{
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            print("delete challenge")
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "trash-icon")
+        
+        return [deleteAction]
+    }
+    
     
 }

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class FriendsTableViewCell: UITableViewCell {
+class FriendsTableViewCell: SwipeTableViewCell {
 
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var add: UIButton!

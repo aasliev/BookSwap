@@ -13,11 +13,12 @@ class ProfileScreen: UIViewController {
 
     
     @IBOutlet weak var userNameLbl: UILabel!
-
-    @IBOutlet weak var tempNumberOfFriends: UILabel!
+    @IBOutlet weak var rating_numberOfSwaps: UILabel!
     
     //Firebase Authentication instance
     let firebaseAuth = Auth.auth()
+    let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
     
     
     override func viewDidLoad() {
@@ -38,9 +39,23 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
-        let userName : String  = (firebaseAuth.currentUser?.displayName ?? "Username")
+        userNameLbl.text = (authInstance.getUserName())
         
-        userNameLbl.text = userName
+        
+        databaseIstance.getRating(usersEmail: authInstance.getCurrentUserEmail()!) { (rating) in
+            self.rating_numberOfSwaps.text = "Rating: \(rating)"
+            
+            //Updating Number of swps user has done
+            self.databaseIstance.getNumberOfSwaps(usersEmail: self.authInstance.getCurrentUserEmail()!) { (numberOfSwaps) in
+                self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
+                print("this is Swaps \(numberOfSwaps)")
+            }
+        }
+        
+        
+        
+        //rating_numberOfSwaps.text = "4.5 / 10"
+        
         
     }
     
@@ -53,6 +68,7 @@ class ProfileScreen: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             
             // Sign Out the user from Firebase Auth
+
             do {
                 try self.firebaseAuth.signOut()
                 //CoreDataClass.sharedCoreData.clearAllEntity()
@@ -60,6 +76,7 @@ class ProfileScreen: UIViewController {
             } catch let signOutError as NSError {
                 print ("Error signing out: %@", signOutError)
             }
+            self.authInstance.signOutCurrentUser()
             
             self.navigationController?.navigationBar.isHidden = true;
             

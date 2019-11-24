@@ -45,6 +45,19 @@ class FirebaseAuth {
         return (authInstance.currentUser?.displayName) ?? "User Name"
     }
     
+    func resetPassword(email: String, viewController: UIViewController){
+        authInstance.sendPasswordReset(withEmail: email) { (error) in
+            
+            if (error != nil) {
+                if let errorMsg = AuthErrorCode(rawValue: error!._code){
+                    
+                    //Method inside additionalFunction class shows error
+                    self.commonFunctions.showError(error: error, errorMsg: errorMsg, screen: viewController)
+                }
+            }
+        }
+    }
+    
 //    //Perform the sign in method
 //    func signInToFirebaseAuth (email: String, password: String, screen: UIViewController) -> Bool {
 //

@@ -161,22 +161,7 @@ class FirebaseDatabase {
     }
     
     
-    //Method gets username of given email of a user
-    func getUserName(usersEmail: String, completion: @escaping (String)->()){
-        
-        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
-            var userName = ""
-            if let document = document, document.exists {
-                userName = document.get(self.USERNAME_FIELD) as! String
-                
-                print("Username of Friends from Firestore: \(userName )")
-            } else {
-                print("\(self.USERNAME_FIELD) field does not exist")
-            }
-            completion(userName)
-        }
-    }
-    
+    //MARK: Get Document
     //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
     func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
         db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
@@ -243,40 +228,55 @@ class FirebaseDatabase {
     }
     
     
-    //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
-    func getRating(usersEmail: String, completion: @escaping (Int)->()) {
+    //MARK: Get Fields of Document
+    //Gets the field of current user from Firestore: Users/currentUser/Document "Field"
+    func getFieldData(usersEmail: String, fieldName: String, completion: @escaping (Any)->()) {
         
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
-            var userRating : Int = 0
             
             if let document = document, document.exists {
-                userRating = document.get(self.RATING_FIELD)as! Int
                 
-                print("Rating from Firestore: \(userRating )")
+                let fieldData = document.get(fieldName)
+                print("\(fieldName) : \(String(describing: fieldData) )")
+                
+                completion(fieldData as Any)
+                
             } else {
-                print("\(self.RATING_FIELD) field does not exist")
+                print("\(fieldName) field does not exist")
+                completion(nanl)
             }
-            completion(userRating)
+            //completion(userRating)
+        }
+    }
+    
+    //Method gets username of given email of a user
+    func getUserName(usersEmail: String, completion: @escaping (String)->()){
+        
+        getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { userName in
+            
+            completion(userName as! String)
+            
+        }
+    }
+    
+    //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
+    func getRating(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        getFieldData(usersEmail: usersEmail, fieldName: RATING_FIELD) { rating in
+            
+            completion(rating as! Int)
+            
         }
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfFriends"
     func getNumberOfSwaps(usersEmail: String, completion: @escaping (Int)->()) {
         
-        
-        db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
-            var numberOfSwaps : Int = 0
+        getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in
             
-            if let document = document, document.exists {
-                
-                numberOfSwaps = document.get(self.NUMBER_OF_SWAPS_FIELD)as! Int
-                
-                print("Rating from Firestore: \(numberOfSwaps )")
-            } else {
-                print("\(self.NUMBER_OF_SWAPS_FIELD) field does not exist")
-            }
-            completion(numberOfSwaps)
+            completion(swaps as! Int)
+            
         }
     }
     

@@ -39,7 +39,12 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
-        userNameLbl.text = (authInstance.getUserName())
+        
+        //userNameLbl.text = (authInstance.getUserName())
+        
+        databaseIstance.getUserName(usersEmail: authInstance.getCurrentUserEmail()!) { (userName) in
+            self.userNameLbl.text = userName
+        }
         
         
         databaseIstance.getRating(usersEmail: authInstance.getCurrentUserEmail()!) { (rating) in

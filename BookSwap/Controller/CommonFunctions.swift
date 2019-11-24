@@ -57,7 +57,7 @@ class CommonFunctions{
             createUIalert("Network Error.", screen)
             break
         case .userNotFound:
-            createUIalert("Email or Pasword is wrong", screen)
+            createUIalert("Email Not Found!", screen)
             break
         case .wrongPassword:
            createUIalert("Email or Pasword is wrong", screen)

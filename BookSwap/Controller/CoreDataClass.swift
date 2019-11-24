@@ -120,7 +120,7 @@ class CoreDataClass {
             deleteAllData(entity: WISH_LIST_ENTITY)
             
         } else {
-            print("Error while clearing all entities. \(currentUser) is still loged in.")
+            print("Error while clearing all entities. \(currentUser!) is still loged in.")
         }
     }
     func saveContext() {

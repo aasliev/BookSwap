@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-
+import SwipeCellKit
 class WishListScreen: UITableViewController {
 
     var itemArray = [WishList]()
@@ -19,6 +19,8 @@ class WishListScreen: UITableViewController {
 
         // Do any additional setup after loading the view.
         loadItems()
+        tableView.rowHeight = 80
+
     }
     
     
@@ -31,6 +33,8 @@ class WishListScreen: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wishCell", for: indexPath) as! WishListTableViewCell
         cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
         cell.authorOfTheBook?.text = itemArray[indexPath.row].author
+        
+        cell.delegate = self
         return cell
     }
     
@@ -89,6 +93,26 @@ extension WishListScreen: UISearchBarDelegate
             tableView.reloadData()
         }
     }
+    
+}
+
+//MARK: SwipeCellKit
+
+extension WishListScreen: SwipeTableViewCellDelegate{
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            print("delete challenge")
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "trash-icon")
+        
+        return [deleteAction]
+    }
+    
     
 }
 

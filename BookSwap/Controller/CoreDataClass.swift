@@ -124,13 +124,13 @@ class CoreDataClass {
         }
     }
     func saveContext() {
-        
-        do {
-            try getContext().save()
-            print("Context is saved.")
-        } catch {
-            print("Error saving context \(error)")
-        }
+        AppDelegate().saveContext()
+//        do {
+//            try getContext().save()
+//            print("Context is saved.")
+//        } catch {
+//            print("Error saving context \(error)")
+//        }
         
     }
     

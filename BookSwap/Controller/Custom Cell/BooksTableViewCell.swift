@@ -7,13 +7,15 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class BooksTableViewCell: UITableViewCell {
+class BooksTableViewCell: SwipeTableViewCell {
 
     
     @IBOutlet weak var nameOfTheBook: UILabel!
-    
     @IBOutlet weak var authorOfTheBook: UILabel!
+    @IBOutlet weak var swap: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

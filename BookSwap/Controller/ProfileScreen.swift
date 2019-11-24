@@ -68,6 +68,14 @@ class ProfileScreen: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             
             // Sign Out the user from Firebase Auth
+
+            do {
+                try self.firebaseAuth.signOut()
+                //CoreDataClass.sharedCoreData.clearAllEntity()
+                
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
             self.authInstance.signOutCurrentUser()
             
             self.navigationController?.navigationBar.isHidden = true;

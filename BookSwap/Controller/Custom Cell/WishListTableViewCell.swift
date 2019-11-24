@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class WishListTableViewCell: UITableViewCell {
+class WishListTableViewCell: SwipeTableViewCell {
 
     @IBOutlet weak var nameOfTheBook: UILabel!
     @IBOutlet weak var authorOfTheBook: UILabel!

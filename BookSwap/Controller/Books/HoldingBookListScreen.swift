@@ -14,6 +14,7 @@ class HoldingBookListScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80
 
         // Do any additional setup after loading the view.
     }

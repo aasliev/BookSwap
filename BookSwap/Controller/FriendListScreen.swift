@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import CoreData
+import SwipeCellKit
 
 
 class FriendListScreen: UITableViewController {
@@ -22,7 +23,7 @@ class FriendListScreen: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         loadItems()
-
+        tableView.rowHeight = 80
     }
     
     //MARK: TableView DataSource Methods
@@ -35,8 +36,10 @@ class FriendListScreen: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendsCell", for: indexPath) as! FriendsTableViewCell
         cell.userName?.text = itemArray[indexPath.row].friendsEmail
+        cell.add.isHidden = true
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps
         //cell.imageView!.image = UIImage(named: "bookcrab.png")
+        cell.delegate = self
         return cell
     }
     
@@ -92,5 +95,27 @@ extension FriendListScreen: UISearchBarDelegate
             tableView.reloadData()
         }
     }
+    
+}
+
+
+
+//MARK: SWipe CEll Kit
+
+extension FriendListScreen: SwipeTableViewCellDelegate{
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            print("delete challenge")
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "trash-icon")
+        
+        return [deleteAction]
+    }
+    
     
 }

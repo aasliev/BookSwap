@@ -37,13 +37,24 @@ class FirebaseDatabase {
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
     
+    //MARK: Collection Paths
+    let USER_COLLECTION_PATH : String
+    
+    //MARK: Collection Reference
+    let USER_COLLECTION_REF : CollectionReference
+    
+    
+    
     var numberOfFriends = 0
     
     private init() {
+        
+        USER_COLLECTION_REF = db.collection(USERS_MAIN_COLLECTIN)
+        
+        USER_COLLECTION_PATH = "\(USERS_MAIN_COLLECTIN)"
     }
 
     func getFriendsData () {
-        
     }
     
     //MARK: Add Methods to Firestore
@@ -104,7 +115,7 @@ class FirebaseDatabase {
         ]) { err in
             
             if(self.checkError(error: err, whileDoing: "adding new friend")){
-                self.incrementNumberOfFriends(userEmail: currentUserEmail)
+                self.increment_OR_DecrementNumberOfFriends(userEmail: currentUserEmail, by: 1)
                 if(recursion) {
                     self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getUserName(), recursion: false)
                     
@@ -151,15 +162,15 @@ class FirebaseDatabase {
     
     
     //Method increments field "numberOfFriends" inside Firestore: Users/currentUser document
-    private func incrementNumberOfFriends (userEmail: String) {
+    private func increment_OR_DecrementNumberOfFriends (userEmail: String, by: Int) {
         
         let ref = db.collection(USERS_MAIN_COLLECTIN).document(userEmail)
         // Incrememnt the NumberOfFriends field by 1.
         ref.updateData([
-            self.NUMBEROFFRIENDS_FIELD: FieldValue.increment(Int64(1))
+            self.NUMBEROFFRIENDS_FIELD: FieldValue.increment(Int64(by))
         ]) {
             error in
-            _ = self.checkError(error: error, whileDoing: "increasing number of swaps of current user")
+            _ = self.checkError(error: error, whileDoing: "increasing or decreasing number of friends")
         }
         
     }
@@ -313,6 +324,46 @@ class FirebaseDatabase {
             completion(swaps as! Int)
             
         }
+    }
+    
+    
+    //MARK: Delete Document
+    //Method to delete field
+    private func deleteDocument(documentPath: String, documentName: String) {
+        db.collection(documentPath).document(documentName).delete()
+        
+    }
+    
+    
+    //Remove book from OwnedBook from Firestore: Users/currentUser/OwnedBook/Document "BookName-AuthoName"
+    func removeOwnedBook (bookName: String, bookAuthor: String) {
+        
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(OWNEDBOOK_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
+        
+    }
+    
+    
+    //Remove book from OwnedBook from Firestore: Users/currentUser/WishList/Document "BookName-AuthoName"
+    func removeWishListBook (bookName: String, bookAuthor: String) {
+        
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(WISHLIST_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
+        
+    }
+    
+    
+    //Remove Friend from Friends from Firestore: Users/currentUser/Friends/Document "friend's email"
+    func removeFriend (friendsEmail: String ){
+        
+        //Removing as friend from current user's  friends collection
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(friendsEmail)")
+        
+        increment_OR_DecrementNumberOfFriends(userEmail: authInstance.getCurrentUserEmail()!, by: -1)
+        
+        //Removing as friend from other user's (Friend of current user) friends collection
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail()!)")
+        
+        increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
+        
     }
     
     

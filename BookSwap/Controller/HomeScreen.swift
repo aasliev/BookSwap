@@ -24,19 +24,7 @@ class HomeScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-//        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, contains: "@") { (dict) in
-//            print(dict as AnyObject)
-//        }
-        //self.databaseIstance.addNewFriend(currentUserEmail: self.authInstance.getCurrentUserEmail()!, friendsEmail: "dryzhko@gmail.com", friendsUserName: "Dziyana Ryzhko", recursion: true)
-//        let anArray = ["pirova@mani.zha", "aolimov@gmail.com", "Smith@gmail.com", "dryzhko@gmail.com"]
-//
-//        for i in anArray {
-//            databaseIstance.getUserName(usersEmail: i) { (userName) in
-//
-//                self.databaseIstance.addNewFriend(currentUserEmail: self.authInstance.getCurrentUserEmail(), friendsEmail: i, friendsUserName: userName, recursion: true)
-//            }
-        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        //databaseIstance.removeFriend(friendsEmail: "Smith@gmail.com")
     }
     
     

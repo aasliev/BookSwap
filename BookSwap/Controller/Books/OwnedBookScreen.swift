@@ -11,8 +11,11 @@ import CoreData
 import SwipeCellKit
 
 class OwnedBookScreen: UITableViewController {
+    
     var itemArray = [OwnedBook]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
 
     
     override func viewDidLoad() {
@@ -102,6 +105,11 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
             self.context.delete(self.itemArray[indexPath.row])
+            
+            //Using itemArray gettin name of book and book's author.
+            self.databaseIstance.removeOwnedBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+            
+            //Removing the data from itemArray
             self.itemArray.remove(at: indexPath.row)
             self.saveItems()
         }

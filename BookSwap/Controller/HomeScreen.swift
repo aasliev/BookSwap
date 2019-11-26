@@ -48,7 +48,7 @@ class HomeScreen: UIViewController {
                 } else{
                     print("Log in Successful!")
                     
-                    //CoreDataClass.sharedCoreData.updateCoreData()
+                    CoreDataClass.sharedCoreData.updateCoreData()
                 
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     

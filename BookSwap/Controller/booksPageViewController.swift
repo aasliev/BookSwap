@@ -193,23 +193,18 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         if(viewControllerNumber == 1){
             //save inside the owned books
             let tmpBook = OwnedBook(context: self.context)
-            
-            let tmpBookScreen = OwnedBookScreen()
             tmpBook.author = author
             tmpBook.bookName = title
             tmpBook.status = true
-            tmpBookScreen.saveItems()
-            //tmpBookScreen.tableView.reloadData()
-            //tmpBookScreen.loadItems()
-            //print("saved items")
+            
         } else {
             //
             let tmpWishBook = WishList(context: self.context)
-            let tmpBookScreen = WishListScreen()
             tmpWishBook.author = author
             tmpWishBook.bookName = title
-            tmpBookScreen.saveItems()
         }
+        CoreDataClass.sharedCoreData.saveItems()
+
     }
     
 }

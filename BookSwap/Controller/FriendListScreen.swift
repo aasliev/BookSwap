@@ -54,18 +54,6 @@ class FriendListScreen: UITableViewController {
         }
         
     }
-    
-    func saveItems()
-    {
-        do {
-            try context.save()
-            print("saved")
-        } catch {
-            print("Error saving context \(error)")
-        }
-        self.tableView.reloadData()
-        
-    }
 
 }
 
@@ -110,7 +98,7 @@ extension FriendListScreen: SwipeTableViewCellDelegate{
             // handle action by updating model with deletion
             self.context.delete(self.itemArray[indexPath.row])
             self.itemArray.remove(at: indexPath.row)
-            self.saveItems()
+            CoreDataClass.sharedCoreData.saveItems()
         }
         
         // customize the action appearance

@@ -51,20 +51,6 @@ class WishListScreen: UITableViewController {
         }
         
     }
-    
-    func saveItems()
-    {
-        do {
-            try context.save()
-            print("saved")
-        } catch {
-            print("Error saving context \(error)")
-        }
-        self.tableView.reloadData()
-        
-    }
-
-    
 }
 
 
@@ -114,11 +100,8 @@ extension WishListScreen: SwipeTableViewCellDelegate{
             
             //Removing the data from itemArray
             self.itemArray.remove(at: indexPath.row)
-            self.saveItems()
-            
-            
-            
-            
+            CoreDataClass.sharedCoreData.saveItems()
+            self.tableView.reloadData()
         }
         
         // customize the action appearance

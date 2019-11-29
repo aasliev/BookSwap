@@ -16,6 +16,7 @@ class HistoryScreen: UITableViewController {
 
         // Do any additional setup after loading the view.
         self.title = "History"
+        tableView.rowHeight = 80
     }
     
     override func viewDidAppear(_ animated: Bool) {

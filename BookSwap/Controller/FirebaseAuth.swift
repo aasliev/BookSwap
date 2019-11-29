@@ -30,7 +30,7 @@ class FirebaseAuth {
         
         do {
             try self.authInstance.signOut()
-            CoreDataClass.sharedCoreData.clearAllEntity()
+            //CoreDataClass.sharedCoreData.clearAllEntity()
             
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)

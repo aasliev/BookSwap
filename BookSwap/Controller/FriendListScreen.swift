@@ -98,7 +98,7 @@ extension FriendListScreen: SwipeTableViewCellDelegate{
             // handle action by updating model with deletion
             self.context.delete(self.itemArray[indexPath.row])
             self.itemArray.remove(at: indexPath.row)
-            CoreDataClass.sharedCoreData.saveItems()
+            CoreDataClass.sharedCoreData.saveContext()
         }
         
         // customize the action appearance

@@ -100,7 +100,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
             
             //Removing the data from itemArray
             self.itemArray.remove(at: indexPath.row)
-            CoreDataClass.sharedCoreData.saveItems()
+            CoreDataClass.sharedCoreData.saveContext()
         }
         
         // customize the action appearance

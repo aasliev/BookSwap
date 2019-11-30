@@ -76,8 +76,7 @@ class ProfileScreen: UIViewController {
 
             do {
                 try self.firebaseAuth.signOut()
-                //CoreDataClass.sharedCoreData.clearAllEntity()
-                CoreDataClass.sharedCoreData.resetAllEntities()
+                //CoreDataClass.sharedCoreData.resetAllEntities()
                 
             } catch let signOutError as NSError {
                 print ("Error signing out: %@", signOutError)

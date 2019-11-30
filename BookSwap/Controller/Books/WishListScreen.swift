@@ -101,13 +101,18 @@ extension WishListScreen: SwipeTableViewCellDelegate{
             //Removing the data from itemArray
             self.itemArray.remove(at: indexPath.row)
             CoreDataClass.sharedCoreData.saveItems()
-            self.tableView.reloadData()
         }
         
         // customize the action appearance
         deleteAction.image = UIImage(named: "trash-icon")
         
         return [deleteAction]
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        return options
     }
     
     

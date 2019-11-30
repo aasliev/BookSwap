@@ -43,39 +43,32 @@ class CoreDataClass {
     
     
     func updateCoreData() {
-
-        var bookList = [OwnedBook(context: self.context)]
-        var wishList = [WishList(context: self.context)]
-        var friendList = [Friends(context: self.context)]
-
-        bookList = getBooksFromFirebase()
-        wishList = getWishListFromFirebase()
-        friendList = getFriendsFromFirebase()
-
-        self.saveItems()
-
+        getBooksFromFirebase()
+        getWishListFromFirebase()
+        getFriendsFromFirebase()
     }
     
     
     //read data from firebase...
-    func getBooksFromFirebase() -> [OwnedBook] {
+    func getBooksFromFirebase(){
 
-        var tmp = [OwnedBook]()
-
-        return tmp
+        var bookList = [OwnedBook(context: self.context)]
+        //read data into tmp variable
+        
+        self.saveItems()
     }
 
-    func getWishListFromFirebase() -> [WishList] {
-        var tmp = [WishList]()
-        
-        return tmp
+    func getWishListFromFirebase() {
+        var wishList = [WishList(context: self.context)]
+
+        self.saveItems()
     }
 
-    func getFriendsFromFirebase() -> [Friends] {
-        var tmp = [Friends]()
-        
-        
-        return tmp
+    func getFriendsFromFirebase() {
+        var friendList = [Friends(context: self.context)]
+
+    
+        self.saveItems()
     }
 
     

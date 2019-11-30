@@ -203,7 +203,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             tmpWishBook.author = author
             tmpWishBook.bookName = title
         }
-        CoreDataClass.sharedCoreData.saveItems()
+        CoreDataClass.sharedCoreData.saveContext()
 
     }
     

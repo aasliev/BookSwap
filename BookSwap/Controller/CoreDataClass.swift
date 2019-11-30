@@ -16,6 +16,8 @@ class CoreDataClass {
     let OWNED_BOOK_ENTITY = "OwnedBook"
     let WISH_LIST_ENTITY = "WishList"
     
+    var ownedBook = [OwnedBook]()
+    
     
     //Singleton
     static let sharedCoreData = CoreDataClass()
@@ -25,56 +27,12 @@ class CoreDataClass {
     
     private init() {}
     
-//    func getContext() -> NSManagedObjectContext {
-//        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//    }
-    
-    // save function
-    func saveItems()
-    {
-        do {
-            try context.save()
-            print("saved")
-        } catch {
-            print("Error saving context \(error)")
-        }
-    }
-    
-    
-    
-    func updateCoreData() {
-        getBooksFromFirebase()
-        getWishListFromFirebase()
-        getFriendsFromFirebase()
-    }
-    
-    
-    //read data from firebase...
-    func getBooksFromFirebase(){
-
-        var bookList = [OwnedBook(context: self.context)]
-        //read data into tmp variable
-        
-        self.saveItems()
-    }
-
-    func getWishListFromFirebase() {
-        var wishList = [WishList(context: self.context)]
-
-        self.saveItems()
-    }
-
-    func getFriendsFromFirebase() {
-        var friendList = [Friends(context: self.context)]
-
-    
-        self.saveItems()
+    func getContext() -> NSManagedObjectContext {
+        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
 
     
-    
-    //reser CoreData
-    
+    //Use of this function is when user sign out, this method will clear all data from all entities
     func resetAllEntities() {
         let friendsFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: FRIENDS_ENTITY)
         let booksFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: OWNED_BOOK_ENTITY)
@@ -87,145 +45,125 @@ class CoreDataClass {
             try self.context.execute(friendsDeleteRequest)
             try self.context.execute(booksDeleteRequest)
             try self.context.execute(wishListDeleteRequest)
+            
+            print("Successfully Emptied Core Data.")
         } catch {
             print("Error deteting entitry \(error)")
         }
     }
     
+
+    //MARK: Update all entities
+    func updateCoreData () {
+        
+        //First, in case there is data stored inside Core Data resetAllEntities() will clear it.
+        resetAllEntities()
+
+        //Second, adding data into CoreData. Which is recived from Firestore.
+        addDataIntoEntities()
+    }
     
     
+    //Adding data of Friends, OwnedBook and WishList into Core Data Entity
+    private func addDataIntoEntities (){
+        
+        //Getting list of Friends from Firestore Database
+        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()!) { (friendDict) in
+            self.addFriendList(friendList: friendDict)
+        }
+        
+        //Getting list of OwnedBook from Firestore Database
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: true) { (dict) in
+            self.addBooksIntoOwnedBook(dictionary: dict)
+        }
+        
+        //Getting list of WishList books from Firestore Database
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: false) { (dict) in
+            self.addBooksIntoWishList(dictionary: dict)
+        }
+    }
+
+
+    //MARK: Add methods to add data to entities
+    //Adding books into OwnedBook when user signUp
+    private func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
+
+        
+        for (_, data) in dictionary {
+
+            let newOwnedBook = OwnedBook(context: getContext())
+            newOwnedBook.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            newOwnedBook.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
+            newOwnedBook.status = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
+
+            ownedBook.append(newOwnedBook)
+            
+        }
+        
+         //Once all necessary changes has been made, saving the context into persistent container.
+        saveContext()
+    }
+    
+
+    //Adding books into WishList when user signUp
+    private func addBooksIntoWishList(dictionary : Dictionary<Int, Dictionary<String, Any>>) {
+
+        //Empty Array of WishList object
+        var wishList = [WishList]()
+     
+        for (_, data) in dictionary {
+
+            //Getting the latest Context, as saveContext is called before loop ends
+            let newWishList = WishList(context: getContext())
+            newWishList.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            newWishList.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
+
+            //Adding new book into wishList array
+            wishList.append(newWishList)
+        }
+        
+         //Once all necessary changes has been made, saving the context into persistent container.
+        saveContext()
+    }
+
+
+    //Adding list of friends and their details inside Core Data Model
+    private func addFriendList (friendList : Dictionary<String , Dictionary<String  , Any>>) {
+
+        var friends = [Friends]()
+
+        for (userEmail, data) in friendList {
+
+            //Getting the latest Context, as saveContext is called before loop ends
+
+            let newFriend = Friends(context: getContext())
+            newFriend.friendsEmail = userEmail
+            newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
+            newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
+            
+            friends.append(newFriend)
+        }
+        
+         //Once all necessary changes has been made, saving the context into persistent container.
+        saveContext()
+    }
+
+
+    //Adding history data to core data model
+    private func addHistoryData (dictionary : Dictionary<String, Dictionary<String, Any>>) {
+
+    }
     
     
-    
-    
-//
-//    //MARK: Update all entities
-//    func updateCoreData () {
-//
-//        let bookList = OwnedBook(context: self.context)
-//        let wishList = WishList(context: self.context)
-//        let friendList = Friends(context: self.context)
-//
-//        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()!) { (friendList) in
-//            self.addFriendList(friends: friendList)
-//        }
-//        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: true) { (dict) in
-//            self.addBooksIntoOwnedBook(dictionary: dict)
-//        }
-//
-//        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: false) { (dict) in
-//            self.addBooksIntoWishList(dictionary: dict)
-//        }
-//
-//    }
-//
-//
-//    //MARK: Add methods to add data to entities
-//    //Adding books into OwnedBook when user signUp
-//    func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
-//
-//        //let bookContext = OwnedBook(context: getContext())
-//        deleteAllData(entity: OWNED_BOOK_ENTITY)
-//
-//        for (_, data) in dictionary {
-//
-//             //Getting the latest Context, as saveContext is called before loop ends
-//
-////            context.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
-////            context.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
-////            context.status = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
-////
-//            saveContext()
-//        }
-//    }
-//
-//    //Adding books into WishList when user signUp
-//    func addBooksIntoWishList(dictionary : Dictionary<Int, Dictionary<String, Any>>) {
-//
-//        deleteAllData(entity: WISH_LIST_ENTITY)
-//
-//        for (_, data) in dictionary {
-//
-//            //Getting the latest Context, as saveContext is called before loop ends
-//
-////            context.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
-////            context.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
-////
-//            saveContext()
-//        }
-//    }
-//
-//
-//    //Adding list of friends and their details inside Core Data Model
-//    func addFriendList (friends : Friends) {
-//
-//        deleteAllData(entity: FRIENDS_ENTITY)
-//
-//        for (userEmail, data) in friends {
-//
-//            //Getting the latest Context, as saveContext is called before loop ends
-//
-////            context.friendsEmail = userEmail
-////            context.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
-////            context.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
-////
-//            saveContext()
-//        }
-//    }
-//
-//
-//    //Adding history data to core data model
-//    func addHistoryData (dictionary : Dictionary<String, Dictionary<String, Any>>) {
-//
-//    }
-//
-//
-//    //Use of this function is when user sign out, this method will clear all data from all entities
-//    func clearAllEntity ()  {
-//
-//        let currentUser = FirebaseAuth.sharedFirebaseAuth.getCurrentUserEmail()
-//        //Checking if user is still loged in
-//        if currentUser == nil {
-//
-//            deleteAllData(entity: FRIENDS_ENTITY)
-//            deleteAllData(entity: OWNED_BOOK_ENTITY)
-//            deleteAllData(entity: WISH_LIST_ENTITY)
-//
-//        } else {
-//            print("Error while clearing all entities. \(currentUser!) is still loged in.")
-//        }
-//    }
-//    func saveContext() {
-//        AppDelegate().saveContext()
-////        do {
-////            try getContext().save()
-////            print("Context is saved.")
-////        } catch {
-////            print("Error saving context \(error)")
-////        }
-//
-//    }
-//
-//
-//    //Deletes all data stored inside the entity
-//    func deleteAllData(entity: String)
-//    {
-//
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-//        fetchRequest.returnsObjectsAsFaults = false
-//
-//        do {
-//            let results = try managedContext.fetch(fetchRequest)
-//
-//            for managedObject in results {
-//                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-//                managedContext.delete(managedObjectData)
-//            }
-//            print("All data deleted in entity: \(entity)")
-//        } catch let error as NSError {
-//            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-//        }
-//    }
+    //The changes made in context, this method saves it into Persistent Container(Main SQL database)
+    func saveContext() {
+        
+        do {
+            try getContext().save()
+            print("Context is saved.")
+        } catch {
+            print("Error saving context \(error)")
+        }
+    }
+
 }

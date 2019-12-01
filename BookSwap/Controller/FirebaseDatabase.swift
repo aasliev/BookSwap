@@ -36,6 +36,7 @@ class FirebaseDatabase {
     let BOOK_STATUS_FIELD = "BooksStatus"
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
+    let LOWERCASED_USERNAME_FIELD = "LowecasedUsername"
     
     //MARK: Collection Paths
     let USER_COLLECTION_PATH : String
@@ -59,16 +60,19 @@ class FirebaseDatabase {
     
     //MARK: Add Methods to Firestore
     //Adding New User to Firestore when user Sign Up
-    func addNewUserToFirestore(userName: String, email: String) {
+    func addNewUserToFirestore(userName: String, email: String,completion: @escaping ()->() ) {
         
-        db.collection(USERS_MAIN_COLLECTIN).document(email).setData([
-            USER_EMAIL_FIELD: email,
-            USERNAME_FIELD  : userName,
-            NUMBER_OF_SWAPS_FIELD : 0,
-            RATING_FIELD : 5.0,
+        db.collection(USERS_MAIN_COLLECTIN).document(email.lowercased()).setData([
+            USER_EMAIL_FIELD: email.lowercased(),
+            USERNAME_FIELD: userName,
+            LOWERCASED_USERNAME_FIELD: userName.lowercased(),
+            NUMBER_OF_SWAPS_FIELD: 0,
+            RATING_FIELD: 5.0,
             NUMBEROFFRIENDS_FIELD: 0])
         { err in
-             _ = self.checkError(error: err, whileDoing: "adding new user to firebase")
+            if (self.checkError(error: err, whileDoing: "adding new user to firebase")){
+                completion()
+            }
         }
     }
     
@@ -178,9 +182,12 @@ class FirebaseDatabase {
     
     //MARK: Get Document
     //Search Friends
-    func getListOfSearchFriends(usersEmail: String, contains: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
+    func getListOfSearchFriends(usersEmail: String, searchText: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
         
-        db.collection(USERS_MAIN_COLLECTIN).whereField(USER_EMAIL_FIELD, arrayContains: contains).getDocuments { (querySnapshot, error) in
+        //NOTE: Because these searches are Asynchronous, search by Username is inside the closure of search by user's email.
+        //Result of doing this, will get one dictionary of all documents.
+        //First searching by user's Email
+        db.collection(USERS_MAIN_COLLECTIN).whereField(USER_EMAIL_FIELD, isEqualTo: searchText).getDocuments { (querySnapshot, error) in
             
             var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
             
@@ -191,7 +198,19 @@ class FirebaseDatabase {
                 }
             }
             
-            completion(dictionary)
+            //Once search by user's email is finished, this will search by username
+            self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.USERNAME_FIELD, isEqualTo: searchText).getDocuments { (querySnapshot, error) in
+                
+                if (self.checkError(error: error , whileDoing: "getting list of friends")) {
+                    
+                    for document in querySnapshot!.documents {
+                        dictionary[document.documentID] = document.data()
+                    }
+                }
+                
+                completion(dictionary)
+                
+            }
         }
     }
     
@@ -269,6 +288,7 @@ class FirebaseDatabase {
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
             
+            print("\n\n\nThis is an error while looking for \(fieldName):  \(error) \n\n\nThis is Document \(document)")
             if let document = document, document.exists {
                 
                 let fieldData = document.get(fieldName)
@@ -278,7 +298,7 @@ class FirebaseDatabase {
                 
             } else {
                 print("\(fieldName) field does not exist")
-                completion(nanl)
+                completion(-1)
             }
             //completion(userRating)
         }
@@ -309,9 +329,12 @@ class FirebaseDatabase {
     //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
     func getRating(usersEmail: String, completion: @escaping (Int)->()) {
         
-        getFieldData(usersEmail: usersEmail, fieldName: RATING_FIELD) { rating in
+        getFieldData(usersEmail: usersEmail.lowercased(), fieldName: RATING_FIELD){ rating in
             
-            completion(rating as! Int)
+            if (rating as! Int != -1){
+                completion(rating as! Int)
+                
+            }
             
         }
     }

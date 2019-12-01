@@ -192,17 +192,28 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         //write a function to save functions
         if(viewControllerNumber == 1){
             //save inside the owned books
-            let tmpBook = OwnedBook(context: self.context)
-            tmpBook.author = author
-            tmpBook.bookName = title
-            tmpBook.status = true
+            
+            var ownedBook = [OwnedBook]()
+            
+            let newOwnedBook = OwnedBook(context: self.context)
+            newOwnedBook.author = author
+            newOwnedBook.bookName = title
+            newOwnedBook.status = true
+            
+            ownedBook.append(newOwnedBook)
+            
             
         } else {
             //
-            let tmpWishBook = WishList(context: self.context)
-            tmpWishBook.author = author
-            tmpWishBook.bookName = title
+            var wishListArray = [WishList]()
+            let newWishListBook = WishList(context: self.context)
+            newWishListBook.author = author
+            newWishListBook.bookName = title
+            
+            wishListArray.append(newWishListBook)
         }
+        
+        //NOTE: Need to create another save method which does tableview.reloadData() once context is saved. 
         CoreDataClass.sharedCoreData.saveContext()
 
     }

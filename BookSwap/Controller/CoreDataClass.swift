@@ -155,7 +155,7 @@ class CoreDataClass {
     }
     
     
-    //The changes made in context, this method saves it into Persistent Container(Main SQL database)
+    //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {
         
         do {

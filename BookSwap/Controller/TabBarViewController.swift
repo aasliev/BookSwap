@@ -15,7 +15,7 @@ class TabBarViewController: UITabBarController {
 
         // Do any additional setup after loading the view.
         
-        //self.navigationItem.title =
+        
     }
     
 

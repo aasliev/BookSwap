@@ -60,8 +60,8 @@ class FriendListScreen: UITableViewController {
 //MARK: Search Extention
 //searches the list of your friends...
 //we have to add another query to search the Firebase database
-extension FriendListScreen: UISearchBarDelegate
-{
+extension FriendListScreen: UISearchBarDelegate {
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Friends> = Friends.fetchRequest()
         request.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@", searchBar.text!)

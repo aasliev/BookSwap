@@ -85,6 +85,8 @@ class ProfileScreen: UIViewController {
             
             self.navigationController?.navigationBar.isHidden = true;
             
+            CoreDataClass.sharedCoreData.resetAllEntities()
+            
             self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             
         }))

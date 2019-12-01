@@ -88,7 +88,37 @@ extension WishListScreen: UISearchBarDelegate
 
 extension WishListScreen: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+        guard orientation == .right else {
+            let moreAction = SwipeAction(style: .default, title: "Move") { action, indexPath in
+                //move book from wishList to Owned books
+                
+                let newOwnedBook = OwnedBook(context: self.context)
+                newOwnedBook.author = self.itemArray[indexPath.row].author
+                newOwnedBook.bookName = self.itemArray[indexPath.row].bookName
+                newOwnedBook.status = true
+                
+                
+                //deleting data from persistence container
+                self.context.delete(self.itemArray[indexPath.row])
+                
+                //deleting data from itemArray and saving Coredata context
+                self.itemArray.remove(at: indexPath.row)
+                CoreDataClass.sharedCoreData.saveContext()
+                
+                //add code to move book from wislist to owned books
+                
+                //deleting data from firebase wishList
+                
+                //self.databaseIstance.removeWishListBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                
+                
+            }
+            moreAction.image = UIImage(named: "More-icon")
+            
+            return [moreAction]
+            
+            
+            }
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             
@@ -105,7 +135,6 @@ extension WishListScreen: SwipeTableViewCellDelegate{
         
         // customize the action appearance
         deleteAction.image = UIImage(named: "trash-icon")
-        
         return [deleteAction]
     }
     

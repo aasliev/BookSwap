@@ -28,6 +28,7 @@ class SearchScreenTableViewCell: UITableViewCell {
     
     
     @IBAction func addButtonPressed(_ sender: Any) {
+        print("Add Button Pressed!! Inside Search Screen")
     }
     
 }

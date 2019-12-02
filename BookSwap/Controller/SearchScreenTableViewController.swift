@@ -28,7 +28,7 @@ class SearchScreenTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        loadResult(search: "Mr. One")
+        //loadResult(search: "Mr. One")
         
         tableView.rowHeight = 80
         
@@ -38,6 +38,7 @@ class SearchScreenTableViewController: UITableViewController {
     //MARK: Search User
     func loadResult(search: String){
         
+        searchResult.removeAll()
         databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: search) { (dict) in
             
             var index = 0
@@ -49,7 +50,7 @@ class SearchScreenTableViewController: UITableViewController {
                 index += 1
             }
             
-            print(self.searchResult as! AnyObject)
+            print("This is Dict: \(self.searchResult as! AnyObject)")
             
             self.tableView.reloadData()
         }
@@ -65,6 +66,7 @@ class SearchScreenTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print("Count of Dictionary is: \(searchResult.count)")
         return searchResult.count
     }
 
@@ -87,6 +89,7 @@ extension SearchScreenTableViewController: UISearchBarDelegate
 {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        //here goes your code
+        self.loadResult(search: searchBar.text!)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

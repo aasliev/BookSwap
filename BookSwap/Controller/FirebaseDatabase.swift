@@ -128,6 +128,17 @@ class FirebaseDatabase {
         }
     }
     
+    
+    //This method is for moving from WishList to OwnedBook funtionality of the app
+    func moveWishListToOwnedBook (currentUserEmail: String, bookName: String, bookAuthor: String) {
+        
+        //This function call will add new book into OwnedBook sub collection of FireStore
+        addToOwnedBook(currentUserEmail: currentUserEmail, bookName: bookName, bookAuthor: bookAuthor)
+        
+        //This will remove book from WishList sub collection of FireStore
+        removeWishListBook(bookName: bookName, bookAuthor: bookAuthor)
+    }
+    
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
     func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
@@ -187,7 +198,7 @@ class FirebaseDatabase {
         //NOTE: Because these searches are Asynchronous, search by Username is inside the closure of search by user's email.
         //Result of doing this, will get one dictionary of all documents.
         //First searching by user's Email
-        db.collection(USERS_MAIN_COLLECTIN).whereField(USER_EMAIL_FIELD, isEqualTo: searchText).getDocuments { (querySnapshot, error) in
+        db.collection(USERS_MAIN_COLLECTIN).whereField(USER_EMAIL_FIELD, isEqualTo: searchText.lowercased()).getDocuments { (querySnapshot, error) in
             
             var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
             
@@ -199,7 +210,7 @@ class FirebaseDatabase {
             }
             
             //Once search by user's email is finished, this will search by username
-            self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.USERNAME_FIELD, isEqualTo: searchText).getDocuments { (querySnapshot, error) in
+            self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.USERNAME_FIELD, isEqualTo: searchText.lowercased()).getDocuments { (querySnapshot, error) in
                 
                 if (self.checkError(error: error , whileDoing: "getting list of friends")) {
                     

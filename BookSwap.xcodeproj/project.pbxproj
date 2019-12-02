@@ -138,12 +138,11 @@
 		B302F242234925BB00F4E537 /* BookSwap */ = {
 			isa = PBXGroup;
 			children = (
-				B302F24F234925BF00F4E537 /* Info.plist */,
-				360E44B22380549200A58946 /* Data Models */,
 				B302F2592349589700F4E537 /* Model */,
 				B302F25A234958B600F4E537 /* View */,
 				B302F25B234958C200F4E537 /* Controller */,
 				B302F25C2349590900F4E537 /* Other */,
+				B302F24F234925BF00F4E537 /* Info.plist */,
 			);
 			path = BookSwap;
 			sourceTree = "<group>";
@@ -151,6 +150,7 @@
 		B302F2592349589700F4E537 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				360E44B22380549200A58946 /* Data Models */,
 				B302F243234925BB00F4E537 /* AppDelegate.swift */,
 				B302F24A234925BF00F4E537 /* Assets.xcassets */,
 			);
@@ -169,24 +169,11 @@
 		B302F25B234958C200F4E537 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B3AA656C2395917D00154945 /* Supporting Classes */,
+				B3AA656B2395913E00154945 /* ViewControllers */,
 				364D5E3A238374BD0060EF94 /* Custom Cell */,
-				B302F2612349599E00F4E537 /* Books */,
-				B302F26C234967A100F4E537 /* HomeScreen.swift */,
-				B315C8B223859D4B00DF0ECF /* CoreDataClass.swift */,
-				B302F25D2349596300F4E537 /* ProfileScreen.swift */,
-				B302F25F2349598400F4E537 /* FriendListScreen.swift */,
 				B302F26823495A5E00F4E537 /* GlobalBookList.swift */,
-				B302F26A23495A7F00F4E537 /* HistoryScreen.swift */,
-				36FB89EA23524B750070EA0F /* SignUpScreen.swift */,
-				363A8FFC235645E30071CC45 /* CommonFunctions.swift */,
 				B3034E6C2360EF3D00DA8164 /* LaunchScreen.swift */,
-				364751F82377440C00F05613 /* booksPageViewController.swift */,
-				364751FA2377442800F05613 /* historyPageViewController.swift */,
-				B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */,
-				B30F6295237ECC8000210B9E /* FirebaseAuth.swift */,
-				364730832389FD3300DA1D8F /* ForgotPasswordScreen.swift */,
-				368C414F23937BC700E60CEE /* TabBarViewController.swift */,
-				B30474CA2394815500438E85 /* SearchScreenTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -208,6 +195,35 @@
 				B302F26623495A1500F4E537 /* HoldingBookListScreen.swift */,
 			);
 			path = Books;
+			sourceTree = "<group>";
+		};
+		B3AA656B2395913E00154945 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B302F2612349599E00F4E537 /* Books */,
+				B302F26C234967A100F4E537 /* HomeScreen.swift */,
+				36FB89EA23524B750070EA0F /* SignUpScreen.swift */,
+				364730832389FD3300DA1D8F /* ForgotPasswordScreen.swift */,
+				B302F25D2349596300F4E537 /* ProfileScreen.swift */,
+				B302F25F2349598400F4E537 /* FriendListScreen.swift */,
+				364751F82377440C00F05613 /* booksPageViewController.swift */,
+				B302F26A23495A7F00F4E537 /* HistoryScreen.swift */,
+				364751FA2377442800F05613 /* historyPageViewController.swift */,
+				368C414F23937BC700E60CEE /* TabBarViewController.swift */,
+				B30474CA2394815500438E85 /* SearchScreenTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B3AA656C2395917D00154945 /* Supporting Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B315C8B223859D4B00DF0ECF /* CoreDataClass.swift */,
+				363A8FFC235645E30071CC45 /* CommonFunctions.swift */,
+				B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */,
+				B30F6295237ECC8000210B9E /* FirebaseAuth.swift */,
+			);
+			path = "Supporting Classes";
 			sourceTree = "<group>";
 		};
 		F600DE43AAAEABE48EDEA9CE /* Pods */ = {

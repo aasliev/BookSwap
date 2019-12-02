@@ -6,7 +6,7 @@ target 'BookSwap' do
   use_frameworks!
 
   # Pods for BookSwap
-# add the Firebase pod for Google Analytics
+## add the Firebase pod for Google Analytics
 pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'SVProgressHUD'

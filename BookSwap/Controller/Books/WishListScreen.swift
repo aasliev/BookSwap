@@ -97,6 +97,9 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 newOwnedBook.bookName = self.itemArray[indexPath.row].bookName
                 newOwnedBook.status = true
                 
+                //This will move the selected book from WishList into OwnedBook
+                self.databaseIstance.moveWishListToOwnedBook (currentUserEmail: self.authInstance.getCurrentUserEmail()!, bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                
                 
                 //deleting data from persistence container
                 self.context.delete(self.itemArray[indexPath.row])
@@ -104,13 +107,6 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 //deleting data from itemArray and saving Coredata context
                 self.itemArray.remove(at: indexPath.row)
                 CoreDataClass.sharedCoreData.saveContext()
-                
-                //add code to move book from wislist to owned books
-                
-                //deleting data from firebase wishList
-                
-                //self.databaseIstance.removeWishListBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
-                
                 
             }
             moreAction.image = UIImage(named: "More-icon")

@@ -210,7 +210,7 @@ class FirebaseDatabase {
             }
             
             //Once search by user's email is finished, this will search by username
-            self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.USERNAME_FIELD, isEqualTo: searchText.lowercased()).getDocuments { (querySnapshot, error) in
+            self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.LOWERCASED_USERNAME_FIELD, isEqualTo: searchText.lowercased()).getDocuments { (querySnapshot, error) in
                 
                 if (self.checkError(error: error , whileDoing: "getting list of friends")) {
                     

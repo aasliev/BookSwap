@@ -201,6 +201,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             newOwnedBook.status = true
             
             ownedBook.append(newOwnedBook)
+            //OwnedBookScreen().refresher().startRefreshing()
             
             
         } else {
@@ -211,6 +212,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             newWishListBook.bookName = title
             
             wishListArray.append(newWishListBook)
+            //WishListScreen().refresher.beginRefreshing()
         }
         
         //NOTE: Need to create another save method which does tableview.reloadData() once context is saved. 

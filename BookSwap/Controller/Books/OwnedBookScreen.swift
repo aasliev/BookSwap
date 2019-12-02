@@ -13,6 +13,15 @@ import SwipeCellKit
 class OwnedBookScreen: UITableViewController {
     
     var itemArray = [OwnedBook]()
+    
+    lazy var refresher: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.white
+        refreshControl.addTarget(self, action: #selector(refreshItems), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
@@ -24,7 +33,20 @@ class OwnedBookScreen: UITableViewController {
         print("inside ownedBookScreen")
         loadItems()
         tableView.rowHeight = 80
+        tableView.refreshControl = refresher
+
     }
+    
+    @objc func refreshItems(){
+        self.loadItems()
+        let deadLine = DispatchTime.now() + .milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: deadLine) {
+            self.refresher.endRefreshing()
+        }
+        self.tableView.reloadData()
+        
+    }
+
     
     
     //MARK: TableView DataSource Methods

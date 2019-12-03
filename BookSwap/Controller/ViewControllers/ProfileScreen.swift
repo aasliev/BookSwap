@@ -40,11 +40,11 @@ class ProfileScreen: UIViewController {
     func setUserDetails(){
         
         
-        userNameLbl.text = (authInstance.getUserName())
+        //userNameLbl.text = (authInstance.getUserName())
         
-//        databaseIstance.getUserName(usersEmail: authInstance.getCurrentUserEmail()!) { (userName) in
-//            self.userNameLbl.text = userName
-//        }
+        databaseIstance.getUserName(usersEmail: authInstance.getCurrentUserEmail()!) { (userName) in
+            self.userNameLbl.text = userName
+        }
         
         
         databaseIstance.getRating(usersEmail: authInstance.getCurrentUserEmail()!) { (rating) in
@@ -56,12 +56,7 @@ class ProfileScreen: UIViewController {
                 print("this is Swaps \(numberOfSwaps)")
             }
         }
-        
-        
-        
-        //rating_numberOfSwaps.text = "4.5 / 10"
-        
-        
+  
     }
     
     @IBAction func signOutButtonPressed(_ sender: Any) {
@@ -90,9 +85,6 @@ class ProfileScreen: UIViewController {
             self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             
         }))
-        
-        
-        
         
         self.present(alert, animated: true, completion: nil)
 

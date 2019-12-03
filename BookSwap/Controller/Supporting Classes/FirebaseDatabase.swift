@@ -314,8 +314,8 @@ class FirebaseDatabase {
             //completion(userRating)
         }
     }
-    
-    
+
+
     //Get Number of Friends
     func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
         

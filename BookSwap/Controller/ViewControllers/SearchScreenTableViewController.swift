@@ -64,10 +64,18 @@ class SearchScreenTableViewController: UITableViewController {
 //        // #warning Incomplete implementation, return the number of sections
 //        return searchResult.count
 //    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        authInstance.otherUser = (searchResult[indexPath.row]![EMAIL] as! String)
+        
+        performSegue(withIdentifier: "toProfileScreen", sender: self)
+        
+        //to create click animation
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        print("Count of Dictionary is: \(searchResult.count)")
+        
         return searchResult.count
     }
 
@@ -77,12 +85,9 @@ class SearchScreenTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendCell", for: indexPath) as! SearchScreenTableViewCell
         
         cell.userNameLbl?.text = (searchResult[indexPath.row]![USER_NAME]! as! String)
-        cell.ratingLbl.text = ("\(searchResult[indexPath.row]![RATING]!)" )
-        print("This is cell: \(cell)")
-        // Configure the cell...
+        cell.ratingLbl?.text = ("\(searchResult[indexPath.row]![RATING]!)")
         cell.emailLbl?.text = (searchResult[indexPath.row]![EMAIL]! as! String)
         
-
         return cell
     }
 

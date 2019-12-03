@@ -13,15 +13,23 @@ class FirebaseAuth {
     
     let authInstance = Auth.auth()
     let commonFunctions = CommonFunctions.sharedCommonFunction
+    private var currentUser : String
+    var otherUser  : String = ""
     
     static let sharedFirebaseAuth = FirebaseAuth()
     
     private init() {
+        
+        currentUser = (authInstance.currentUser?.email)!
+        
     }
     
     //Returns email of current user
     func getCurrentUserEmail() -> String? {
-        return (authInstance.currentUser?.email)
+        
+        currentUser = otherUser == "" ? (authInstance.currentUser?.email)! : otherUser
+        print("\n\n\nCurrent User = \(currentUser) \nOther User = \(otherUser)\n\n")
+        return currentUser
         
     }
     
@@ -45,9 +53,12 @@ class FirebaseAuth {
         return (authInstance.currentUser?.displayName) ?? "User Name"
     }
     
+    
+    //This method sends email to reqested email address
     func resetPassword(email: String, viewController: UIViewController){
         authInstance.sendPasswordReset(withEmail: email) { (error) in
             
+            //checks if email id exist into Firebase Auth
             if (error != nil) {
                 if let errorMsg = AuthErrorCode(rawValue: error!._code){
                     

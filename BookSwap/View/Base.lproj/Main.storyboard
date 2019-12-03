@@ -19,8 +19,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lt2-1P-FMv">
-                                <rect key="frame" x="15" y="50" width="44" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <rect key="frame" x="15" y="50" width="48" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Back">
                                     <color key="titleColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -56,6 +56,9 @@
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" red="0.88800761421319796" green="0.4087103148383246" blue="0.40039629653294123" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="6uB-oO-Ruo" kind="show" id="ToZ-ZE-fEe"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -1079,7 +1082,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyH-M8-jzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="PzM-Am-mZy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-4259" y="-445"/>
+            <point key="canvasLocation" x="-4320" y="-445"/>
         </scene>
         <!--Home-->
         <scene sceneID="Tuu-iI-xlT">
@@ -1111,7 +1114,8 @@
         <image name="bookcrab.png" width="279" height="253"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rWK-U0-pPj"/>
+        <segue reference="ToZ-ZE-fEe"/>
+        <segue reference="H6v-Co-17d"/>
         <segue reference="wKf-6J-HU0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

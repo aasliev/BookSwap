@@ -490,6 +490,9 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Messages" id="Xgc-37-GOA"/>
                     <navigationItem key="navigationItem" title="Search" id="EEw-hU-BJj"/>
+                    <connections>
+                        <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="uKd-0S-BGJ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFU-6I-hIb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1083,6 +1086,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rWK-U0-pPj"/>
+        <segue reference="uKd-0S-BGJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

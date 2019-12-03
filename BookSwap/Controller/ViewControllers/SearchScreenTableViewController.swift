@@ -50,7 +50,7 @@ class SearchScreenTableViewController: UITableViewController {
                 index += 1
             }
             
-            print("This is Dict: \(self.searchResult as! AnyObject)")
+            print("This is Dict: \(self.searchResult as AnyObject)")
             
             self.tableView.reloadData()
         }
@@ -74,7 +74,7 @@ class SearchScreenTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendCell", for: indexPath) as! SearchScreenTableViewCell
         
         cell.userNameLbl?.text = (searchResult[indexPath.row]![USER_NAME]! as! String)
-        cell.ratingLbl.text = ("\(searchResult[indexPath.row]![RATING]!)" as! String)
+        cell.ratingLbl.text = ("\(searchResult[indexPath.row]![RATING]!)" )
         print("This is cell: \(cell)")
         // Configure the cell...
 

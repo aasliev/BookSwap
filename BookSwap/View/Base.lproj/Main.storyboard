@@ -114,7 +114,7 @@
         <!--Home Screen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginScreen" id="BYZ-38-t0r" customClass="HomeScreen" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -352,7 +352,7 @@
         <!--TabBar-->
         <scene sceneID="vyZ-Vh-GM0">
             <objects>
-                <tabBarController id="fpv-XY-uS2" userLabel="TabBar" customClass="TabBarViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="ProfileScreen" id="fpv-XY-uS2" userLabel="TabBar" customClass="TabBarViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Tab Bar" id="MXN-PM-hNN"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="13Q-Bz-VPc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>

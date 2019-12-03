@@ -36,6 +36,10 @@ class OwnedBookScreen: UITableViewController {
         tableView.refreshControl = refresher
 
     }
+    override func viewDidAppear(_ animated: Bool) {
+        loadItems()
+        self.tableView.reloadData()
+    }
     
     @objc func refreshItems(){
         self.loadItems()

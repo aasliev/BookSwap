@@ -160,13 +160,11 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             
             if (tmp == "Owned Books"){
                 self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
-                print("Inside the owned books")
-                
+
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: true)
                 
             } else {
                 self.saveBooks(viewControllerNumber: 2, title: bookTitle, author: bookAuthor)
-                print("inside wish list")
                 
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: false)
                 
@@ -201,8 +199,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             newOwnedBook.status = true
             
             ownedBook.append(newOwnedBook)
-            //OwnedBookScreen().refresher().startRefreshing()
-            
             
         } else {
             //
@@ -217,6 +213,10 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         //NOTE: Need to create another save method which does tableview.reloadData() once context is saved. 
         CoreDataClass.sharedCoreData.saveContext()
+//        OwnedBookScreen().self.loadItems()
+//        WishListScreen().self.loadItems()
+//        OwnedBookScreen().self.tableView.reloadData()
+//        WishListScreen().self.tableView.reloadData()
 
     }
     

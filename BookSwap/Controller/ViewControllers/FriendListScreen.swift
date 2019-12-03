@@ -28,7 +28,7 @@ class FriendListScreen: UITableViewController {
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("\n array count: ", itemArray.count)
+        
         return itemArray.count
         
     }

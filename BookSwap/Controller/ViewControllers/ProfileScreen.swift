@@ -53,7 +53,6 @@ class ProfileScreen: UIViewController {
             //Updating Number of swps user has done
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.authInstance.getCurrentUserEmail()!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
-                print("this is Swaps \(numberOfSwaps)")
             }
         }
   

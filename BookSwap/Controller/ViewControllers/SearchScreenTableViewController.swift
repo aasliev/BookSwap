@@ -51,7 +51,7 @@ class SearchScreenTableViewController: UITableViewController {
                 index += 1
             }
             
-            print("This is Dict: \(self.searchResult as! AnyObject)")
+            print("This is Dict: \(self.searchResult as AnyObject)")
             
             self.tableView.reloadData()
         }

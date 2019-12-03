@@ -9,9 +9,18 @@
 import UIKit
 import CoreData
 import SwipeCellKit
+
 class WishListScreen: UITableViewController {
 
     var itemArray = [WishList]()
+    lazy var refresher: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.white
+        refreshControl.addTarget(self, action: #selector(refreshItems), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
@@ -22,9 +31,20 @@ class WishListScreen: UITableViewController {
         // Do any additional setup after loading the view.
         loadItems()
         tableView.rowHeight = 80
-
+        tableView.refreshControl = refresher
     }
     
+    
+    @objc func refreshItems(){
+        self.loadItems()
+        let deadLine = DispatchTime.now() + .milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: deadLine) {
+            self.refresher.endRefreshing()
+        }
+        self.tableView.reloadData()
+        
+    }
+
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,14 +62,14 @@ class WishListScreen: UITableViewController {
     
     
     
+    
     //MARK: - Model Manipulation Methods
-    func loadItems(with request: NSFetchRequest<WishList> = WishList.fetchRequest()) {
+    @objc func loadItems(with request: NSFetchRequest<WishList> = WishList.fetchRequest()) {
         do {
             itemArray = try context.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
         }
-        
     }
 }
 

@@ -10,13 +10,9 @@
 #endif
 #endif
 
-#import "SVIndefiniteAnimatedView 2.h"
 #import "SVIndefiniteAnimatedView.h"
-#import "SVProgressAnimatedView 2.h"
 #import "SVProgressAnimatedView.h"
-#import "SVProgressHUD 2.h"
 #import "SVProgressHUD.h"
-#import "SVRadialGradientLayer 2.h"
 #import "SVRadialGradientLayer.h"
 
 FOUNDATION_EXPORT double SVProgressHUDVersionNumber;

@@ -11,13 +11,13 @@ import Firebase
 
 class FirebaseDatabase {
     
-    //Singleton
-    static let shared = FirebaseDatabase()
-    
     //MARK: Firestore Database Istance
-    let config = FirebaseApp.configure()
-    let db = Firestore.firestore()
-    let authInstance = FirebaseAuth.sharedFirebaseAuth
+    //let config = FirebaseApp.configure()
+    let db : Firestore
+    let authInstance : FirebaseAuth
+    
+    //Singleton
+    static let shared : FirebaseDatabase = FirebaseDatabase()
     
     //MARK: Firestore Collection Names
     let USERS_MAIN_COLLECTIN = "Users"
@@ -49,6 +49,9 @@ class FirebaseDatabase {
     var numberOfFriends = 0
     
     private init() {
+        
+        db = Firestore.firestore()
+        authInstance = FirebaseAuth.sharedFirebaseAuth
         
         USER_COLLECTION_REF = db.collection(USERS_MAIN_COLLECTIN)
         
@@ -299,11 +302,9 @@ class FirebaseDatabase {
         
         db.collection(USERS_MAIN_COLLECTIN).document(usersEmail).getDocument { (document, error) in
             
-            print("\n\n\nThis is an error while looking for \(fieldName):  \(error) \n\n\nThis is Document \(document)")
             if let document = document, document.exists {
                 
                 let fieldData = document.get(fieldName)
-                print("\(fieldName) : \(String(describing: fieldData) )")
                 
                 completion(fieldData as Any)
                 

@@ -14,13 +14,14 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let config = FirebaseApp.configure()
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         //FirebaseApp.configure()
-        //FirebaseApp.configure()
+        
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 

@@ -11,8 +11,8 @@ import Firebase
 
 class FirebaseAuth {
     
-    let authInstance = Auth.auth()
-    let commonFunctions = CommonFunctions.sharedCommonFunction
+    let authInstance : Auth
+    let commonFunctions : CommonFunctions
     private var currentUser : String
     var otherUser  : String = ""
     
@@ -20,6 +20,8 @@ class FirebaseAuth {
     
     private init() {
         
+        authInstance = Auth.auth()
+        commonFunctions = CommonFunctions.sharedCommonFunction
         currentUser = (authInstance.currentUser?.email)!
         
     }
@@ -27,8 +29,10 @@ class FirebaseAuth {
     //Returns email of current user
     func getCurrentUserEmail() -> String? {
         
+        //currentUser will be equal to email of currently signed in user if
+        //otherUser is nil. otherUser will be asigned email of other user's email
         currentUser = otherUser == "" ? (authInstance.currentUser?.email)! : otherUser
-        print("\n\n\nCurrent User = \(currentUser) \nOther User = \(otherUser)\n\n")
+        
         return currentUser
         
     }

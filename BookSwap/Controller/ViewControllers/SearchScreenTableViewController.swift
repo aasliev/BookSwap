@@ -16,6 +16,7 @@ class SearchScreenTableViewController: UITableViewController {
     
     let USER_NAME = "UserName"
     let RATING = "Rating"
+    let EMAIL = "Email"
     
     
     
@@ -71,12 +72,16 @@ class SearchScreenTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendCell", for: indexPath) as! SearchScreenTableViewCell
         
         cell.userNameLbl?.text = (searchResult[indexPath.row]![USER_NAME]! as! String)
         cell.ratingLbl.text = ("\(searchResult[indexPath.row]![RATING]!)" )
         print("This is cell: \(cell)")
         // Configure the cell...
+        cell.emailLbl?.text = (searchResult[indexPath.row]![EMAIL]! as! String)
+        
 
         return cell
     }

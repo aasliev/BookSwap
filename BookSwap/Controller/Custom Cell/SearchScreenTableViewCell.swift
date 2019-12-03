@@ -14,6 +14,8 @@ class SearchScreenTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var ratingLbl: UILabel!
+    @IBOutlet weak var emailLbl: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +31,7 @@ class SearchScreenTableViewCell: UITableViewCell {
     
     @IBAction func addButtonPressed(_ sender: Any) {
         print("Add Button Pressed!! Inside Search Screen")
+        print("UserName: \(ratingLbl.text!)")
     }
     
 }

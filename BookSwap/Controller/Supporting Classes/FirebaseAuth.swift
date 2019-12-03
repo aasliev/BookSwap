@@ -22,7 +22,15 @@ class FirebaseAuth {
         
         authInstance = Auth.auth()
         commonFunctions = CommonFunctions.sharedCommonFunction
-        currentUser = (authInstance.currentUser?.email)!
+        print((authInstance.currentUser?.email))
+//        if (authInstance.currentUser == nil) {
+//            currentUser = ""
+//        } else {
+//            currentUser = (authInstance.currentUser?.email)!
+//        }
+        
+        //checks if user is loged in. 
+        currentUser = (authInstance.currentUser == nil) ? "" : (authInstance.currentUser?.email)!
         
     }
     

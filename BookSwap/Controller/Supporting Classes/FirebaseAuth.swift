@@ -22,12 +22,7 @@ class FirebaseAuth {
         
         authInstance = Auth.auth()
         commonFunctions = CommonFunctions.sharedCommonFunction
-        print((authInstance.currentUser?.email))
-//        if (authInstance.currentUser == nil) {
-//            currentUser = ""
-//        } else {
-//            currentUser = (authInstance.currentUser?.email)!
-//        }
+
         
         //checks if user is loged in. 
         currentUser = (authInstance.currentUser == nil) ? "" : (authInstance.currentUser?.email)!
@@ -41,6 +36,7 @@ class FirebaseAuth {
         //otherUser is nil. otherUser will be asigned email of other user's email
         currentUser = otherUser == "" ? (authInstance.currentUser?.email)! : otherUser
         
+        print("\n\nCurrent User: \(currentUser) \n Other user: \(otherUser)\n")
         return currentUser
         
     }
@@ -78,6 +74,23 @@ class FirebaseAuth {
                     self.commonFunctions.showError(error: error, errorMsg: errorMsg, screen: viewController)
                 }
             }
+        }
+    }
+    
+    
+    //Clear the email stored inside other user variable
+    func clearOtherUser() {
+        self.otherUser = ""
+    }
+    
+    
+    //Checks if other user is empty
+    func isOtherUserEmpty() -> Bool {
+        
+        if otherUser == "" {
+            return true
+        } else {
+            return false
         }
     }
     

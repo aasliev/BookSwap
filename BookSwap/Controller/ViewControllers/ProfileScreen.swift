@@ -14,6 +14,8 @@ class ProfileScreen: UIViewController {
     
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var rating_numberOfSwaps: UILabel!
+    @IBOutlet weak var signOutButton: UIBarButtonItem!
+    
     
     //Firebase Authentication instance
     let firebaseAuth = Auth.auth()
@@ -29,10 +31,7 @@ class ProfileScreen: UIViewController {
         
         setUserDetails()
 
-//        FirebaseDatabase.init().getNumberOfFriends(usersEmail: ((Auth.auth().currentUser?.email)!)) { numberOfFriends in
-//            print("Inside ProfileScreen Number Of Friends = \(numberOfFriends)")
-//            self.tempNumberOfFriends.text = "\(numberOfFriends)"
-//        }
+        checkOtherUser()
         
     }
     
@@ -58,30 +57,59 @@ class ProfileScreen: UIViewController {
   
     }
     
+    
+    func checkOtherUser() {
+        
+        if (!authInstance.isOtherUserEmpty()) {
+            
+            signOutButton.title = "Unfriend"
+        }
+    }
+    
     @IBAction func signOutButtonPressed(_ sender: Any) {
         //create UIAlert with yes/no option
-        let alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
+        let alert : UIAlertController
+        
+        if (authInstance.isOtherUserEmpty()){
+            alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
+        } else {
+            alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfrien?", preferredStyle: .alert)
+        }
         
         
         alert.addAction(UIAlertAction(title: "No", style: .cancel))
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             
-            // Sign Out the user from Firebase Auth
-
-            do {
-                try self.firebaseAuth.signOut()
-                //CoreDataClass.sharedCoreData.resetAllEntities()
+            
+            if (self.authInstance.isOtherUserEmpty()) {
+                // Sign Out the user from Firebase Auth
                 
-            } catch let signOutError as NSError {
-                print ("Error signing out: %@", signOutError)
+                do {
+                    try self.firebaseAuth.signOut()
+                    //CoreDataClass.sharedCoreData.resetAllEntities()
+                    
+                } catch let signOutError as NSError {
+                    print ("Error signing out: %@", signOutError)
+                }
+                self.authInstance.signOutCurrentUser()
+                
+                self.navigationController?.navigationBar.isHidden = true;
+                
+                CoreDataClass.sharedCoreData.resetAllEntities()
+                
+                self.performSegue(withIdentifier: "toHomeScreen", sender: self)
+            } else {
+                
+                //Note: signOutButton text is changed to "Unfriend"
+                //hide the button once user press "Yes"
+                self.signOutButton.isEnabled = false
+                self.signOutButton.tintColor = UIColor.clear
+                
+                //function call to unfriend the user
+                
+                //remove friend's name from Core Data
+                
             }
-            self.authInstance.signOutCurrentUser()
-            
-            self.navigationController?.navigationBar.isHidden = true;
-            
-            CoreDataClass.sharedCoreData.resetAllEntities()
-            
-            self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             
         }))
         

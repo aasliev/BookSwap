@@ -341,6 +341,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="rating_numberOfSwaps" destination="Kw8-hg-o0E" id="38J-vp-hiU"/>
+                        <outlet property="signOutButton" destination="AfV-vI-nxH" id="upd-z7-ss8"/>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
                         <segue destination="v7r-yg-rZx" kind="unwind" identifier="toHomeScreen" unwindAction="unwindToHomeScreen:" id="cfD-fO-wL9"/>
                     </connections>

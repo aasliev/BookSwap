@@ -477,7 +477,7 @@
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.16495131690000001" green="0.1317200737" blue="0.1696081606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="Zgj-7L-9DL" firstAttribute="leading" secondItem="8Yb-EJ-Key" secondAttribute="leadingMargin" constant="20" id="1pU-ar-Rf6"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Zgj-7L-9DL" secondAttribute="bottom" constant="10" id="CJ2-Nc-nWo"/>
@@ -493,6 +493,7 @@
                                         <constraint firstItem="rDg-RD-70c" firstAttribute="top" secondItem="8Yb-EJ-Key" secondAttribute="top" constant="10" id="zHO-O6-gPG"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.1056895927" green="0.10482627899999999" blue="0.1545491219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="emailLbl" destination="fVo-bb-ytr" id="IoK-cg-3J4"/>
                                     <outlet property="ratingLbl" destination="8Aj-dt-jde" id="d6I-Ru-fNv"/>
@@ -525,13 +526,56 @@
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Gnw-ba-aCX">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="100" id="Gnw-ba-aCX" userLabel="notificationCell" customClass="NotificationCell" customModule="BookSwap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gnw-ba-aCX" id="aeY-iy-n5d">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asliddin Asliev would like to be friends with you. i dont know what else to write" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDl-FF-Xzz">
+                                            <rect key="frame" x="15" y="16" width="309" height="68.5"/>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="19"/>
+                                            <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="P87-A9-Q8K">
+                                            <rect key="frame" x="334" y="11" width="75" height="78"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uHO-ze-oMC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="30"/>
+                                                    <color key="backgroundColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="75" id="4HK-W0-TS8"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Accept">
+                                                        <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ary-BQ-01e">
+                                                    <rect key="frame" x="0.0" y="48" width="75" height="30"/>
+                                                    <color key="backgroundColor" red="0.64313725489999995" green="0.2901960784" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" title="Decline">
+                                                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="cDl-FF-Xzz" firstAttribute="centerY" secondItem="aeY-iy-n5d" secondAttribute="centerY" id="6zo-Kf-BIl"/>
+                                        <constraint firstAttribute="trailing" secondItem="P87-A9-Q8K" secondAttribute="trailing" constant="5" id="Afu-aF-gek"/>
+                                        <constraint firstItem="cDl-FF-Xzz" firstAttribute="leading" secondItem="aeY-iy-n5d" secondAttribute="leading" constant="15" id="b9Z-az-rhk"/>
+                                        <constraint firstItem="P87-A9-Q8K" firstAttribute="leading" secondItem="cDl-FF-Xzz" secondAttribute="trailing" constant="10" id="bnL-d9-HMu"/>
+                                        <constraint firstItem="P87-A9-Q8K" firstAttribute="centerY" secondItem="aeY-iy-n5d" secondAttribute="centerY" id="jYm-dd-VPd"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="acceptButton" destination="uHO-ze-oMC" id="phk-ss-nz3"/>
+                                    <outlet property="declineButton" destination="Ary-BQ-01e" id="Gtq-FV-Kxu"/>
+                                    <outlet property="notificationTextLabel" destination="cDl-FF-Xzz" id="jLg-zQ-1Ta"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -543,7 +587,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U9Y-W6-YPX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="496" y="1319"/>
+            <point key="canvasLocation" x="495.6521739130435" y="1317.8571428571429"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="4q9-zH-Q2v">
@@ -1122,7 +1166,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="ToZ-ZE-fEe"/>
         <segue reference="H6v-Co-17d"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="uKd-0S-BGJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

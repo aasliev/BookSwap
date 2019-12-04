@@ -18,6 +18,8 @@
 		364D5E3E23837EFA0060EF94 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D5E3D23837EFA0060EF94 /* BooksTableViewCell.swift */; };
 		364D5E40238383250060EF94 /* WishListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D5E3F238383250060EF94 /* WishListTableViewCell.swift */; };
 		368C415023937BC700E60CEE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368C414F23937BC700E60CEE /* TabBarViewController.swift */; };
+		36D7F582239742BA0036F306 /* NotificationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7F581239742BA0036F306 /* NotificationFunctions.swift */; };
+		36D7F58423974C890036F306 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7F58323974C890036F306 /* NotificationCell.swift */; };
 		36FB89EB23524B750070EA0F /* SignUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FB89EA23524B750070EA0F /* SignUpScreen.swift */; };
 		6A71AB847878157F745B8132 /* Pods_BookSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C8A0D0E0A192D8D4D3F46 /* Pods_BookSwap.framework */; };
 		B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302F243234925BB00F4E537 /* AppDelegate.swift */; };
@@ -55,6 +57,8 @@
 		364D5E3D23837EFA0060EF94 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
 		364D5E3F238383250060EF94 /* WishListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListTableViewCell.swift; sourceTree = "<group>"; };
 		368C414F23937BC700E60CEE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		36D7F581239742BA0036F306 /* NotificationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFunctions.swift; sourceTree = "<group>"; };
+		36D7F58323974C890036F306 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		36FB89EA23524B750070EA0F /* SignUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreen.swift; sourceTree = "<group>"; };
 		4F0C8A0D0E0A192D8D4D3F46 /* Pods_BookSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E5055D44AF66E2E269DF385 /* Pods-BookSwap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSwap.release.xcconfig"; path = "Target Support Files/Pods-BookSwap/Pods-BookSwap.release.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 				364D5E3D23837EFA0060EF94 /* BooksTableViewCell.swift */,
 				364D5E3F238383250060EF94 /* WishListTableViewCell.swift */,
 				B30474CC2394822000438E85 /* SearchScreenTableViewCell.swift */,
+				36D7F58323974C890036F306 /* NotificationCell.swift */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -178,7 +183,6 @@
 				364D5E3A238374BD0060EF94 /* Custom Cell */,
 				B302F26823495A5E00F4E537 /* GlobalBookList.swift */,
 				B3034E6C2360EF3D00DA8164 /* LaunchScreen.swift */,
-				364080922396CD6700335CBE /* NotificatonsScreen.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -217,6 +221,7 @@
 				368C414F23937BC700E60CEE /* TabBarViewController.swift */,
 				B30474CA2394815500438E85 /* SearchScreenTableViewController.swift */,
 				364080902396CCF100335CBE /* MessagesScreen.swift */,
+				364080922396CD6700335CBE /* NotificatonsScreen.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				363A8FFC235645E30071CC45 /* CommonFunctions.swift */,
 				B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */,
 				B30F6295237ECC8000210B9E /* FirebaseAuth.swift */,
+				36D7F581239742BA0036F306 /* NotificationFunctions.swift */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -376,8 +382,10 @@
 				B3034E6D2360EF3D00DA8164 /* LaunchScreen.swift in Sources */,
 				B302F265234959DE00F4E537 /* WishListScreen.swift in Sources */,
 				364D5E40238383250060EF94 /* WishListTableViewCell.swift in Sources */,
+				36D7F582239742BA0036F306 /* NotificationFunctions.swift in Sources */,
 				364751F92377440C00F05613 /* booksPageViewController.swift in Sources */,
 				368C415023937BC700E60CEE /* TabBarViewController.swift in Sources */,
+				36D7F58423974C890036F306 /* NotificationCell.swift in Sources */,
 				B302F263234959C100F4E537 /* OwnedBookScreen.swift in Sources */,
 				364751FB2377442800F05613 /* historyPageViewController.swift in Sources */,
 				B3CC80D92378E70000BF9D64 /* FirebaseDatabase.swift in Sources */,

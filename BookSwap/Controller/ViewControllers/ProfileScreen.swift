@@ -73,7 +73,7 @@ class ProfileScreen: UIViewController {
         if (authInstance.isOtherUserEmpty()){
             alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         } else {
-            alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfrien?", preferredStyle: .alert)
+            alert = UIAlertController(title: "Unfriend", message: "Do you want to delete users_email from your friend list?", preferredStyle: .alert)
         }
         
         

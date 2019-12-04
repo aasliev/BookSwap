@@ -195,6 +195,7 @@
 		B302F2612349599E00F4E537 /* Books */ = {
 			isa = PBXGroup;
 			children = (
+				364751F82377440C00F05613 /* booksPageViewController.swift */,
 				B302F262234959C100F4E537 /* OwnedBookScreen.swift */,
 				B302F264234959DE00F4E537 /* WishListScreen.swift */,
 				B302F26623495A1500F4E537 /* HoldingBookListScreen.swift */,
@@ -211,7 +212,6 @@
 				364730832389FD3300DA1D8F /* ForgotPasswordScreen.swift */,
 				B302F25D2349596300F4E537 /* ProfileScreen.swift */,
 				B302F25F2349598400F4E537 /* FriendListScreen.swift */,
-				364751F82377440C00F05613 /* booksPageViewController.swift */,
 				B302F26A23495A7F00F4E537 /* HistoryScreen.swift */,
 				364751FA2377442800F05613 /* historyPageViewController.swift */,
 				368C414F23937BC700E60CEE /* TabBarViewController.swift */,

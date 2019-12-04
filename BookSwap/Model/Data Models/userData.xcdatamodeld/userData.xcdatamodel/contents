@@ -5,6 +5,20 @@
         <attribute name="numOfSwaps" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userName" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="OthersFriend" representedClassName="OthersFriend" syncable="YES" codeGenerationType="class">
+        <attribute name="friendsEmail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numOfSwaps" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="OthersOwnedBook" representedClassName="OthersOwnedBook" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="OthersWishList" representedClassName="OthersWishList" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="OwnedBook" representedClassName="OwnedBook" syncable="YES" codeGenerationType="class">
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,5 +32,8 @@
         <element name="Friends" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="OwnedBook" positionX="-54" positionY="-9" width="128" height="90"/>
         <element name="WishList" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="OthersFriend" positionX="-45" positionY="9" width="128" height="90"/>
+        <element name="OthersOwnedBook" positionX="-36" positionY="18" width="128" height="90"/>
+        <element name="OthersWishList" positionX="-27" positionY="27" width="128" height="75"/>
     </elements>
 </model>

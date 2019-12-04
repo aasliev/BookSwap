@@ -13,8 +13,12 @@ import CoreData
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     var pageControl = UIPageControl()
-    let firebaseAuth = FirebaseAuth.sharedFirebaseAuth
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    @IBOutlet weak var addButton: UIBarButtonItem!
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {
@@ -40,9 +44,21 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         configurePageControl()
         
+        checkOtherUser()
+        
         // Do any additional setup after loading the view.
         
        // var vcIndex = orderedViewControllers.index(of: viewController)
+    }
+    
+    func checkOtherUser() {
+        
+        //cheking if user is on their own book page or some else's
+        if (!authInstance.isOtherUserEmpty()) {
+            //if other user is not empty, that means user is on someone else's screen
+            addButton.isEnabled = false
+            addButton.tintColor = UIColor.clear
+        }
     }
     
     func configurePageControl() {
@@ -125,17 +141,14 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         if (trueForOwnedBook_falseForWishList) {
             //add book to OwnedBook
-            FirebaseDatabase.shared.addToOwnedBook(currentUserEmail: firebaseAuth.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            FirebaseDatabase.shared.addToOwnedBook(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
             
         } else {
             //add book to WishList
-            FirebaseDatabase.shared.addToWishList(currentUserEmail: firebaseAuth.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            FirebaseDatabase.shared.addToWishList(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
             
         }
-
-        
     }
-    
     
     
     //MARK: Add Button Pressed
@@ -158,7 +171,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             //else save it to wish list
             let tmp = self.navigationItem.title
             
-            if (tmp == "Owned Books"){
+            if (tmp == "Owned Books") {
                 self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
 
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: true)

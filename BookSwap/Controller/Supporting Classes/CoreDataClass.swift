@@ -30,6 +30,20 @@ class CoreDataClass {
     func getContext() -> NSManagedObjectContext {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
+    
+    func resetOneEntitie(entityName : String) {
+
+        let entityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let entityDeleteRequest = NSBatchDeleteRequest(fetchRequest: entityFetchRequest)
+        do {
+            
+            try self.context.execute(entityDeleteRequest)
+            
+            print("Successfully Emptied Core Data.")
+        } catch {
+            print("Error deteting entitry \(error)")
+        }
+    }
 
     
     //Use of this function is when user sign out, this method will clear all data from all entities

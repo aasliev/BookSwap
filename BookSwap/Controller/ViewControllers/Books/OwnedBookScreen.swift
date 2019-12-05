@@ -24,6 +24,9 @@ class OwnedBookScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
 
+    //Request for search result
+    let requestForOwnedBook : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
+    let requestForOthersOwnedBook : NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +44,14 @@ class OwnedBookScreen: UITableViewController {
     
     
     //MARK: TableView DataSource Methods
+    
+    //This method will be called when user selects or clicks on any row inside table
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //to create click animation
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("This is otherUser.count: \(otherUser.count)")
         return authInstance.isOtherUserEmpty() ?  itemArray.count : otherUser.count
@@ -70,19 +81,29 @@ class OwnedBookScreen: UITableViewController {
 
     
     //MARK: - Model Manipulation Methods
-    func loadItems(with request: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()) {
+    func loadItems() {
         do {
             
             //checks which user is currently on the OwnedBook page
             //NOTE: Other User will be true if user open someone else's OwnedBook
             if authInstance.isOtherUserEmpty() {
                 
-                itemArray = try context.fetch(request)
+                itemArray = try context.fetch(requestForOwnedBook)
             } else {
                 
-                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
+                //Making sure the database call is made only once to get data and load it into 'otherUser' array
+                //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
+                if (otherUser.count == 0) {
+                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
+                        
+                        //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
+                        self.loadDataForOtherUser(dict: dataDictionary)
+                    }
+                } else {
                     
-                    self.loadDataForOtherUser(dict: dataDictionary)
+                    //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
+                    //context.fetch... will fetch result and store it inside otherUser array
+                    otherUser = try context.fetch(requestForOthersOwnedBook)
                 }
             }
         } catch {
@@ -102,18 +123,23 @@ class OwnedBookScreen: UITableViewController {
         
         for (_, data) in dict {
             
+            //creating an object of OthersOwnedBook with the context of Core Data
             let newOwnedBook = OthersOwnedBook(context: context)
+            
+            //adding data from dictionary, data holds information such as bookName, author and status
             newOwnedBook.bookName = (data[databaseIstance.BOOKNAME_FIELD] as! String)
             newOwnedBook.author = (data[databaseIstance.AUTHOR_FIELD] as! String)
             newOwnedBook.status = data[databaseIstance.BOOK_STATUS_FIELD] as! Bool
             
+            //Appending inside otherUser array
             otherUser.append(newOwnedBook)
         }
         
+        //saving all the changes made in core data
         coreDataClassInstance.saveContext()
         
-        print("This is DICT: ", dict as AnyObject)
-        self.tableView.reloadData()
+        //reloading the table view to show the latest result
+        tableView.reloadData()
         
     }
     
@@ -145,12 +171,28 @@ class OwnedBookScreen: UITableViewController {
 extension OwnedBookScreen: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let request : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
-        request.predicate = NSPredicate(format: "bookName CONTAINS[cd] %@", searchBar.text!)
         
-        request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+        //creating NSPredicate which finds keyword in bookName and author field
+        let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
         
-        loadItems(with: request)
+        //once the result is recived, sorting it by bookName
+        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
+        
+        //Checking if otherUser is empty
+        if (authInstance.isOtherUserEmpty()) {
+            
+            //creating request for current user's own OwnedBook page
+            requestForOwnedBook.predicate = nsPredicate
+            requestForOwnedBook.sortDescriptors = nsSortDescriptor
+            loadItems()
+        } else {
+            
+            //creating reqest for other user's OwnedBook page
+            requestForOthersOwnedBook.predicate = nsPredicate
+            requestForOthersOwnedBook.sortDescriptors = nsSortDescriptor
+            loadItems()
+        }
+        
         tableView.reloadData()
     }
     

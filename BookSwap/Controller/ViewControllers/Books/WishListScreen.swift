@@ -24,7 +24,11 @@ class WishListScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     
-
+    //Request for search result
+    let requestForWishList : NSFetchRequest<WishList> = WishList.fetchRequest()
+    let reqestForOthersWishList : NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,6 +41,14 @@ class WishListScreen: UITableViewController {
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return authInstance.isOtherUserEmpty() ?  itemArray.count : otherWishList.count
+    }
+    
+    
+    //This method will be called when user selects or clicks on any row inside table
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //to create click animation
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
@@ -68,12 +80,17 @@ class WishListScreen: UITableViewController {
             //NOTE: Other User will be true if user open someone else's WishList
             if authInstance.isOtherUserEmpty() {
                 
-                itemArray = try context.fetch(request)
+                itemArray = try context.fetch(requestForWishList)
             } else {
                 
-                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
+                if (otherWishList.count == 0) {
+                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
+                        self.loadDataForOtherUser(dict: dataDictionary)
+                        
+                    }
                     
-                    self.loadDataForOtherUser(dict: dataDictionary)
+                } else {
+                    otherWishList = try context.fetch(reqestForOthersWishList)
                 }
             }
             
@@ -87,24 +104,29 @@ class WishListScreen: UITableViewController {
     func loadDataForOtherUser(dict : Dictionary<Int  , Dictionary<String  , Any>>) {
         
         //Clearing the data stored inside Core Data file
-        self.coreDataClassInstance.resetOneEntitie(entityName: "OthersWishList")
+        coreDataClassInstance.resetOneEntitie(entityName: "OthersWishList")
         
         //Clearing the array which holds objects of 'OthersOwnedBook'
-        self.otherWishList.removeAll()
+        otherWishList.removeAll()
         
         for (_, data) in dict {
             
+            //creating an object of OthersWishList with the context of Core Data
             let newWhishListBook = OthersWishList(context: self.context)
+            
+            //adding data from dictionary, data holds information such as bookName and author
             newWhishListBook.bookName = (data[self.databaseIstance.BOOKNAME_FIELD] as! String)
             newWhishListBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
             
-            self.otherWishList.append(newWhishListBook)
+            //Appending inside otherUser array
+            otherWishList.append(newWhishListBook)
         }
         
-        self.coreDataClassInstance.saveContext()
+        //saving all the changes made in core data
+        coreDataClassInstance.saveContext()
         
-        print("This is DICT: ", dict as AnyObject)
-        self.tableView.reloadData()
+        //reloading the table view to show the latest result
+        tableView.reloadData()
         
     }
     
@@ -136,12 +158,28 @@ extension WishListScreen: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        let request : NSFetchRequest<WishList> = WishList.fetchRequest()
-        request.predicate = NSPredicate(format: "bookName CONTAINS[cd] %@", searchBar.text!)
+        //creating NSPredicate which finds keyword in bookName and author field
+        let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
         
-        request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+        //once the result is recived, sorting it by bookName
+        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
         
-        loadItems(with: request)
+        //Checking if otherUser is empty
+        if (authInstance.isOtherUserEmpty()) {
+            
+            //creating request for current user's own WishList page
+            requestForWishList.predicate = nsPredicate
+            requestForWishList.sortDescriptors = nsSortDescriptor
+            loadItems()
+        } else {
+            
+            //creating reqest for other user's WishList page
+            reqestForOthersWishList.predicate = nsPredicate
+            reqestForOthersWishList.sortDescriptors = nsSortDescriptor
+            loadItems()
+        }
+        
+        //loadItems(with: request)
         tableView.reloadData()
     }
     

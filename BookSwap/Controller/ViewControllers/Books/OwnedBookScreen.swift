@@ -12,27 +12,21 @@ import SwipeCellKit
 
 class OwnedBookScreen: UITableViewController {
     
+    //Array which takes objects of OwnedBook
     var itemArray = [OwnedBook]()
     var otherUser = [OthersOwnedBook]()
     
-    lazy var refresher: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.white
-        refreshControl.addTarget(self, action: #selector(refreshItems), for: .valueChanged)
-        
-        return refreshControl
-    }()
-    
+    //context of Core Data file
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    //Instances of other classes, which will be used to access the methods
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let coreDataClassInstance = CoreDataClass.sharedCoreData
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        print("inside ownedBookScreen")
        // loadItems()
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
@@ -45,24 +39,13 @@ class OwnedBookScreen: UITableViewController {
         self.tableView.reloadData()
     }
     
-    @objc func refreshItems(){
-        
-        self.loadItems()
-        let deadLine = DispatchTime.now() + .milliseconds(500)
-        DispatchQueue.main.asyncAfter(deadline: deadLine) {
-            self.refresher.endRefreshing()
-        }
-        self.tableView.reloadData()
-        
-    }
-
-    
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        print("This is otherUser.count: \(otherUser.count)")
         return authInstance.isOtherUserEmpty() ?  itemArray.count : otherUser.count
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -73,6 +56,7 @@ class OwnedBookScreen: UITableViewController {
             cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
             cell.authorOfTheBook?.text = itemArray[indexPath.row].author
             cell.swap.isHidden = true
+        
         } else {
             
             cell.nameOfTheBook?.text = otherUser[indexPath.row].bookName
@@ -83,47 +67,77 @@ class OwnedBookScreen: UITableViewController {
         cell.delegate = self
         return cell
     }
-    
-    
+
     
     //MARK: - Model Manipulation Methods
     func loadItems(with request: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()) {
-        
         do {
-            //let request = request
-            //request.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+            
+            //checks which user is currently on the OwnedBook page
+            //NOTE: Other User will be true if user open someone else's OwnedBook
             if authInstance.isOtherUserEmpty() {
                 
                 itemArray = try context.fetch(request)
             } else {
                 
-                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: true) { (dict) in
+                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
                     
-                    CoreDataClass.sharedCoreData.resetOneEntitie(entityName: "OthersOwnedBook")
-                    
-                    for (_, data) in dict {
-                        
-                        let newOwnedBook = OthersOwnedBook(context: self.context)
-                        newOwnedBook.bookName = (data[self.databaseIstance.BOOKNAME_FIELD] as! String)
-                        newOwnedBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
-                        newOwnedBook.status = data[self.databaseIstance.BOOK_STATUS_FIELD] as! Bool
-                        
-                        self.otherUser.append(newOwnedBook)
-                    }
-                    
-                    CoreDataClass.sharedCoreData.saveContext()
-                    
-                    print("This is DICT: ", dict as AnyObject)
-                    self.tableView.reloadData()
+                    self.loadDataForOtherUser(dict: dataDictionary)
                 }
             }
         } catch {
             print("Error fetching data from context \(error)")
         }
+    }
+    
+    
+    //Loads the data inside OthersOwnedBook array, which is received from Firestore
+    func loadDataForOtherUser(dict : Dictionary<Int  , Dictionary<String  , Any>>) {
+        
+        //Clearing the data stored inside Core Data file
+        coreDataClassInstance.resetOneEntitie(entityName: "OthersOwnedBook")
+        
+        //Clearing the array which holds objects of 'OthersWishList'
+        otherUser.removeAll()
+        
+        for (_, data) in dict {
+            
+            let newOwnedBook = OthersOwnedBook(context: context)
+            newOwnedBook.bookName = (data[databaseIstance.BOOKNAME_FIELD] as! String)
+            newOwnedBook.author = (data[databaseIstance.AUTHOR_FIELD] as! String)
+            newOwnedBook.status = data[databaseIstance.BOOK_STATUS_FIELD] as! Bool
+            
+            otherUser.append(newOwnedBook)
+        }
+        
+        coreDataClassInstance.saveContext()
+        
+        print("This is DICT: ", dict as AnyObject)
+        self.tableView.reloadData()
         
     }
-
+    
+    
+    lazy var refresher: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.white
+        refreshControl.addTarget(self, action: #selector(refreshItems), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
+    
+    @objc func refreshItems(){
+        
+        self.loadItems()
+        let deadLine = DispatchTime.now() + .milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: deadLine) {
+            self.refresher.endRefreshing()
+        }
+        self.tableView.reloadData()
+    }
 }
+
 
 
 //MARK: Search
@@ -173,7 +187,7 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
             
             //Removing the data from itemArray
             self.itemArray.remove(at: indexPath.row)
-            CoreDataClass.sharedCoreData.saveContext()
+            self.coreDataClassInstance.saveContext()
         }
         
         // customize the action appearance

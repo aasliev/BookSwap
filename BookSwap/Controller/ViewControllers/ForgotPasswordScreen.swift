@@ -23,7 +23,12 @@ class ForgotPasswordScreen: UIViewController {
         
         if (commonFunctions.checkIfEmpty(emailTextField, "Email", screen: self)) {
             
-            authInstance.resetPassword(email: emailTextField.text!, viewController: self)
+            authInstance.resetPassword(email: emailTextField.text!, viewController: self) { boolean in
+                if !boolean {self.performSegue(withIdentifier: "backToHomePage", sender: self)}
+                
+            }
+            
+            
             
         }
     }

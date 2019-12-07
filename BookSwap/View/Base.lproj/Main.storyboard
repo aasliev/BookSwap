@@ -23,7 +23,7 @@
                                     <color key="titleColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="LgK-iV-fgh" kind="unwind" unwindAction="unwindToHomeScreen:" id="rSV-Jf-cDF"/>
+                                    <segue destination="LgK-iV-fgh" kind="unwind" identifier="backToHomePage" unwindAction="unwindToHomeScreen:" id="rSV-Jf-cDF"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGM-mv-Tyx">
@@ -44,9 +44,6 @@
                                         <state key="normal" title="Don't have an account ?">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="resetButtonPressed:" destination="F9U-b8-p17" eventType="touchUpInside" id="ci7-Ml-2pe"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mia-r1-Axs">
                                         <rect key="frame" x="247" y="0.0" width="68" height="35"/>
@@ -83,6 +80,9 @@
                                         <state key="normal" title="Reset Password">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="resetButtonPressed:" destination="F9U-b8-p17" eventType="touchUpInside" id="nIn-TP-M2y"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -105,6 +105,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailTextField" destination="b7j-Hv-hRi" id="KEt-Gf-Cqp"/>
+                        <segue destination="2HL-cW-Mbl" kind="unwind" unwindAction="unwindToHomeScreen:" id="lEI-rr-tkT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qDt-jp-7yS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -217,6 +218,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="2HL-cW-Mbl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-5152" y="-1296"/>
         </scene>
@@ -1172,10 +1174,10 @@
         <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZRU-mL-IwO"/>
+        <segue reference="ToZ-ZE-fEe"/>
         <segue reference="fgW-Yp-E5o"/>
-        <segue reference="rWK-U0-pPj"/>
-        <segue reference="uKd-0S-BGJ"/>
+        <segue reference="H6v-Co-17d"/>
+        <segue reference="wKf-6J-HU0"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

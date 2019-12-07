@@ -151,7 +151,7 @@ class CoreDataClass {
             //Getting the latest Context, as saveContext is called before loop ends
 
             let newFriend = Friends(context: getContext())
-            newFriend.friendsEmail = (data[databaseInstance.USER_EMAIL_FIELD] as! String)
+            newFriend.friendsEmail = (data[databaseInstance.FRIENDSEMAIL_FIELD] as! String)
             newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
             newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
             

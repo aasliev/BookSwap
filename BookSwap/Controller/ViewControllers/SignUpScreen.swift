@@ -24,6 +24,7 @@ class SignUpScreen: UIViewController {
 
         // Do any additional setup after loading the view.
         self.hideKeyboardWhenTappedAround()
+        self.moveScreenWithKeyboard()
 
     }
     
@@ -56,6 +57,7 @@ class SignUpScreen: UIViewController {
                 self.commonFunctions.showError(error: error, errorMsg: errorMsg, screen: self)
             }
         } else {
+            
             addUserNameAndPerformSegue()
         }
     }
@@ -69,9 +71,10 @@ class SignUpScreen: UIViewController {
             
             if error == nil {
                 
-                FirebaseDatabase.shared.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){
+                FirebaseDatabase.shared.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){ boolean in
                     
-                    self.performSegue(withIdentifier: "toProfileScreen", sender: self)
+                    print("Completion called from firestore \(boolean)")
+                    if boolean {self.performSegue(withIdentifier: "toProfileScreen", sender: self)}
 
                 }
             } else {

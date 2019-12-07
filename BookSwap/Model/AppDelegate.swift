@@ -18,36 +18,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let config = FirebaseApp.configure()
     let gcmMessageIDKey = "gcm.message_id"
     
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        //FirebaseApp.configure()
-        
-        //check if user is signed in------------------------------------------------------------------------------
+    
+    
+    
+    func applicationDidFinishLaunching(_ application: UIApplication) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
 
-        Auth.auth().addStateDidChangeListener {
-            auth, user in
-            if user != nil {
-                // User is signed in.
-                print("Automatic Sign In: \(String(describing: user?.email))")
-                let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileScreen")
-                
-                self.window!.rootViewController = initialViewController
-                
-            } else {
-                // No user is signed in.
-                let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
-                self.window!.rootViewController = initialViewController
-                
-            }
+        let user = Auth.auth().currentUser
+        if user != nil {
+            // User is signed in.
+            print("Automatic Sign In: \(String(describing: user?.email))")
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileScreen")
+
+            self.window!.rootViewController = initialViewController
+
+        } else {
+            // No user is signed in.
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
+            self.window!.rootViewController = initialViewController
+
         }
-        //-------------------------------------------------------------------------------------------------------------
-        
-        
-        //Notifications--------------------------------------------------------------------------------------------
-        
+//        Auth.auth().addStateDidChangeListener {
+//            auth, user in
+//            print("User is: \(user)")
+//
+//        }
+    }
+//
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+
+        applicationDidFinishLaunching(application)
+//Notifications--------------------------------------------------------------------------------------------
+
         if #available(iOS 10.0, *) {
           // For iOS 10 display notification (sent via APNS)
           UNUserNotificationCenter.current().delegate = self

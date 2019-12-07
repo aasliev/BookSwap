@@ -18,6 +18,7 @@ class ForgotPasswordScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        //self.moveScreenWithKeyboard()
 
     }
     

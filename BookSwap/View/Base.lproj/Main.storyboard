@@ -229,7 +229,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-hV-j0g">
-                                <rect key="frame" x="0.0" y="56" width="414" height="411"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="477"/>
+
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jq2-nP-epB">
                                         <rect key="frame" x="0.0" y="215" width="414" height="100"/>
@@ -271,10 +272,11 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N5p-vK-QNJ">
-                                <rect key="frame" x="5" y="477" width="404" height="212"/>
+                                <rect key="frame" x="5" y="531" width="404" height="261"/>
+
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9w-EF-v5x">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="125.5"/>
                                         <color key="backgroundColor" red="0.65098039215686276" green="0.29019607843137257" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="tintColor" red="0.29822301429999998" green="0.64939669150000001" blue="0.6617907676" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -286,10 +288,10 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YeZ-fT-tnT">
-                                        <rect key="frame" x="0.0" y="111" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="404" height="125.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRW-wy-Sbg">
-                                                <rect key="frame" x="0.0" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.6588235294117647" green="0.29019607843137257" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="Friends">
@@ -301,7 +303,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYv-te-TLF">
-                                                <rect key="frame" x="207" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="207" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.64313725490196083" green="0.29019607843137257" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="History">
@@ -1005,6 +1007,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Friends" id="I5H-kU-hLj"/>
+                    <connections>
+                        <segue destination="WG9-qJ-nC0" kind="show" identifier="friendsProfileView" id="hkk-Og-SfN"/>
+                        <segue destination="Scc-aj-RSZ" kind="show" identifier="friendsBookShelf" id="fgW-Yp-E5o"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzN-FW-4ae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1167,9 +1173,12 @@
         <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ToZ-ZE-fEe"/>
-        <segue reference="H6v-Co-17d"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="38Y-2K-xft"/>
+        <segue reference="ZRU-mL-IwO"/>
+        <segue reference="vFB-ik-VlG"/>
+        <segue reference="rWK-U0-pPj"/>
+        <segue reference="hkk-Og-SfN"/>
+
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

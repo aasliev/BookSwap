@@ -142,16 +142,16 @@ class CoreDataClass {
 
 
     //Adding list of friends and their details inside Core Data Model
-    private func addFriendList (friendList : Dictionary<String , Dictionary<String  , Any>>) {
+    private func addFriendList (friendList : Dictionary<Int , Dictionary<String  , Any>>) {
 
         var friends = [Friends]()
 
-        for (userEmail, data) in friendList {
+        for (_, data) in friendList {
 
             //Getting the latest Context, as saveContext is called before loop ends
 
             let newFriend = Friends(context: getContext())
-            newFriend.friendsEmail = userEmail
+            newFriend.friendsEmail = (data[databaseInstance.USER_EMAIL_FIELD] as! String)
             newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
             newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
             

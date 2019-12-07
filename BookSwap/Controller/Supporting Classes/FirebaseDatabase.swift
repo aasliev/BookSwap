@@ -230,15 +230,17 @@ class FirebaseDatabase {
     
     
     //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
-    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
+    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
         db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
             
-            var dictionary : Dictionary<String, Dictionary<String  , Any>> = [:]
+            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
             
             if (self.checkError(error: error , whileDoing: "getting list of friends")) {
-                
+                var index = 0
                 for document in querySnapshot!.documents {
-                    dictionary[document.documentID] = document.data()
+                    dictionary[index] = document.data()
+                    //dictionary[document.documentID] = document.data()
+                    index += 1
                 }
             }
     

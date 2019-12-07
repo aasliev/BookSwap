@@ -77,9 +77,9 @@ class ProfileScreen: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toFriendsList" {
-            
+            print("Going to Friend's List: \(usersProfile)")
             let destinationVC = segue.destination as! FriendListScreen
-            destinationVC.usersFriendsList = usersProfile
+            destinationVC.usersFriendsList = usersProfile!
             
         } else if segue.identifier == "toBooksPageController" {
             

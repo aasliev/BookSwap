@@ -24,6 +24,7 @@ class WishListScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     
+    //Variable to keep track of who's screen is user on
     var usersWishList : String?
     
     //Request for search result
@@ -34,6 +35,7 @@ class WishListScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //gets the email of user passed from prfileScreen
         usersWishList = authInstance.getUsersScreen()
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
@@ -50,16 +52,12 @@ class WishListScreen: UITableViewController {
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        //checks if it is not logged in user's whishListScreen, if true
+        //it returns count of otherWishList elements. If false, itemArray's count
         return !authInstance.isItOtherUsersPage(userEmail: usersWishList!) ?  itemArray.count : otherWishList.count
     }
     
-    
-    //This method will be called when user selects or clicks on any row inside table
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //to create click animation
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

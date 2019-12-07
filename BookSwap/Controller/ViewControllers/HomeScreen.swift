@@ -27,6 +27,8 @@ class HomeScreen: UIViewController {
 //        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: "Mr. One") { (dict) in
 //            print(dict as AnyObject)
 //        }
+        
+        
     }
     
     

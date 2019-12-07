@@ -18,12 +18,12 @@ class CommonFunctions{
         
     }
 
-    func createUIalert(_ message : String, _ screen : UIViewController )
-    {
-    let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-    let action = UIAlertAction(title: "OK", style: .default)
-    alertController.addAction(action)
-    screen.present(alertController, animated: true, completion: nil)
+    func createUIalert(title : String = "Error", _ message : String, _ screen : UIViewController ) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(action)
+        screen.present(alertController, animated: true, completion: nil)
     
     }
     

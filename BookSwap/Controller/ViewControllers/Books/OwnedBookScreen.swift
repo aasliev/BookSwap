@@ -33,13 +33,16 @@ class OwnedBookScreen: UITableViewController {
        // loadItems()
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
+        
+        //this disables the selection of row.
+        //When user clicks on book, no selection will highlight any row
+        tableView.allowsSelection = false
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         loadItems()
-        self.tableView.reloadData()
     }
     
     
@@ -106,6 +109,7 @@ class OwnedBookScreen: UITableViewController {
                     otherUser = try context.fetch(requestForOthersOwnedBook)
                 }
             }
+            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }

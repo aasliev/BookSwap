@@ -29,11 +29,14 @@ class ProfileScreen: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        databaseIstance.addNewFriend(currentUserEmail: authInstance.getCurrentUserEmail()!, friendsEmail: "rutvik48@gmail.com", friendsUserName: "RV")
+        
         setUserDetails()
 
         checkOtherUser()
         
     }
+    
     
     
     func setUserDetails(){
@@ -64,6 +67,11 @@ class ProfileScreen: UIViewController {
             
             signOutButton.title = "Unfriend"
         }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
     }
     
     @IBAction func signOutButtonPressed(_ sender: Any) {

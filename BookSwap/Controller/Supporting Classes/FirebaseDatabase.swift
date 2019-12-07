@@ -109,7 +109,7 @@ class FirebaseDatabase {
     }
     
     //Add a New Friend
-    func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool) {
+    func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool = true ) {
        
         let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail)
         

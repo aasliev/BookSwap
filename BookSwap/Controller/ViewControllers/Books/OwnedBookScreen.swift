@@ -16,6 +16,8 @@ class OwnedBookScreen: UITableViewController {
     var itemArray = [OwnedBook]()
     var otherUser = [OthersOwnedBook]()
     
+    var usersBookShelf : String?
+    
     //context of Core Data file
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -30,7 +32,11 @@ class OwnedBookScreen: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // loadItems()
+       
+        //setting usersBookShelf equals to email of usersScreen
+        //Whis was added inside ProfileScreen/prepareSegue
+        usersBookShelf = authInstance.getUsersScreen()
+        
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
         
@@ -41,7 +47,7 @@ class OwnedBookScreen: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+    
         loadItems()
     }
     
@@ -57,7 +63,7 @@ class OwnedBookScreen: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("This is otherUser.count: \(otherUser.count)")
-        return authInstance.isOtherUserEmpty() ?  itemArray.count : otherUser.count
+        return !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) ?  itemArray.count : otherUser.count
     }
     
     
@@ -65,7 +71,7 @@ class OwnedBookScreen: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
         
-        if authInstance.isOtherUserEmpty(){
+        if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!){
             
             cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
             cell.authorOfTheBook?.text = itemArray[indexPath.row].author
@@ -89,7 +95,7 @@ class OwnedBookScreen: UITableViewController {
             
             //checks which user is currently on the OwnedBook page
             //NOTE: Other User will be true if user open someone else's OwnedBook
-            if authInstance.isOtherUserEmpty() {
+            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
                 
                 itemArray = try context.fetch(requestForOwnedBook)
             } else {
@@ -97,7 +103,7 @@ class OwnedBookScreen: UITableViewController {
                 //Making sure the database call is made only once to get data and load it into 'otherUser' array
                 //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
                 if (otherUser.count == 0) {
-                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
+                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
                         
                         //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
                         self.loadDataForOtherUser(dict: dataDictionary)
@@ -183,7 +189,7 @@ extension OwnedBookScreen: UISearchBarDelegate{
         let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
         
         //Checking if otherUser is empty
-        if (authInstance.isOtherUserEmpty()) {
+        if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             
             //creating request for current user's own OwnedBook page
             requestForOwnedBook.predicate = nsPredicate
@@ -219,7 +225,7 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
-        if (authInstance.isOtherUserEmpty()) {
+        if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             guard orientation == .right else { return nil }
         } else { return nil}
         

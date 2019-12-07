@@ -13,6 +13,8 @@ class historyPageViewController: UIPageViewController, UIPageViewControllerDeleg
     
     var pageControl = UIPageControl()
     
+    var usersHistory : String?
+    
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {

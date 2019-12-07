@@ -22,11 +22,14 @@ class FriendListScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     
+    var usersFriendsList : String?
+    var friensEmail : String?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         loadItems()
         tableView.rowHeight = 80
     }
@@ -40,7 +43,8 @@ class FriendListScreen: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        authInstance.otherUser = itemArray[indexPath.row].friendsEmail!
+        friensEmail = itemArray[indexPath.row].friendsEmail!
+        print("1. Friend's Email : \(friensEmail)")
         performSegue(withIdentifier: "friendsProfileView", sender: self)
         
     }
@@ -55,6 +59,24 @@ class FriendListScreen: UITableViewController {
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "friendsProfileView" {
+            
+            print("2. Friend's Email : \(friensEmail)")
+            let destinationVC = segue.destination as! ProfileScreen
+            destinationVC.usersProfile = friensEmail
+            
+        } else if segue.identifier == "friendsBookShelf" {
+            
+            print("3. Friend's Email : \(friensEmail)")
+            let destinationVC = segue.destination as! booksPageViewController
+            destinationVC.usersBookPage = friensEmail
+        }
+        
+        print("4. Friend's Email : \(friensEmail)")
+    
+    }
     
     
     //MARK: - Model Manipulation Methods
@@ -109,7 +131,7 @@ extension FriendListScreen: SwipeTableViewCellDelegate{
         let swipeAction = SwipeAction(style: .default, title: "Book Shelf") { action, indexPath in
             // handle action by updating model with deletion
             
-            self.authInstance.otherUser = self.itemArray[indexPath.row].friendsEmail!
+            self.friensEmail = self.itemArray[indexPath.row].friendsEmail!
             self.performSegue(withIdentifier: "friendsBookShelf", sender: self)
 //            self.context.delete(self.itemArray[indexPath.row])
 //            self.itemArray.remove(at: indexPath.row)

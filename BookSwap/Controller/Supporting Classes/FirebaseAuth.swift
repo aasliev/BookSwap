@@ -14,7 +14,7 @@ class FirebaseAuth {
     let authInstance : Auth
     let commonFunctions : CommonFunctions
     private var currentUser : String
-    var otherUser  : String = ""
+    var usersScreen  : String = ""
     
     static let sharedFirebaseAuth = FirebaseAuth()
     
@@ -34,11 +34,19 @@ class FirebaseAuth {
         
         //currentUser will be equal to email of currently signed in user if
         //otherUser is nil. otherUser will be asigned email of other user's email
-        currentUser = otherUser == "" ? (authInstance.currentUser?.email)! : otherUser
+        currentUser = (authInstance.currentUser?.email)!
         
-        print("\n\nCurrent User: \(currentUser) \n Other user: \(otherUser)\n")
+//        //checking if otherUser holds email of logged in user
+//        if (otherUser == (authInstance.currentUser?.email)) {
+//            //if it is true change otherUser to 
+//            otherUser = ""
+//        }
         return currentUser
         
+    }
+    
+    func getUsersScreen() -> String {
+        return usersScreen
     }
     
     //Sign out current user from Firebase Auth
@@ -78,20 +86,14 @@ class FirebaseAuth {
     }
     
     
-    //Clear the email stored inside other user variable
-    func clearOtherUser() {
-        self.otherUser = ""
-    }
-    
-    
     //Checks if other user is empty
-    func isOtherUserEmpty() -> Bool {
+    func isItOtherUsersPage(userEmail : String) -> Bool {
         
-        if otherUser == "" {
-            return true
-        } else {
+        if userEmail == getCurrentUserEmail() {
             return false
         }
+        
+        return true
     }
     
 //    //Perform the sign in method

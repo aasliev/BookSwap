@@ -20,6 +20,9 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    //Holds email of user's book page
+    var usersBookPage : String?
+    
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     // MARK: UIPageViewControllerDataSource
@@ -33,7 +36,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
-        
         
         
         // This sets up the first view that will show up on our page control
@@ -50,10 +52,14 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         checkOtherUser()
     }
     
+    func getUser() -> String? {
+        return usersBookPage
+    }
+    
     func checkOtherUser() {
         
         //cheking if user is on their own book page or some else's
-        if (!authInstance.isOtherUserEmpty()) {
+        if (authInstance.isItOtherUsersPage(userEmail: usersBookPage!)) {
             //if other user is not empty, that means user is on someone else's screen
             addButton.isEnabled = false
             addButton.tintColor = UIColor.clear

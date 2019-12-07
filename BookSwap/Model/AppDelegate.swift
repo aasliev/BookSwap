@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // User is signed in.
                 print("Automatic Sign In: \(String(describing: user?.email))")
                 let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileScreen")
+                
                 self.window!.rootViewController = initialViewController
                 
             } else {

@@ -32,9 +32,16 @@ class WishListScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadItems()
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
+        
+        //this disables the selection of row.
+        //When user clicks on book, no selection will highlight any row
+        tableView.allowsSelection = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadItems()
     }
     
     
@@ -93,6 +100,7 @@ class WishListScreen: UITableViewController {
                     otherWishList = try context.fetch(reqestForOthersWishList)
                 }
             }
+            tableView.reloadData()
             
         } catch {
             print("Error fetching data from context \(error)")
@@ -170,17 +178,16 @@ extension WishListScreen: UISearchBarDelegate {
             //creating request for current user's own WishList page
             requestForWishList.predicate = nsPredicate
             requestForWishList.sortDescriptors = nsSortDescriptor
-            loadItems()
+            
         } else {
             
             //creating reqest for other user's WishList page
             reqestForOthersWishList.predicate = nsPredicate
             reqestForOthersWishList.sortDescriptors = nsSortDescriptor
-            loadItems()
         }
         
-        //loadItems(with: request)
-        tableView.reloadData()
+        loadItems()
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -191,7 +198,6 @@ extension WishListScreen: UISearchBarDelegate {
                 searchBar.resignFirstResponder()
             }
             loadItems()
-            tableView.reloadData()
         }
     }
     
@@ -226,6 +232,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 CoreDataClass.sharedCoreData.saveContext()
                 
             }
+            
             moreAction.image = UIImage(named: "More-icon")
             
             return [moreAction]

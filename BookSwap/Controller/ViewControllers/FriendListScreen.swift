@@ -17,6 +17,11 @@ class FriendListScreen: UITableViewController {
     var itemArray = [Friends]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    //Instances of other classes, which will be used to access the methods
+    let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let coreDataClassInstance = CoreDataClass.sharedCoreData
+    
     
     
     override func viewDidLoad() {
@@ -30,6 +35,13 @@ class FriendListScreen: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return itemArray.count
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        authInstance.otherUser = itemArray[indexPath.row].friendsEmail!
+        performSegue(withIdentifier: "friendsProfileView", sender: self)
         
     }
     
@@ -94,17 +106,20 @@ extension FriendListScreen: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
         
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+        let swipeAction = SwipeAction(style: .default, title: "Book Shelf") { action, indexPath in
             // handle action by updating model with deletion
-            self.context.delete(self.itemArray[indexPath.row])
-            self.itemArray.remove(at: indexPath.row)
-            CoreDataClass.sharedCoreData.saveContext()
+            
+            self.authInstance.otherUser = self.itemArray[indexPath.row].friendsEmail!
+            self.performSegue(withIdentifier: "friendsBookShelf", sender: self)
+//            self.context.delete(self.itemArray[indexPath.row])
+//            self.itemArray.remove(at: indexPath.row)
+//            CoreDataClass.sharedCoreData.saveContext()
         }
         
         // customize the action appearance
-        deleteAction.image = UIImage(named: "trash-icon")
+        swipeAction.image = UIImage(named: "book-icon")
         
-        return [deleteAction]
+        return [swipeAction]
     }
     
     

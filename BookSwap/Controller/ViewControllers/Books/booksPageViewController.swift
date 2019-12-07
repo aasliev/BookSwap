@@ -13,6 +13,9 @@ import CoreData
 class booksPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     var pageControl = UIPageControl()
+    
+    let commonFunctions = CommonFunctions.sharedCommonFunction
+    let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -45,10 +48,6 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         configurePageControl()
         
         checkOtherUser()
-        
-        // Do any additional setup after loading the view.
-        
-       // var vcIndex = orderedViewControllers.index(of: viewController)
     }
     
     func checkOtherUser() {
@@ -62,6 +61,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     }
     
     func configurePageControl() {
+        
         // The total number of pages that are available is based on how many available colors we have.
         pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
         self.pageControl.numberOfPages = orderedViewControllers.count
@@ -141,11 +141,11 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         if (trueForOwnedBook_falseForWishList) {
             //add book to OwnedBook
-            FirebaseDatabase.shared.addToOwnedBook(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            databaseIstance.addToOwnedBook(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
             
         } else {
             //add book to WishList
-            FirebaseDatabase.shared.addToWishList(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            databaseIstance.addToWishList(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
             
         }
     }
@@ -161,11 +161,19 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         
         let alert = UIAlertController(title: "Add New Book", message: "", preferredStyle: .alert)
+        
         let action = UIAlertAction(title: "Add Book", style: .default) { (action) in
             
             //what will happen when the user clicks the add button
             bookTitle = titleTextField.text!
             bookAuthor = authorTextField.text!
+            
+            if (bookTitle.isEmpty || bookAuthor.isEmpty) {
+                print("one Field is empty ")
+                
+                self.commonFunctions.createUIalert("Fields can't be empty.\nTry Again", self)
+                return
+            }
             
             //if in the owned books page, save it to owned books (or set the boolean to true, if we are using bool)
             //else save it to wish list
@@ -182,6 +190,8 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: false)
                 
             }
+            
+            self.commonFunctions.createUIalert(title : "New Book has been added!", "Pulldown list to update.", self)
             
         }
         

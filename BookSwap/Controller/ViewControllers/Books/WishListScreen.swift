@@ -24,6 +24,8 @@ class WishListScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     
+    var usersWishList : String?
+    
     //Request for search result
     let requestForWishList : NSFetchRequest<WishList> = WishList.fetchRequest()
     let reqestForOthersWishList : NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()
@@ -32,6 +34,7 @@ class WishListScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        usersWishList = authInstance.getUsersScreen()
         tableView.rowHeight = 80
         tableView.refreshControl = refresher
         
@@ -47,7 +50,7 @@ class WishListScreen: UITableViewController {
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return authInstance.isOtherUserEmpty() ?  itemArray.count : otherWishList.count
+        return !authInstance.isItOtherUsersPage(userEmail: usersWishList!) ?  itemArray.count : otherWishList.count
     }
     
     
@@ -63,7 +66,7 @@ class WishListScreen: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "wishCell", for: indexPath) as! WishListTableViewCell
         
-        if authInstance.isOtherUserEmpty(){
+        if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
             
             cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
             cell.authorOfTheBook?.text = itemArray[indexPath.row].author
@@ -85,13 +88,13 @@ class WishListScreen: UITableViewController {
             
             //checks which user is currently on the WishList page
             //NOTE: Other User will be true if user open someone else's WishList
-            if authInstance.isOtherUserEmpty() {
+            if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
                 
                 itemArray = try context.fetch(requestForWishList)
             } else {
                 
                 if (otherWishList.count == 0) {
-                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.otherUser, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
+                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
                         
                     }
@@ -173,7 +176,7 @@ extension WishListScreen: UISearchBarDelegate {
         let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
         
         //Checking if otherUser is empty
-        if (authInstance.isOtherUserEmpty()) {
+        if (!authInstance.isItOtherUsersPage(userEmail: usersWishList!)) {
             
             //creating request for current user's own WishList page
             requestForWishList.predicate = nsPredicate
@@ -209,7 +212,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
    
         //Checks if user is on someone else's WishList page. If yes, disable the feature of swiping left to delete and right for moving from WishList to OwnedBook..
-        if (!authInstance.isOtherUserEmpty()) { return nil }
+        if (authInstance.isItOtherUsersPage(userEmail: usersWishList!)) { return nil }
         
         guard orientation == .right else {
             let moreAction = SwipeAction(style: .default, title: "Move") { action, indexPath in

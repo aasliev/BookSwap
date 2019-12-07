@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+
 class ProfileScreen: UIViewController {
 
     
@@ -22,15 +23,15 @@ class ProfileScreen: UIViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     
+    //Variable to keep track of user's profile
+    var usersProfile : String?
     
     override func viewDidLoad() {
     
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        databaseIstance.addNewFriend(currentUserEmail: authInstance.getCurrentUserEmail()!, friendsEmail: "rutvik48@gmail.com", friendsUserName: "RV")
-        
+
         setUserDetails()
 
         checkOtherUser()
@@ -41,19 +42,22 @@ class ProfileScreen: UIViewController {
     
     func setUserDetails(){
         
+        //If usersProfile is not initialized, set it equal to curent user's email
+        //usersProfile will be nil when app auto log in the current user
+        if usersProfile == nil {
+            usersProfile =  authInstance.getCurrentUserEmail()!
+        }
         
-        //userNameLbl.text = (authInstance.getUserName())
-        
-        databaseIstance.getUserName(usersEmail: authInstance.getCurrentUserEmail()!) { (userName) in
+        databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in
             self.userNameLbl.text = userName
         }
         
         
-        databaseIstance.getRating(usersEmail: authInstance.getCurrentUserEmail()!) { (rating) in
+        databaseIstance.getRating(usersEmail: usersProfile!) { (rating) in
             self.rating_numberOfSwaps.text = "Rating: \(rating)"
             
             //Updating Number of swps user has done
-            self.databaseIstance.getNumberOfSwaps(usersEmail: self.authInstance.getCurrentUserEmail()!) { (numberOfSwaps) in
+            self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
             }
         }
@@ -63,7 +67,7 @@ class ProfileScreen: UIViewController {
     
     func checkOtherUser() {
         
-        if (!authInstance.isOtherUserEmpty()) {
+        if (authInstance.isItOtherUsersPage(userEmail: usersProfile!)) {
             
             signOutButton.title = "Unfriend"
         }
@@ -72,13 +76,30 @@ class ProfileScreen: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        if segue.identifier == "toFriendsList" {
+            
+            let destinationVC = segue.destination as! FriendListScreen
+            destinationVC.usersFriendsList = usersProfile
+            
+        } else if segue.identifier == "toBooksPageController" {
+            
+            let destinationVC = segue.destination as! booksPageViewController
+            destinationVC.usersBookPage = usersProfile
+            authInstance.usersScreen = usersProfile!
+            
+        } else if segue.identifier == "toHistoryPageController" {
+            
+            let destinationVC = segue.destination as! historyPageViewController
+            destinationVC.usersHistory = usersProfile
+        }
+        
     }
     
     @IBAction func signOutButtonPressed(_ sender: Any) {
         //create UIAlert with yes/no option
         let alert : UIAlertController
         
-        if (authInstance.isOtherUserEmpty()){
+        if (!authInstance.isItOtherUsersPage(userEmail: usersProfile!)){
             alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         } else {
             alert = UIAlertController(title: "Unfriend", message: "Do you want to delete users_email from your friend list?", preferredStyle: .alert)
@@ -89,7 +110,7 @@ class ProfileScreen: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             
             
-            if (self.authInstance.isOtherUserEmpty()) {
+            if (!self.authInstance.isItOtherUsersPage(userEmail: self.usersProfile!)) {
                 // Sign Out the user from Firebase Auth
                 
                 do {

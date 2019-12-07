@@ -14,6 +14,8 @@ class SearchScreenTableViewController: UITableViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     
+    var selectedUser : String?
+    
     let USER_NAME = "UserName"
     let RATING = "Rating"
     let EMAIL = "Email"
@@ -66,7 +68,7 @@ class SearchScreenTableViewController: UITableViewController {
 //    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        authInstance.otherUser = (searchResult[indexPath.row]![EMAIL] as! String)
+        selectedUser = (searchResult[indexPath.row]![EMAIL] as! String)
         
         performSegue(withIdentifier: "toProfileScreen", sender: self)
         
@@ -89,6 +91,14 @@ class SearchScreenTableViewController: UITableViewController {
         cell.emailLbl?.text = (searchResult[indexPath.row]![EMAIL]! as! String)
         
         return cell
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toProfileScreen" {
+            let destinationVC = segue.destination as! ProfileScreen
+            destinationVC.usersProfile = selectedUser
+        }
     }
 
     

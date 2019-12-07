@@ -14,7 +14,11 @@ import SwipeCellKit
 
 class FriendListScreen: UITableViewController {
 
+    //Array which takes objects of Friends
     var itemArray = [Friends]()
+    var otherFriendsList = [OthersFriend]()
+    
+    //context of Core Data file
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     //Instances of other classes, which will be used to access the methods
@@ -22,37 +26,64 @@ class FriendListScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     
+    //Variables to keep track of who's screen is user on
     var usersFriendsList : String?
     var friensEmail : String?
+    
+    //Request for search result
+    let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
+    let reqestForOthersFriends : NSFetchRequest<OthersFriend> = OthersFriend.fetchRequest()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        print("This is usersFriendsList : \(usersFriendsList)")
+        
+        tableView.rowHeight = 80
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
         
         loadItems()
-        tableView.rowHeight = 80
+        
     }
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return itemArray.count
+        //checks if it is not logged in user's friendsList, if true
+        //it returns count of otherFriendsList elements. If false, itemArray's count
+        return !authInstance.isItOtherUsersPage(userEmail: usersFriendsList!) ?  itemArray.count : otherFriendsList.count
         
     }
-    
+    //This method will be called when user selects or clicks on any row inside table
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        //to create click animation
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        //setting friendsEmail equals to email of
         friensEmail = itemArray[indexPath.row].friendsEmail!
-        print("1. Friend's Email : \(friensEmail)")
+        
         performSegue(withIdentifier: "friendsProfileView", sender: self)
         
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendsCell", for: indexPath) as! FriendsTableViewCell
-        cell.userName?.text = itemArray[indexPath.row].friendsEmail
-        cell.add.isHidden = true
+        
+        if !authInstance.isItOtherUsersPage(userEmail: usersFriendsList!) {
+            
+            cell.userName?.text = itemArray[indexPath.row].friendsEmail
+            cell.add.isHidden = true
+            
+        } else {
+            cell.userName?.text = otherFriendsList[indexPath.row].friendsEmail
+            cell.add.isHidden = true
+        }
+        
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps
         //cell.imageView!.image = UIImage(named: "bookcrab.png")
         cell.delegate = self
@@ -82,14 +113,60 @@ class FriendListScreen: UITableViewController {
     //MARK: - Model Manipulation Methods
     func loadItems(with request: NSFetchRequest<Friends> = Friends.fetchRequest()) {
         do {
-            itemArray = try context.fetch(request)
+            //checks which user is currently on the WishList page
+            //NOTE: Other User will be true if user open someone else's WishList
+            if !authInstance.isItOtherUsersPage(userEmail: usersFriendsList!) {
+                
+                itemArray = try context.fetch(requestForFriends)
+            } else {
+                
+                if (otherFriendsList.count == 0) {
+                    databaseIstance.getListOfFriends (usersEmail: usersFriendsList!) { (dataDictionary) in
+                        self.loadDataForOtherUser(dict: dataDictionary)
+                    }
+                } else {
+                    otherFriendsList = try context.fetch(reqestForOthersFriends)
+                }
+            }
+            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }
+    }
+    
+    
+    //Loads the data inside OthersWishList array, which is received from Firestore
+    func loadDataForOtherUser(dict : Dictionary<Int  , Dictionary<String  , Any>>) {
+        
+        //Clearing the data stored inside Core Data file\
+        
+        self.coreDataClassInstance.resetOneEntitie(entityName: "OthersFriend")
+        
+        //Clearing the array which holds objects of 'OthersOwnedBook'
+        otherFriendsList.removeAll()
+        
+        for (_, data) in dict {
+            
+            //creating an object of OthersWishList with the context of Core Data
+            let newFriend = OthersFriend(context: self.context)
+            
+            //adding data from dictionary, data holds information such as bookName and author
+        newFriend.friendsEmail = (data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String)
+            
+            //Appending inside otherUser array
+            otherFriendsList.append(newFriend)
+        }
+        
+        //saving all the changes made in core data
+        coreDataClassInstance.saveContext()
+        
+        //reloading the table view to show the latest result
+        tableView.reloadData()
         
     }
 
 }
+
 
 //MARK: Search Extention
 //searches the list of your friends...
@@ -97,13 +174,28 @@ class FriendListScreen: UITableViewController {
 extension FriendListScreen: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let request : NSFetchRequest<Friends> = Friends.fetchRequest()
-        request.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@", searchBar.text!)
         
-        request.sortDescriptors = [NSSortDescriptor(key: "friendsEmail", ascending: true)]
+        //creating NSPredicate which finds keyword in bookName and author field
+        let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
         
-        loadItems(with: request)
-        tableView.reloadData()
+        //once the result is recived, sorting it by bookName
+        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
+        
+        //Checking if otherUser is empty
+        if (!authInstance.isItOtherUsersPage(userEmail: usersFriendsList!)) {
+            
+            //creating request for current user's own WishList page
+            requestForFriends.predicate = nsPredicate
+            requestForFriends.sortDescriptors = nsSortDescriptor
+            
+        } else {
+            
+            //creating reqest for other user's WishList page
+            reqestForOthersFriends.predicate = nsPredicate
+            reqestForOthersFriends.sortDescriptors = nsSortDescriptor
+        }
+        
+        loadItems()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

@@ -46,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		108D1839F26450719EAD6186 /* Pods-BookSwap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSwap.debug.xcconfig"; path = "Target Support Files/Pods-BookSwap/Pods-BookSwap.debug.xcconfig"; sourceTree = "<group>"; };
+		360DE7A8239B33E30075C32E /* BookSwap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookSwap.entitlements; sourceTree = "<group>"; };
 		360E44B4238054D600A58946 /* userData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = userData.xcdatamodel; sourceTree = "<group>"; };
 		363A8FFC235645E30071CC45 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
 		364080902396CCF100335CBE /* MessagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesScreen.swift; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		B302F242234925BB00F4E537 /* BookSwap */ = {
 			isa = PBXGroup;
 			children = (
+				360DE7A8239B33E30075C32E /* BookSwap.entitlements */,
 				B302F2592349589700F4E537 /* Model */,
 				B302F25A234958B600F4E537 /* View */,
 				B302F25B234958C200F4E537 /* Controller */,
@@ -258,7 +260,7 @@
 				B302F23C234925BB00F4E537 /* Sources */,
 				B302F23D234925BB00F4E537 /* Frameworks */,
 				B302F23E234925BB00F4E537 /* Resources */,
-				DC5E1F0FC0807AAB587DD258 /* [CP] Embed Pods Frameworks */,
+				6DA8962500C309F8857D08D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -340,7 +342,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DC5E1F0FC0807AAB587DD258 /* [CP] Embed Pods Frameworks */ = {
+		6DA8962500C309F8857D08D4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -539,6 +541,7 @@
 			baseConfigurationReference = 108D1839F26450719EAD6186 /* Pods-BookSwap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BookSwap/BookSwap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VMR9636XSN;
@@ -561,6 +564,7 @@
 			baseConfigurationReference = 7E5055D44AF66E2E269DF385 /* Pods-BookSwap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BookSwap/BookSwap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VMR9636XSN;

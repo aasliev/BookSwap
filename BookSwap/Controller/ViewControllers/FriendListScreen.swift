@@ -41,6 +41,8 @@ class FriendListScreen: UITableViewController {
         print("This is usersFriendsList : \(usersFriendsList)")
         
         tableView.rowHeight = 80
+        self.hideKeyboardWhenTappedAround()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -34,6 +34,8 @@ class SearchScreenTableViewController: UITableViewController {
         //loadResult(search: "Mr. One")
         
         tableView.rowHeight = 80
+        self.hideKeyboardWhenTappedAround()
+
         
     }
     

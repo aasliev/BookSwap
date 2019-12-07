@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import UserNotifications
 
 class Notifiactions {
     //singleton
@@ -17,9 +18,6 @@ class Notifiactions {
     
     private init(){}
     
-    func sendRequest(sender : String, reciever: String, code: Int){
-        //if code == 0 (friend request)
-        //inside the resivers notification entity in fireStore add senders name(username or email)
-        //with the code 0
-    }
+
+
 }

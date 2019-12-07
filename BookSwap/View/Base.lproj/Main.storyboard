@@ -1037,6 +1037,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PzP-tj-0fH">
                                                         <rect key="frame" x="0.0" y="0.0" width="315" height="50"/>
                                                         <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -1169,7 +1170,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="ToZ-ZE-fEe"/>
         <segue reference="H6v-Co-17d"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="uKd-0S-BGJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

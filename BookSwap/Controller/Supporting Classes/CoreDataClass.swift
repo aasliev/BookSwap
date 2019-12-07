@@ -158,9 +158,24 @@ class CoreDataClass {
             friends.append(newFriend)
         }
         
+        
          //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
     }
+    
+    func addFriendIntoCoreData (friendsEmail : String, friendsUserName : String, numberOfSwaps : String) {
+        var friends = [Friends]()
+        //Getting the latest Context, as saveContext is called before loop ends
+        
+        let newFriend = Friends(context: getContext())
+        newFriend.friendsEmail = (friendsEmail)
+        newFriend.numOfSwaps = Int32(numberOfSwaps)!
+        newFriend.userName = (friendsUserName)
+        
+        friends.append(newFriend)
+        saveContext()
+    }
+    
 
 
     //Adding history data to core data model

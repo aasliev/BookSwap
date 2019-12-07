@@ -27,7 +27,8 @@ class HomeScreen: UIViewController {
 //        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: "Mr. One") { (dict) in
 //            print(dict as AnyObject)
 //        }
-        
+        self.hideKeyboardWhenTappedAround()
+
         
     }
     
@@ -76,4 +77,16 @@ class HomeScreen: UIViewController {
     
     @IBAction func unwindToHomeScreen(_ sender: UIStoryboardSegue){}
     
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

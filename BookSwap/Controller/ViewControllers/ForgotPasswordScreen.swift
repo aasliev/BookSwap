@@ -17,13 +17,20 @@ class ForgotPasswordScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+
     }
     
     @IBAction func resetButtonPressed(_ sender: UIButton) {
         
         if (commonFunctions.checkIfEmpty(emailTextField, "Email", screen: self)) {
             
-            authInstance.resetPassword(email: emailTextField.text!, viewController: self)
+            authInstance.resetPassword(email: emailTextField.text!, viewController: self) { boolean in
+                if !boolean {self.performSegue(withIdentifier: "backToHomePage", sender: self)}
+                
+            }
+            
+            
             
         }
     }

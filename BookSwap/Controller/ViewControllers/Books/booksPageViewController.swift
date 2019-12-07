@@ -200,6 +200,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             self.commonFunctions.createUIalert(title : "New Book has been added!", "Pulldown list to update.", self)
             
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alert.addTextField { (alertTextField) in
                 alertTextField.placeholder = "Title of the Book"
@@ -210,8 +211,9 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             authorTextField = alertTextField
         }
         
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
+        alert.addAction(action)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
     
     

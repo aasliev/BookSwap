@@ -23,6 +23,8 @@ class SignUpScreen: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.hideKeyboardWhenTappedAround()
+
     }
     
     func checkIfTextFieldIsEmpty() -> Bool {

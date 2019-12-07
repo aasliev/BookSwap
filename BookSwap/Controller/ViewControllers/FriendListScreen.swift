@@ -64,9 +64,15 @@ class FriendListScreen: UITableViewController {
         //to create click animation
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //setting friendsEmail equals to email of
-        friensEmail = itemArray[indexPath.row].friendsEmail!
+        print("indexPath.row: \(indexPath.row)")
         
+        if authInstance.isItOtherUsersPage(userEmail: usersFriendsList!){
+            
+            friensEmail = otherFriendsList[indexPath.row].friendsEmail!
+        } else {
+            //setting friendsEmail equals to email of
+            friensEmail = itemArray[indexPath.row].friendsEmail!
+        }
         performSegue(withIdentifier: "friendsProfileView", sender: self)
         
     }
@@ -76,11 +82,11 @@ class FriendListScreen: UITableViewController {
         
         if !authInstance.isItOtherUsersPage(userEmail: usersFriendsList!) {
             
-            cell.userName?.text = itemArray[indexPath.row].friendsEmail
+            cell.userName?.text = itemArray[indexPath.row].userName
             cell.add.isHidden = true
             
         } else {
-            cell.userName?.text = otherFriendsList[indexPath.row].friendsEmail
+            cell.userName?.text = otherFriendsList[indexPath.row].userName
             cell.add.isHidden = true
         }
         
@@ -152,6 +158,7 @@ class FriendListScreen: UITableViewController {
             
             //adding data from dictionary, data holds information such as bookName and author
         newFriend.friendsEmail = (data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String)
+            newFriend.userName = (data[self.databaseIstance.USER_EMAIL_FIELD] as! String)
             
             //Appending inside otherUser array
             otherFriendsList.append(newFriend)

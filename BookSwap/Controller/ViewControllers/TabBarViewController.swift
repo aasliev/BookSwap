@@ -21,7 +21,6 @@ class TabBarViewController: UITabBarController {
     // UITabBarDelegate
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         //item.title == "Home" ? FirebaseAuth.sharedFirebaseAuth.clearOtherUser() :
-        print("Selected item: ", item.title)
     }
     
     // UITabBarControllerDelegate

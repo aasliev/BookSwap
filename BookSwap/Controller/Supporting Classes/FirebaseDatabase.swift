@@ -50,6 +50,8 @@ class FirebaseDatabase {
     
     private init() {
         
+        FirebaseApp.configure()
+        
         db = Firestore.firestore()
         authInstance = FirebaseAuth.sharedFirebaseAuth
         
@@ -348,9 +350,16 @@ class FirebaseDatabase {
     //Method gets username of given email of a user
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
-        getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { userName in
+        getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
             
-            completion(userName as! String)
+            let userName : String
+            userName = Int("\(uName)") == nil ? uName as! String : ""
+            if (userName != ""){
+                completion(userName)
+            } else {
+                completion("Updating...")
+            }
+            //completion((userName ?? "Updating" ) as! String)
             
         }
     }
@@ -360,9 +369,10 @@ class FirebaseDatabase {
         
         getFieldData(usersEmail: usersEmail.lowercased(), fieldName: RATING_FIELD){ rating in
             
-            if (rating as! Int != -1){
+            if ((rating as? Int != nil) && (rating as! Int != -1)){
                 completion(rating as! Int)
-                
+            } else {
+                completion(-1)
             }
             
         }
@@ -373,8 +383,11 @@ class FirebaseDatabase {
         
         getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in
             
-            completion(swaps as! Int)
-            
+            if ((swaps as? Int != nil) && (swaps as! Int != -1)){
+                completion(swaps as! Int)
+            } else {
+                completion(-1)
+            }
         }
     }
     

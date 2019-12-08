@@ -104,6 +104,7 @@
                         <viewLayoutGuide key="safeArea" id="v2s-wR-Ifz"/>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="L9M-mm-wAH"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailTextField" destination="b7j-Hv-hRi" id="KEt-Gf-Cqp"/>
@@ -233,7 +234,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-hV-j0g">
+
                                 <rect key="frame" x="0.0" y="88" width="414" height="433"/>
+
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jq2-nP-epB">
                                         <rect key="frame" x="0.0" y="215" width="414" height="100"/>
@@ -275,10 +278,11 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N5p-vK-QNJ">
+
                                 <rect key="frame" x="5" y="531" width="404" height="212"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9w-EF-v5x">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="125.5"/>
                                         <color key="backgroundColor" red="0.65098039215686276" green="0.29019607843137257" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="tintColor" red="0.29822301429999998" green="0.64939669150000001" blue="0.6617907676" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -290,10 +294,10 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YeZ-fT-tnT">
-                                        <rect key="frame" x="0.0" y="111" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="404" height="125.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRW-wy-Sbg">
-                                                <rect key="frame" x="0.0" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.6588235294117647" green="0.29019607843137257" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="Friends">
@@ -305,7 +309,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYv-te-TLF">
-                                                <rect key="frame" x="207" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="207" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.64313725490196083" green="0.29019607843137257" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="History">
@@ -347,13 +351,12 @@
                         <outlet property="rating_numberOfSwaps" destination="Kw8-hg-o0E" id="38J-vp-hiU"/>
                         <outlet property="signOutButton" destination="AfV-vI-nxH" id="upd-z7-ss8"/>
                         <outlet property="userNameLbl" destination="QUJ-vg-khb" id="yty-mB-08Z"/>
-                        <segue destination="v7r-yg-rZx" kind="unwind" identifier="toHomeScreen" unwindAction="unwindToHomeScreen:" id="cfD-fO-wL9"/>
+                        <segue destination="2HL-cW-Mbl" kind="unwind" identifier="toHomeScreen" unwindAction="unwindToHomeScreen:" id="MRE-fV-is7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECG-3E-LEK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="v7r-yg-rZx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="496" y="-1296"/>
+            <point key="canvasLocation" x="333" y="-1402"/>
         </scene>
         <!--TabBar-->
         <scene sceneID="vyZ-Vh-GM0">
@@ -389,6 +392,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wYk-DZ-FfH">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -604,6 +608,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F6P-3a-Rve">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -909,6 +914,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KUq-fz-IW5">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -936,8 +942,9 @@
                         <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackTranslucent" placeholder="Search Friends" id="6K9-0C-UpQ">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <color key="barTintColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <textInputTraits key="textInputTraits"/>
                             <scopeButtonTitles>
                                 <string>Title</string>
@@ -955,6 +962,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-W7-7LF">
                                             <rect key="frame" x="8" y="20" width="60" height="24.5"/>
                                             <constraints>
@@ -995,7 +1003,7 @@
                                         <constraint firstAttribute="bottom" secondItem="wBr-W7-7LF" secondAttribute="bottom" constant="15" id="lfB-7C-JXZ"/>
                                         <constraint firstItem="4hv-H3-cBd" firstAttribute="centerY" secondItem="V0g-Bh-Zah" secondAttribute="centerY" id="qXf-P0-evJ"/>
                                         <constraint firstItem="wBr-W7-7LF" firstAttribute="leading" secondItem="V0g-Bh-Zah" secondAttribute="leading" constant="8" id="wAb-4J-Tzo"/>
-                                        <constraint firstItem="wBr-W7-7LF" firstAttribute="top" secondItem="V0g-Bh-Zah" secondAttribute="top" constant="20" symbolic="YES" id="wIm-ep-ajD"/>
+                                        <constraint firstItem="wBr-W7-7LF" firstAttribute="top" secondItem="V0g-Bh-Zah" secondAttribute="top" constant="5" id="wIm-ep-ajD"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -1126,6 +1134,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fwl-5O-9DE"/>
                     </view>
+                    <navigationItem key="navigationItem" id="4PV-ST-2bX"/>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="vhn-g5-zta" id="iDT-gi-xfY"/>
                         <outlet property="emailTextField" destination="cOd-Ni-fQF" id="Ej1-3S-uz6"/>
@@ -1150,6 +1159,7 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.73381926590000002" green="0.9811282321" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -1176,10 +1186,11 @@
         <image name="message.fill" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ToZ-ZE-fEe"/>
+        <segue reference="ZRU-mL-IwO"/>
         <segue reference="fgW-Yp-E5o"/>
         <segue reference="H6v-Co-17d"/>
-        <segue reference="uKd-0S-BGJ"/>
+        <segue reference="hkk-Og-SfN"/>
+
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

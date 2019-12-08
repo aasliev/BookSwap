@@ -63,7 +63,7 @@ class FirebaseDatabase {
     
     //MARK: Add Methods to Firestore
     //Adding New User to Firestore when user Sign Up
-    func addNewUserToFirestore(userName: String, email: String,completion: @escaping ()->() ) {
+    func addNewUserToFirestore(userName: String, email: String,completion: @escaping (Bool)->() ) {
         
         db.collection(USERS_MAIN_COLLECTIN).document(email.lowercased()).setData([
             USER_EMAIL_FIELD: email.lowercased(),
@@ -73,9 +73,24 @@ class FirebaseDatabase {
             RATING_FIELD: 5.0,
             NUMBEROFFRIENDS_FIELD: 0])
         { err in
-            if (self.checkError(error: err, whileDoing: "adding new user to firebase")){
-                completion()
+            
+            if let err = err {
+                print("Error writing document: \(err)")
+                completion(false)
+
+            } else {
+                print("Document successfully written!")
+                completion(true)
+
+                
             }
+//            
+//
+//            //print("the error\(err?.localizedDescription)")
+//            if (self.checkError(error: err, whileDoing: "adding new user to firebase")){
+//                completion(true)
+//            }
+//            completion(false)
         }
     }
     

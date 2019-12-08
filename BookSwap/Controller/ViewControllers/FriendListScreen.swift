@@ -38,8 +38,7 @@ class FriendListScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("This is usersFriendsList : \(usersFriendsList)")
-        
+    
         tableView.rowHeight = 80
         self.hideKeyboardWhenTappedAround()
 
@@ -102,18 +101,15 @@ class FriendListScreen: UITableViewController {
 
         if segue.identifier == "friendsProfileView" {
             
-            print("2. Friend's Email : \(friensEmail)")
             let destinationVC = segue.destination as! ProfileScreen
             destinationVC.usersProfile = friensEmail
             
         } else if segue.identifier == "friendsBookShelf" {
             
-            print("3. Friend's Email : \(friensEmail)")
             let destinationVC = segue.destination as! booksPageViewController
             destinationVC.usersBookPage = friensEmail
         }
         
-        print("4. Friend's Email : \(friensEmail)")
     
     }
     

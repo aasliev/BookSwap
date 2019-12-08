@@ -15,7 +15,6 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let config = FirebaseApp.configure()
     let gcmMessageIDKey = "gcm.message_id"
     
     
@@ -48,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        //FirebaseApp.configure()
 
         applicationDidFinishLaunching(application)
 //Notifications--------------------------------------------------------------------------------------------

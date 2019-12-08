@@ -49,11 +49,17 @@ class ProfileScreen: UIViewController {
         }
         
         databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in
-            self.userNameLbl.text = userName
+            self.userNameLbl.text = "\(userName)"
         }
         
         
         databaseIstance.getRating(usersEmail: usersProfile!) { (rating) in
+            
+            if rating == -1 {
+                self.rating_numberOfSwaps.text = "Error updating rating/swaps"
+                return
+                
+            }
             self.rating_numberOfSwaps.text = "Rating: \(rating)"
             
             //Updating Number of swps user has done
@@ -77,7 +83,6 @@ class ProfileScreen: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toFriendsList" {
-            print("Going to Friend's List: \(usersProfile)")
             let destinationVC = segue.destination as! FriendListScreen
             destinationVC.usersFriendsList = usersProfile!
             

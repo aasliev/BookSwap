@@ -239,6 +239,9 @@ class FirebaseDatabase {
                     }
                 }
                 
+                //Filter the search results. Removes informatiom of current user (if needed)
+                dictionary.removeValue(forKey: self.authInstance.getCurrentUserEmail()!)
+                
                 completion(dictionary)
                 
             }

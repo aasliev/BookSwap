@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchScreenTableViewController: UITableViewController {
 
@@ -92,6 +93,11 @@ class SearchScreenTableViewController: UITableViewController {
         cell.ratingLbl?.text = ("\(searchResult[indexPath.row]![RATING]!)")
         cell.emailLbl?.text = (searchResult[indexPath.row]![EMAIL]! as! String)
         
+        if (checkIfFriend(email: searchResult[indexPath.row]![EMAIL]! as! String)) {
+            cell.addButton.isHidden = true
+        }
+        //cell.addButton
+        
         return cell
     }
     
@@ -102,13 +108,38 @@ class SearchScreenTableViewController: UITableViewController {
             destinationVC.usersProfile = selectedUser
         }
     }
+    
+    func checkIfFriend (email : String) -> Bool {
+
+        let request: NSFetchRequest<Friends> = Friends.fetchRequest()
+        let predicate = NSPredicate(format: "friendsEmail == %@", email)
+        request.predicate = predicate
+        request.fetchLimit = 1
+        
+        do{
+            let count = try CoreDataClass.sharedCoreData.getContext().count(for: request)
+            if(count == 0){
+                // no matching object
+                return false
+            }
+            else{
+                // at least one matching object exists
+                print("Match Found!")
+                return true
+            }
+        }
+        catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+            return false
+        }
+    }
 
     
 }
 
 
-extension SearchScreenTableViewController: UISearchBarDelegate
-{
+extension SearchScreenTableViewController: UISearchBarDelegate {
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        //here goes your code
         self.loadResult(search: searchBar.text!)

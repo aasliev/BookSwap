@@ -34,7 +34,11 @@ class FirebaseAuth {
         
         //currentUser will be equal to email of currently signed in user if
         //otherUser is nil. otherUser will be asigned email of other user's email
-        currentUser = (authInstance.currentUser?.email)!
+        if authInstance.currentUser != nil {
+            currentUser = (authInstance.currentUser?.email)!
+        } else {
+            currentUser = ""
+        }
         
 //        //checking if otherUser holds email of logged in user
 //        if (otherUser == (authInstance.currentUser?.email)) {

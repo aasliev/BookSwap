@@ -93,8 +93,15 @@ class SearchScreenTableViewController: UITableViewController {
         cell.ratingLbl?.text = ("\(searchResult[indexPath.row]![RATING]!)")
         cell.emailLbl?.text = (searchResult[indexPath.row]![EMAIL]! as! String)
         
+        //checkIfFriends function checks if they are friends
         if (checkIfFriend(email: searchResult[indexPath.row]![EMAIL]! as! String)) {
+            
+            //if they are friends, hide the 'Add' button
             cell.addButton.isHidden = true
+        } else {
+            
+            //if they are not, unhide the 'Add' button
+            cell.addButton.isHidden = false
         }
         //cell.addButton
         

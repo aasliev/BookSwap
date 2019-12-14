@@ -59,6 +59,8 @@ class OwnedBookScreen: UITableViewController {
         
         //to create click animation
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -227,7 +229,9 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
         
         if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             guard orientation == .right else { return nil }
-        } else { return nil}
+        } else {
+            databaseIstance.addHoldingBook(bookOwnerEmail: usersBookShelf!, bookName: self.otherUser[indexPath.row].bookName!, bookAuthor: otherUser[indexPath.row].author!)
+            return nil}
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             

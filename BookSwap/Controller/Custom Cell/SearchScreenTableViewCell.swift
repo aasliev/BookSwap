@@ -38,7 +38,7 @@ class SearchScreenTableViewCell: UITableViewCell {
         
         CoreDataClass.sharedCoreData.addFriendIntoCoreData(friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!, numberOfSwaps: "00")
         
-        //addButton.isHidden = true
+        addButton.isHidden = true
     }
     
 }

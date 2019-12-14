@@ -232,7 +232,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-hV-j0g">
-                                <rect key="frame" x="0.0" y="56" width="414" height="411"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="467"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jq2-nP-epB">
                                         <rect key="frame" x="0.0" y="215" width="414" height="100"/>
@@ -274,10 +274,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N5p-vK-QNJ">
-                                <rect key="frame" x="5" y="477" width="404" height="212"/>
+                                <rect key="frame" x="5" y="477" width="404" height="261"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9w-EF-v5x">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="125.5"/>
                                         <color key="backgroundColor" red="0.65098039215686276" green="0.29019607843137257" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="tintColor" red="0.29822301429999998" green="0.64939669150000001" blue="0.6617907676" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -289,10 +289,10 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YeZ-fT-tnT">
-                                        <rect key="frame" x="0.0" y="111" width="404" height="101"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="404" height="125.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRW-wy-Sbg">
-                                                <rect key="frame" x="0.0" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.6588235294117647" green="0.29019607843137257" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="Friends">
@@ -304,7 +304,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYv-te-TLF">
-                                                <rect key="frame" x="207" y="0.0" width="197" height="101"/>
+                                                <rect key="frame" x="207" y="0.0" width="197" height="125.5"/>
                                                 <color key="backgroundColor" red="0.64313725490196083" green="0.29019607843137257" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="History">
@@ -686,7 +686,7 @@
         <scene sceneID="cI9-vA-KML">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Scc-aj-RSZ" userLabel="Books Page View Controller" customClass="booksPageViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Owned Books" id="lsu-Yo-5ma">
+                    <navigationItem key="navigationItem" title="Book Shelf" id="lsu-Yo-5ma">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xlP-mS-OWu">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Scc-aj-RSZ" id="m9y-dO-XZp"/>
@@ -782,7 +782,7 @@
                             <outlet property="delegate" destination="ysN-qv-XJO" id="ig2-ad-XNP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Owned Books " id="SaF-NH-rmh"/>
+                    <navigationItem key="navigationItem" title="Book Shelf" id="SaF-NH-rmh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yV-Dt-vRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1182,8 +1182,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="ZRU-mL-IwO"/>
         <segue reference="fgW-Yp-E5o"/>
-        <segue reference="H6v-Co-17d"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="rWK-U0-pPj"/>
+        <segue reference="hkk-Og-SfN"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

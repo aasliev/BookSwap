@@ -155,7 +155,7 @@ class FriendListScreen: UITableViewController {
             let newFriend = OthersFriend(context: self.context)
             
             //adding data from dictionary, data holds information such as bookName and author
-        newFriend.friendsEmail = (data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String)
+            newFriend.friendsEmail = (data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String)
             newFriend.userName = (data[self.databaseIstance.USER_EMAIL_FIELD] as! String)
             
             //Appending inside otherUser array

@@ -25,6 +25,7 @@ class FirebaseDatabase {
     let OWNEDBOOK_SUB_COLLECTION = "OwnedBook"
     let WISHLIST_SUB_COLLECTION = "WishList"
     let HISTORY_SUB_COLLECTION = "History"
+    let HOLDINGS_SUB_COLLECTION = "HoldingBooks"
     
     //MARK: Firestore Fields Names
     let USER_EMAIL_FIELD = "Email"
@@ -34,6 +35,8 @@ class FirebaseDatabase {
     let BOOKNAME_FIELD = "BookName"
     let AUTHOR_FIELD = "Author"
     let BOOK_STATUS_FIELD = "BooksStatus"
+    let BOOK_HOLDER_FIELD = "BookHolder"
+    let BOOK_OWNER_FIELD = "BookOwner"
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
     let LOWERCASED_USERNAME_FIELD = "LowecasedUsername"
@@ -45,7 +48,7 @@ class FirebaseDatabase {
     let USER_COLLECTION_REF : CollectionReference
     
     
-    
+    var loggedInUser : String
     var numberOfFriends = 0
     
     private init() {
@@ -58,6 +61,8 @@ class FirebaseDatabase {
         USER_COLLECTION_REF = db.collection(USERS_MAIN_COLLECTIN)
         
         USER_COLLECTION_PATH = "\(USERS_MAIN_COLLECTIN)"
+        
+        loggedInUser = authInstance.getCurrentUserEmail()!
     }
 
     func getFriendsData () {
@@ -103,7 +108,8 @@ class FirebaseDatabase {
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
-            BOOK_STATUS_FIELD: true
+            BOOK_STATUS_FIELD: true,
+            BOOK_HOLDER_FIELD: currentUserEmail
             
         ]) { err in
             
@@ -159,6 +165,67 @@ class FirebaseDatabase {
         removeWishListBook(bookName: bookName, bookAuthor: bookAuthor)
     }
     
+    
+    //
+    func addHoldingBook (bookOwnerEmail: String, bookName: String, bookAuthor: String ) {
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(loggedInUser)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+            
+            BOOKNAME_FIELD: bookName,
+            AUTHOR_FIELD: bookAuthor,
+            BOOK_OWNER_FIELD : bookOwnerEmail
+            
+            
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding book to Holdings")
+        }
+        
+        //Changing book holder's email, so user can keep track of who has the book
+        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor)
+    }
+    
+    
+    //MARK: Change Document Field Methods
+    //changes book holder email, which will help user to keep track of book
+    func changeBookHoldersEmail(bookOwnersEmail : String, bookReciversEmail: String, bookName : String, bookAuthor : String) {
+        
+        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)")
+        
+        // Set the BookHolder = email of logged in user
+        ref.updateData([
+            BOOK_HOLDER_FIELD: bookReciversEmail
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "changing BookHolder's email.")
+        }
+    }
+    
+    
+    //Method to do the process when user returns a book
+    func retuenABook (bookName : String, bookAuthor : String) {
+        getBookOwnerFromHoldings(bookName: bookName, bookAuthor: bookAuthor) { (bookOwner) in
+            
+            //Completion wil return '-1' if some error occured
+            if bookOwner != "-1" {
+                self.changeBookHoldersEmail(bookOwnersEmail: bookOwner, bookReciversEmail: bookOwner, bookName: bookName, bookAuthor: bookAuthor)
+            }
+        }
+    }
+    
+    
+    func changeBookStatus(bookName: String, bookAuthor: String, bookOwnersEmail : String, status : Bool) {
+        
+        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)")
+        
+        ref.document("\(bookName)-\(bookAuthor)").updateData([
+            BOOK_STATUS_FIELD : status
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "changing BookHolder's email.")
+        }
+    }
+    
+    
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
     func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
@@ -181,7 +248,7 @@ class FirebaseDatabase {
         }
     }
     
-    
+
     //Method increments field "numberOfSwaps" inside Firestore: Users/currentUser document
     private func incrementNumberOfSwapsInUserCollection (currentUserEmail: String, ref: DocumentReference) {
         
@@ -317,7 +384,7 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Get Fieldsof Document
+    //MARK: Get Field Data of a Document
     //Gets the field of current user from Firestore: Users/currentUser/Document "Field"
     func getFieldData(usersEmail: String, fieldName: String, completion: @escaping (Any)->()) {
         
@@ -390,6 +457,23 @@ class FirebaseDatabase {
                 completion(swaps as! Int)
             } else {
                 completion(-1)
+            }
+        }
+    }
+    
+    private func getBookOwnerFromHoldings(bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
+        
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(loggedInUser)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
+            
+            if let document = document, document.exists {
+                
+                let fieldData = document.get(self.BOOK_OWNER_FIELD)
+                
+                completion(fieldData as! String)
+                
+            } else {
+                print("BookOs field does not exist")
+                completion("-1")
             }
         }
     }

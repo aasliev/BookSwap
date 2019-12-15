@@ -17,6 +17,7 @@ class BooksTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var swap: UIButton!
     
     let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +36,7 @@ class BooksTableViewCell: SwipeTableViewCell {
         
         swap.isHidden = true
         
-        //databaseIstance.addHoldingBook(bookOwnerEmail: <#T##String#>, bookName: <#T##String#>, bookAuthor: <#T##String#>)
+        databaseIstance.addHoldingBook(bookOwnerEmail: authInstance.usersScreen, bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
         
     }
 }

@@ -165,7 +165,7 @@ class FirebaseDatabase {
         removeWishListBook(bookName: bookName, bookAuthor: bookAuthor)
     }
     
-    
+    //Add book into Holding Sub Collection inside Firestore: Users/currentUser/Holdings/bookName-bookAuthor
     func addHoldingBook (bookOwnerEmail: String, bookName: String, bookAuthor: String ) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(loggedInUser)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
@@ -220,6 +220,7 @@ class FirebaseDatabase {
     
     func changeBookStatus(bookName: String, bookAuthor: String, bookOwnersEmail : String, status : Bool) {
         
+        print("Changing Book status to: \(status)")
         let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)")
         
         ref.document("\(bookName)-\(bookAuthor)").updateData([

@@ -29,6 +29,7 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        print("inside The Owned Book")
         //setting usersBookShelf equals to email of usersScreen
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
@@ -59,8 +60,6 @@ class OwnedBookScreen: UITableViewController {
         //        //to create click animation
         //        tableView.deselectRow(at: indexPath, animated: true)
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
-        databaseIstance.addHoldingBook(bookOwnerEmail: usersBookShelf!, bookName: cell.nameOfTheBook.text!, bookAuthor: cell.authorOfTheBook.text!)
         
     }
     
@@ -76,9 +75,14 @@ class OwnedBookScreen: UITableViewController {
         
         if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!){
             
+            
             cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
             cell.authorOfTheBook?.text = itemArray[indexPath.row].author
             cell.swap.isHidden = true
+            if !(itemArray[indexPath.row].status) {
+                cell.nameOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
+                cell.authorOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
+            }
         
         } else {
             

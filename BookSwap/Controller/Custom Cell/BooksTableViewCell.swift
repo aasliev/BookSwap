@@ -16,9 +16,13 @@ class BooksTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var authorOfTheBook: UILabel!
     @IBOutlet weak var swap: UIButton!
     
+    let databaseIstance = FirebaseDatabase.shared
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        nameOfTheBook.lineBreakMode = .byWordWrapping // or NSLineBreakMode.ByWordWrapping
+        textLabel!.numberOfLines = 0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -28,6 +32,10 @@ class BooksTableViewCell: SwipeTableViewCell {
     }
 
     @IBAction func swapButton(_ sender: Any) {
+        
+        swap.isHidden = true
+        
+        //databaseIstance.addHoldingBook(bookOwnerEmail: <#T##String#>, bookName: <#T##String#>, bookAuthor: <#T##String#>)
         
     }
 }

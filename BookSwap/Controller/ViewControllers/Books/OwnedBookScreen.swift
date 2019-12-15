@@ -37,7 +37,7 @@ class OwnedBookScreen: UITableViewController {
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
         
-        tableView.rowHeight = 80
+        //tableView.rowHeight = 120
         tableView.refreshControl = refresher
         
         //this disables the selection of row.
@@ -56,10 +56,11 @@ class OwnedBookScreen: UITableViewController {
     
     //This method will be called when user selects or clicks on any row inside table
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //to create click animation
-        tableView.deselectRow(at: indexPath, animated: true)
-        
+        //        //to create click animation
+        //        tableView.deselectRow(at: indexPath, animated: true)
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
+        databaseIstance.addHoldingBook(bookOwnerEmail: usersBookShelf!, bookName: cell.nameOfTheBook.text!, bookAuthor: cell.authorOfTheBook.text!)
         
     }
     
@@ -83,7 +84,10 @@ class OwnedBookScreen: UITableViewController {
             
             cell.nameOfTheBook?.text = otherUser[indexPath.row].bookName
             cell.authorOfTheBook?.text = otherUser[indexPath.row].author
-            cell.swap.isHidden = true
+            
+            //If book status is true, it will show the book by making 'isHidden' = false
+            //or if book status is false, it will hide the swap button
+            cell.swap.isHidden = !(otherUser[indexPath.row].status)
         }
        
         cell.delegate = self
@@ -230,7 +234,7 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
         if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             guard orientation == .right else { return nil }
         } else {
-            databaseIstance.addHoldingBook(bookOwnerEmail: usersBookShelf!, bookName: self.otherUser[indexPath.row].bookName!, bookAuthor: otherUser[indexPath.row].author!)
+            //databaseIstance.addHoldingBook(bookOwnerEmail: usersBookShelf!, bookName: self.otherUser[indexPath.row].bookName!, bookAuthor: otherUser[indexPath.row].author!)
             return nil}
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in

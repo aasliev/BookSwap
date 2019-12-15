@@ -166,7 +166,6 @@ class FirebaseDatabase {
     }
     
     
-    //
     func addHoldingBook (bookOwnerEmail: String, bookName: String, bookAuthor: String ) {
         db.collection("\(USERS_MAIN_COLLECTIN)/\(loggedInUser)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
@@ -182,6 +181,9 @@ class FirebaseDatabase {
         
         //Changing book holder's email, so user can keep track of who has the book
         changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor)
+        
+        //Changing Status of book
+        changeBookStatus(bookName: bookName, bookAuthor: bookAuthor, bookOwnersEmail: bookOwnerEmail, status: false)
     }
     
     
@@ -202,12 +204,15 @@ class FirebaseDatabase {
     
     
     //Method to do the process when user returns a book
-    func retuenABook (bookName : String, bookAuthor : String) {
+    func successfullyReturnedABook (bookName : String, bookAuthor : String) {
         getBookOwnerFromHoldings(bookName: bookName, bookAuthor: bookAuthor) { (bookOwner) in
             
             //Completion wil return '-1' if some error occured
             if bookOwner != "-1" {
                 self.changeBookHoldersEmail(bookOwnersEmail: bookOwner, bookReciversEmail: bookOwner, bookName: bookName, bookAuthor: bookAuthor)
+                
+                //Changing Status of book to true, when book is returned
+                self.changeBookStatus(bookName: bookName, bookAuthor: bookAuthor, bookOwnersEmail: bookOwner, status: true)
             }
         }
     }

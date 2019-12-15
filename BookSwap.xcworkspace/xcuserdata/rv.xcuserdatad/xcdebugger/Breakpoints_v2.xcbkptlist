@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "598118814.793209"
+            timestampString = "598128373.321136"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "186"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "598118814.793425"
+            timestampString = "598128373.321264"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "187"
@@ -57,45 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BookSwap/Controller/ViewControllers/Books/OwnedBookScreen.swift"
-            timestampString = "598118814.793538"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "598118814.794237"
+            timestampString = "598128373.321358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "addHoldingBook(bookOwnerEmail:bookName:bookAuthor:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BookSwap/Controller/ViewControllers/Books/OwnedBookScreen.swift"
-            timestampString = "598118814.794345"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "changeBookStatus(bookName:bookAuthor:bookOwnersEmail:status:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

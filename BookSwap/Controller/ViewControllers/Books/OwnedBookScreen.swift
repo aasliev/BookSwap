@@ -34,7 +34,7 @@ class OwnedBookScreen: UITableViewController {
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
         
-        //tableView.rowHeight = 120
+        tableView.rowHeight = 120
         tableView.refreshControl = refresher
         
         //this disables the selection of row.
@@ -259,28 +259,27 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             
-            // handle action by updating model with deletion
-            self.context.delete(self.itemArray[indexPath.row])
+            //create UIAlert
+            let alert = UIAlertController(title: "Delete Book", message: "Do you want to Delete the Book?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "No", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                 // handle action by updating model with deletion
+                self.context.delete(self.itemArray[indexPath.row])
+                
+                //Using itemArray gettin name of book and book's author.
+                self.databaseIstance.removeOwnedBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                
+                //Removing the data from itemArray
+                self.itemArray.remove(at: indexPath.row)
+                self.coreDataClassInstance.saveContext()
+                tableView.reloadData()
+            }))
+            self.present(alert, animated: true, completion: nil)
             
-            //Using itemArray gettin name of book and book's author.
-            self.databaseIstance.removeOwnedBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
-            
-            //Removing the data from itemArray
-            self.itemArray.remove(at: indexPath.row)
-            self.coreDataClassInstance.saveContext()
         }
         
         // customize the action appearance
         deleteAction.image = UIImage(named: "trash-icon")
-        
         return [deleteAction]
     }
-    
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.expansionStyle = .destructive
-        return options
-    }
-    
-    
 }

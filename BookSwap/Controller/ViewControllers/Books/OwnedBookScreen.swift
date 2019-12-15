@@ -26,10 +26,6 @@ class OwnedBookScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
 
-    //Request for search result
-    let requestForOwnedBook : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
-    let requestForOthersOwnedBook : NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -43,7 +39,11 @@ class OwnedBookScreen: UITableViewController {
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
-
+        if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
+            loadItems()
+        } else {
+            loadItemsOtherUser()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -96,36 +96,43 @@ class OwnedBookScreen: UITableViewController {
 
     
     //MARK: - Model Manipulation Methods
-    func loadItems() {
+    
+    func loadItems(with request: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()) {
+         do {
+            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
+             itemArray = try context.fetch(request)
+            }
+         } catch {
+             print("Error fetching data from context \(error)")
+         }
+         
+     }
+
+    func loadItemsOtherUser(with request: NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()) {
+        print("Inside the loadItemsOtherUser")
         do {
             
-            //checks which user is currently on the OwnedBook page
-            //NOTE: Other User will be true if user open someone else's OwnedBook
-            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
-                
-                itemArray = try context.fetch(requestForOwnedBook)
-            } else {
-                
-                //Making sure the database call is made only once to get data and load it into 'otherUser' array
-                //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
-                if (otherUser.count == 0) {
-                    databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
-                        
-                        //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
-                        self.loadDataForOtherUser(dict: dataDictionary)
-                    }
-                } else {
-                    
-                    //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
-                    //context.fetch... will fetch result and store it inside otherUser array
-                    otherUser = try context.fetch(requestForOthersOwnedBook)
+            //Making sure the database call is made only once to get data and load it into 'otherUser' array
+            //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
+            if (otherUser.count == 0) {
+                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
+
+                    //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
+                    self.loadDataForOtherUser(dict: dataDictionary)
                 }
+            } else {
+
+                //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
+                //context.fetch... will fetch result and store it inside otherUser array
+                otherUser = try context.fetch(request)
             }
-            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }
+        
     }
+    
+    
     
     
     //Loads the data inside OthersOwnedBook array, which is received from Firestore
@@ -188,6 +195,10 @@ extension OwnedBookScreen: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        //search requests
+        let searchRequest : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
+        let searchRequestOtherUser : NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()
+
         //creating NSPredicate which finds keyword in bookName and author field
         let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
         
@@ -198,15 +209,16 @@ extension OwnedBookScreen: UISearchBarDelegate{
         if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             
             //creating request for current user's own OwnedBook page
-            requestForOwnedBook.predicate = nsPredicate
-            requestForOwnedBook.sortDescriptors = nsSortDescriptor
-            loadItems()
+            searchRequest.predicate = nsPredicate
+            searchRequest.sortDescriptors = nsSortDescriptor
+            loadItems(with: searchRequest)
+            
         } else {
             
             //creating reqest for other user's OwnedBook page
-            requestForOthersOwnedBook.predicate = nsPredicate
-            requestForOthersOwnedBook.sortDescriptors = nsSortDescriptor
-            loadItems()
+            searchRequestOtherUser.predicate = nsPredicate
+            searchRequestOtherUser.sortDescriptors = nsSortDescriptor
+            loadItemsOtherUser(with: searchRequestOtherUser)
         }
         
         tableView.reloadData()
@@ -219,7 +231,11 @@ extension OwnedBookScreen: UISearchBarDelegate{
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
-            loadItems()
+            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
+                loadItems()
+            } else {
+                loadItemsOtherUser()
+            }
             tableView.reloadData()
         }
     }

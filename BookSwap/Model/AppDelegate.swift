@@ -23,11 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidFinishLaunching(_ application: UIApplication) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-
+        
         let user = Auth.auth().currentUser
         if user != nil {
             // User is signed in.
             print("Automatic Sign In: \(String(describing: user?.email))")
+            CoreDataClass.sharedCoreData.updateCoreData()
             let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileScreen")
 
             self.window!.rootViewController = initialViewController

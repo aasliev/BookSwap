@@ -185,15 +185,20 @@ class CoreDataClass {
     
     
     //MARK: Checking if data exist in Core Data
+    //Method will be used to check if a user is friend of logged in user
     func checkIfFriend (friendEmail : String) -> Bool {
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: FRIENDS_ENTITY)
-        fetchRequest.predicate = NSPredicate(format: "friendsEmail = %d", friendEmail)
-        
-        var results: [NSManagedObject] = []
+        print ("This is Friends Email:\(friendEmail)")
+        let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
+        //requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@",  friendEmail )
+
+        var results = [Friends]()
         
         do {
-            results = try getContext().fetch(fetchRequest) as! [NSManagedObject]
+            results = try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.fetch(requestForFriends)
+                //getContext().fetch(requestForFriends)
+            
+            print("Result of results.count: \(results.count)")
         }
         catch {
             print("error executing fetch request: \(error)")

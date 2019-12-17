@@ -117,7 +117,7 @@ class FriendListScreen: UITableViewController {
     //MARK: - Model Manipulation Methods
     func loadItems(with request: NSFetchRequest<Friends> = Friends.fetchRequest()) {
         do {
-            //checks which user is currently on the WishList page
+            //checks which user is currently on the FriendsList page
             //NOTE: Other User will be true if user open someone else's WishList
             if !authInstance.isItOtherUsersPage(userEmail: usersFriendsList!) {
                 

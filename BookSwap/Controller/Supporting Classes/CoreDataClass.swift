@@ -184,6 +184,25 @@ class CoreDataClass {
     }
     
     
+    //MARK: Checking if data exist in Core Data
+    func checkIfFriend (friendEmail : String) -> Bool {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: FRIENDS_ENTITY)
+        fetchRequest.predicate = NSPredicate(format: "friendsEmail = %d", friendEmail)
+        
+        var results: [NSManagedObject] = []
+        
+        do {
+            results = try getContext().fetch(fetchRequest) as! [NSManagedObject]
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return results.count > 0
+    }
+    
+    
     //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {
         
@@ -195,4 +214,6 @@ class CoreDataClass {
         }
     }
 
+    
+    
 }

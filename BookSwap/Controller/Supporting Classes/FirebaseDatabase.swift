@@ -57,9 +57,9 @@ class FirebaseDatabase {
     //MARK: Collection Reference
     let USER_COLLECTION_REF : CollectionReference
     
-    
-    var loggedInUser : String
-    var numberOfFriends = 0
+    var path : String = ""
+    var message : String = ""
+    var ref : DocumentReference
     
     private init() {
         
@@ -72,7 +72,9 @@ class FirebaseDatabase {
         
         USER_COLLECTION_PATH = "\(USERS_MAIN_COLLECTIN)"
         
-        loggedInUser = authInstance.getCurrentUserEmail()!
+        //this exact ref won't be used. This is written to silent the error : "Return from initializer without initializing all stored properties"
+        ref = db.collection("Document Path").document("Document Name")
+        
     }
 
     func getFriendsData () {
@@ -82,7 +84,9 @@ class FirebaseDatabase {
     //Adding New User to Firestore when user Sign Up
     func addNewUserToFirestore(userName: String, email: String,completion: @escaping (Bool)->() ) {
         
-        db.collection(USERS_MAIN_COLLECTIN).document(email.lowercased()).setData([
+        ref = db.collection(USERS_MAIN_COLLECTIN).document(email.lowercased())
+        
+        ref.setData([
             USER_EMAIL_FIELD: email.lowercased(),
             USERNAME_FIELD: userName,
             LOWERCASED_USERNAME_FIELD: userName.lowercased(),
@@ -107,7 +111,11 @@ class FirebaseDatabase {
     
     //Adding Book to OwnedBook Collection
     func addToOwnedBook(currentUserEmail: String, bookName: String, bookAuthor: String) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        ref.setData([
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
@@ -123,7 +131,11 @@ class FirebaseDatabase {
     
     //Adding Book to WishList
     func addToWishList(currentUserEmail: String, bookName: String, bookAuthor: String) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WISHLIST_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(WISHLIST_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        ref.setData([
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor
@@ -138,7 +150,8 @@ class FirebaseDatabase {
     //Add a New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool = true ) {
        
-        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)").document(friendsEmail)
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)"
+        let ref = db.collection(path).document(friendsEmail)
         
             ref.setData([
             
@@ -172,7 +185,11 @@ class FirebaseDatabase {
     //Method will be called when user accepts a Book Swap request
     //Add book into Holding Sub Collection inside Firestore: Users/currentUser/Holdings/bookName-bookAuthor
     func addHoldingBook (bookOwnerEmail: String, bookRequester : String, bookName: String, bookAuthor: String ) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(bookRequester)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(bookRequester)/\(HOLDINGS_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        ref.setData([
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
@@ -193,7 +210,10 @@ class FirebaseDatabase {
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
     func addSwapReqestNotification (senderEmail: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
         
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)").document("\(senderEmail)-\(bookName)-\(bookAuthor)").setData([
+       path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(senderEmail)-\(bookName)-\(bookAuthor)")
+        
+        ref.setData([
             
             SENDERS_EMAIL_FIELD : senderEmail,
             BOOKNAME_FIELD : bookName,
@@ -210,7 +230,11 @@ class FirebaseDatabase {
     
     //Method to add Friend reqest on Firestore: Users/reciver's user email/Notification/
     private func addFriendReqestNotification (senderEmail: String, receiversEmail : String) {
-         db.collection("\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)").document("\(senderEmail)-\(FRIEND_REQUEST_NOTIFICATION)").setData([
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(senderEmail)-\(FRIEND_REQUEST_NOTIFICATION)")
+            
+        ref.setData([
             
             SENDERS_EMAIL_FIELD : senderEmail,
             NOTIFICATION_TYPE : FRIEND_REQUEST_NOTIFICATION,
@@ -227,7 +251,8 @@ class FirebaseDatabase {
     //changes book holder email, which will help user to keep track of book
     private func changeBookHoldersEmail(bookOwnersEmail : String, bookReciversEmail: String, bookName : String, bookAuthor : String, bookStatus : Bool) {
         
-        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)")
+        path = "\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
         
         // Set the BookHolder = email of logged in user
         ref.updateData([
@@ -310,7 +335,7 @@ class FirebaseDatabase {
     }
     
     
-    //MARK: Get Document
+    //MARK: Get All Document(s) inside
     //Search Friends
     func getListOfSearchFriends(usersEmail: String, searchText: String, completion: @escaping (Dictionary<String , Dictionary<String  , Any>>)->()){
         
@@ -328,7 +353,7 @@ class FirebaseDatabase {
                 }
             }
             
-            //Once search by user's email is finished, this will search by username
+            //Once search by user's email is finished, this will search by username. To send combined dictionary [READ NOTE]
             self.db.collection(self.USERS_MAIN_COLLECTIN).whereField(self.LOWERCASED_USERNAME_FIELD, isEqualTo: searchText.lowercased()).getDocuments { (querySnapshot, error) in
                 
                 if (self.checkError(error: error , whileDoing: "getting list of friends")) {
@@ -347,14 +372,14 @@ class FirebaseDatabase {
         }
     }
     
-    
-    //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
-    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+    //Common method to get all documents from sub collections, will be called from other get methods
+    private func getDocuments (docPath : String, docMessage : String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->())  {
+        
+        var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+        
+        db.collection(docPath).getDocuments { (querySnapshot, error) in
             
-            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-            
-            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
+            if (self.checkError(error: error , whileDoing: docMessage)) {
                 var index = 0
                 for document in querySnapshot!.documents {
                     dictionary[index] = document.data()
@@ -362,9 +387,39 @@ class FirebaseDatabase {
                     index += 1
                 }
             }
-    
+            
             completion(dictionary)
         }
+        
+        
+    }
+    
+    
+    //Get list of friends from Firestore: Users/currentUser/Friends/all Documents
+    func getListOfFriends(usersEmail: String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)"
+        message = "getting list of friends"
+        
+        getDocuments(docPath: path, docMessage: message) { (friendListDictionary) in
+            
+            completion(friendListDictionary)
+        }
+//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+//
+//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+//
+//            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
+//                var index = 0
+//                for document in querySnapshot!.documents {
+//                    dictionary[index] = document.data()
+//                    //dictionary[document.documentID] = document.data()
+//                    index += 1
+//                }
+//            }
+//
+//            completion(dictionary)
+//        }
     }
     
     
@@ -375,44 +430,88 @@ class FirebaseDatabase {
         //if false SUB_COLLECTION = WishList
         let SUB_COLLECTION = (trueForOwnedBookFalseForWishList) ? OWNEDBOOK_SUB_COLLECTION : WISHLIST_SUB_COLLECTION
         
-        //Users/"user'sEmail"/SubCollection
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)"
+        message = "getting books from \(SUB_COLLECTION)"
+        
+        getDocuments(docPath: path, docMessage: message) { (bookListDictionary) in
             
-            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-            
-            if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
-                
-                var index = 0
-                for document in querySnapshot!.documents {
-                    dictionary[index] = document.data()
-                    index += 1
-                }
-            }
-            
-            completion(dictionary)
+            completion(bookListDictionary)
         }
+//
+//        //Users/"user'sEmail"/SubCollection
+//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+//
+//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+//
+//            if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
+//
+//                var index = 0
+//                for document in querySnapshot!.documents {
+//                    dictionary[index] = document.data()
+//                    index += 1
+//                }
+//            }
+//
+//            completion(dictionary)
+//        }
     }
     
     
     //Get history data from Firestore: Users/currentUser/History/friendsEmail/
     func getHistoryData (usersEmail: String, friendsEmail: String, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()){
         
-        //Users/"user'sEmail"/SubCollection
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)"
+        message = "getting history data from History Collection"
+        
+        getDocuments(docPath: path, docMessage: message) { (historyDictionary) in
             
-            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-            
-            if (self.checkError(error: error , whileDoing: "getting history data from History Collection")) {
-                
-                var index = 0
-                for document in querySnapshot!.documents {
-                    dictionary[index] = document.data()
-                    index += 1
-                }
-            }
-            
-            completion(dictionary)
+            completion(historyDictionary)
         }
+        
+        
+//        //Users/"user'sEmail"/SubCollection
+//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+//
+//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+//
+//            if (self.checkError(error: error , whileDoing: "getting history data from History Collection")) {
+//
+//                var index = 0
+//                for document in querySnapshot!.documents {
+//                    dictionary[index] = document.data()
+//                    index += 1
+//                }
+//            }
+//
+//            completion(dictionary)
+//        }
+    }
+    
+    //Method used to get all holding books from From Firestore:  Holding Books sub-collection
+    func getHoldingBooks (usersEmail : String, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HOLDINGS_SUB_COLLECTION)"
+        message = "getting data from Holding Books Collection"
+        
+        getDocuments(docPath: path, docMessage: message) { (holdingBookDictionary) in
+            
+            completion(holdingBookDictionary)
+        }
+        
+    }
+    
+    
+    //Method used to get all holding books from From Firestore:  Notification sub-collection
+    func getNotifications (usersEmail : String, completion : @escaping (Dictionary<Int, Dictionary<String, Any>>)->()) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        message = "getting data from Notification Collection"
+        
+        getDocuments(docPath: path, docMessage: message) { (holdingBookDictionary) in
+            
+            completion(holdingBookDictionary)
+        }
+        
     }
     
     

@@ -113,7 +113,7 @@ class ProfileScreen: UIViewController {
         if (!authInstance.isItOtherUsersPage(userEmail: usersProfile!)){
             alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         } else {
-            alert = UIAlertController(title: "Unfriend", message: "Do you want to delete users_email from your friend list?", preferredStyle: .alert)
+            alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfriend?", preferredStyle: .alert)
         }
         
         
@@ -135,9 +135,15 @@ class ProfileScreen: UIViewController {
                 
                 self.navigationController?.navigationBar.isHidden = true;
                 
-                CoreDataClass.sharedCoreData.resetAllEntities()
+                // get a reference to the app delegate
+                let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
                 
-                self.performSegue(withIdentifier: "toHomeScreen", sender: self)
+                // call didFinishLaunchWithOptions ... why?
+                appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
+                
+                
+                
+                //self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             } else {
                 
                 //Note: signOutButton text is changed to "Unfriend"
@@ -146,6 +152,7 @@ class ProfileScreen: UIViewController {
                 self.signOutButton.tintColor = UIColor.clear
                 
                 //function call to unfriend the user
+                self.databaseIstance.removeFriend(friendsEmail: self.usersProfile!)
                 
                 //remove friend's name from Core Data
                 

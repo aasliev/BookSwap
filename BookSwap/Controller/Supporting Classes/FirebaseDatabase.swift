@@ -42,6 +42,7 @@ class FirebaseDatabase {
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
     let LOWERCASED_USERNAME_FIELD = "LowecasedUsername"
     let SENDERS_EMAIL_FIELD = "Sender"
+    let SENDERS_USER_NAME_FIELD = "Sende's UserName"
     let RECEIVERS_EMAIL_FIELD = "Receiver"
     let NOTIFICATION_TYPE = "Type"
     
@@ -208,7 +209,7 @@ class FirebaseDatabase {
     
     
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
-    func addSwapReqestNotification (senderEmail: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
+    func addSwapReqestNotification (senderEmail: String, sendersUserName: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
         
        path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         ref = db.collection(path).document("\(senderEmail)-\(bookName)-\(bookAuthor)")
@@ -216,6 +217,7 @@ class FirebaseDatabase {
         ref.setData([
             
             SENDERS_EMAIL_FIELD : senderEmail,
+            SENDERS_USER_NAME_FIELD : sendersUserName,
             BOOKNAME_FIELD : bookName,
             AUTHOR_FIELD : bookAuthor,
             NOTIFICATION_TYPE : BOOKSWAP_REQUEST_NOTIFICATION,
@@ -229,7 +231,7 @@ class FirebaseDatabase {
     
     
     //Method to add Friend reqest on Firestore: Users/reciver's user email/Notification/
-    private func addFriendReqestNotification (senderEmail: String, receiversEmail : String) {
+    func addFriendReqestNotification (senderEmail: String, sendersUserName: String, receiversEmail : String) {
         
         path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         ref = db.collection(path).document("\(senderEmail)-\(FRIEND_REQUEST_NOTIFICATION)")
@@ -507,9 +509,9 @@ class FirebaseDatabase {
         path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         message = "getting data from Notification Collection"
         
-        getDocuments(docPath: path, docMessage: message) { (holdingBookDictionary) in
+        getDocuments(docPath: path, docMessage: message) { (notificationDictionary) in
             
-            completion(holdingBookDictionary)
+            completion(notificationDictionary)
         }
         
     }

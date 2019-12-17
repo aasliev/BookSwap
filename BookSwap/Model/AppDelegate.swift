@@ -16,13 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
     
-    
+    func userSignedOut () {
+        
+        let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
+        self.window!.rootViewController = initialViewController
+        
+    }
     
     
     func applicationDidFinishLaunching(_ application: UIApplication) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         
         let user = Auth.auth().currentUser
         if user != nil {

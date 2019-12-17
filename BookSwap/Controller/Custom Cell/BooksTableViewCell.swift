@@ -36,7 +36,13 @@ class BooksTableViewCell: SwipeTableViewCell {
         
         swap.isHidden = true
         
-        databaseIstance.addSwapReqestNotification(senderEmail: authInstance.getCurrentUserEmail()!, receiversEmail: authInstance.usersScreen, bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
+        let currentUserEmail = authInstance.getCurrentUserEmail()!
+        
+        databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
+        
+            self.databaseIstance.addSwapReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.authInstance.usersScreen, bookName: self.nameOfTheBook.text!, bookAuthor: self.authorOfTheBook.text!)
+        }
+        
         //databaseIstance.addHoldingBook(bookOwnerEmail: authInstance.usersScreen, bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
         
     }

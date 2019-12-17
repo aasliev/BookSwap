@@ -17,6 +17,9 @@ class SearchScreenTableViewCell: UITableViewCell {
     @IBOutlet weak var emailLbl: UILabel!
     @IBOutlet weak var addButton: UIButton!
     
+    let databaseIstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,8 +36,13 @@ class SearchScreenTableViewCell: UITableViewCell {
         print("Add Button Pressed!! Inside Search Screen")
         print("UserName: \(ratingLbl.text!)")
         
-        let currentUserEmail = FirebaseAuth.sharedFirebaseAuth.getCurrentUserEmail()!
-        FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
+        let currentUserEmail = authInstance.getCurrentUserEmail()!
+        //FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
+        
+        databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
+            self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.authInstance.usersScreen)
+        }
+        
         
         CoreDataClass.sharedCoreData.addFriendIntoCoreData(friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!, numberOfSwaps: "00")
         

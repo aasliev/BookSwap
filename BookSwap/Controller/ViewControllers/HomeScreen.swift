@@ -33,7 +33,7 @@ class HomeScreen: UIViewController {
         self.hideKeyboardWhenTappedAround()
         //self.moveScreenWithKeyboard()
 
-        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     

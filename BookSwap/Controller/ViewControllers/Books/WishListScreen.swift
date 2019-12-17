@@ -13,8 +13,8 @@ import SwipeCellKit
 class WishListScreen: UITableViewController {
 
     //Array which takes objects of WishList
-    var itemArray = [WishList]()
-    var otherWishList = [OthersWishList]()
+    var currentUserItems = [WishList]()
+    var otherUserItems = [OthersWishList]()
     
     //context of Core Data file
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -28,8 +28,8 @@ class WishListScreen: UITableViewController {
     var usersWishList : String?
     
     //Request for search result
-    let requestForWishList : NSFetchRequest<WishList> = WishList.fetchRequest()
-    let reqestForOthersWishList : NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()
+    var requestForWishList : NSFetchRequest<WishList> = WishList.fetchRequest()
+    var requestForOthersWishList : NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()
     
     
     override func viewDidLoad() {
@@ -43,12 +43,6 @@ class WishListScreen: UITableViewController {
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
-        
-        if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
-            loadItems()
-        } else {
-            loadItemsOtherUser()
-        }
         tableView.reloadData()
     }
     
@@ -62,7 +56,7 @@ class WishListScreen: UITableViewController {
         
         //checks if it is not logged in user's whishListScreen, if true
         //it returns count of otherWishList elements. If false, itemArray's count
-        return !authInstance.isItOtherUsersPage(userEmail: usersWishList!) ?  itemArray.count : otherWishList.count
+        return !authInstance.isItOtherUsersPage(userEmail: usersWishList!) ?  currentUserItems.count : otherUserItems.count
     }
     
     
@@ -73,13 +67,13 @@ class WishListScreen: UITableViewController {
         
         if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
             
-            cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
-            cell.authorOfTheBook?.text = itemArray[indexPath.row].author
+            cell.nameOfTheBook?.text = currentUserItems[indexPath.row].bookName
+            cell.authorOfTheBook?.text = currentUserItems[indexPath.row].author
             
         } else {
             
-            cell.nameOfTheBook?.text = otherWishList[indexPath.row].bookName
-            cell.authorOfTheBook?.text = otherWishList[indexPath.row].author
+            cell.nameOfTheBook?.text = otherUserItems[indexPath.row].bookName
+            cell.authorOfTheBook?.text = otherUserItems[indexPath.row].author
         }
         
         cell.delegate = self
@@ -88,41 +82,69 @@ class WishListScreen: UITableViewController {
     
     
     //MARK: - Model Manipulation Methods
-    //LOAD FUNCTION
-    func loadItems(with request: NSFetchRequest<WishList> = WishList.fetchRequest()) {
-         do {
-            if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
-             itemArray = try context.fetch(request)
-            }
-         } catch {
-             print("Error fetching data from context \(error)")
-         }
-         
-     }
-    //LOAD FUNCTION FOR OTHER USERS
-    func loadItemsOtherUser(with request: NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()) {
-        print("Inside the loadItemsOtherUser")
+    
+    func loadItems() {
         do {
-            
-            //Making sure the database call is made only once to get data and load it into 'otherUser' array
-            //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
-            if (otherWishList.count == 0) {
-                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
-
-                    //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
-                    self.loadDataForOtherUser(dict: dataDictionary)
-                }
+            //checks which user is currently on the FriendsList page
+            //NOTE: Other User will be true if user open someone else's WishList
+            if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
+                requestForWishList.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+                currentUserItems = try context.fetch(requestForWishList)
             } else {
-
-                //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
-                //context.fetch... will fetch result and store it inside otherUser array
-                otherWishList = try context.fetch(request)
+                
+                if (otherUserItems.count == 0) {
+                    databaseIstance.getListOfFriends (usersEmail: usersWishList!) { (dataDictionary) in
+                        self.loadDataForOtherUser(dict: dataDictionary)
+                    }
+                } else {
+                    requestForOthersWishList.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+                    otherUserItems = try context.fetch(requestForOthersWishList)
+                }
             }
+            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }
-        
     }
+    
+    
+    
+    
+//    //LOAD FUNCTION
+//    func loadItems(with request: NSFetchRequest<WishList> = WishList.fetchRequest()) {
+//         do {
+//            if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
+//             itemArray = try context.fetch(request)
+//            }
+//         } catch {
+//             print("Error fetching data from context \(error)")
+//         }
+//
+//     }
+//    //LOAD FUNCTION FOR OTHER USERS
+//    func loadItemsOtherUser(with request: NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()) {
+//        print("Inside the loadItemsOtherUser")
+//        do {
+//
+//            //Making sure the database call is made only once to get data and load it into 'otherUser' array
+//            //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
+//            if (otherWishList.count == 0) {
+//                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
+//
+//                    //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
+//                    self.loadDataForOtherUser(dict: dataDictionary)
+//                }
+//            } else {
+//
+//                //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
+//                //context.fetch... will fetch result and store it inside otherUser array
+//                otherWishList = try context.fetch(request)
+//            }
+//        } catch {
+//            print("Error fetching data from context \(error)")
+//        }
+//
+//    }
 
 
     //Loads the data inside OthersWishList array, which is received from Firestore
@@ -132,7 +154,7 @@ class WishListScreen: UITableViewController {
         coreDataClassInstance.resetOneEntitie(entityName: "OthersWishList")
         
         //Clearing the array which holds objects of 'OthersOwnedBook'
-        otherWishList.removeAll()
+        otherUserItems.removeAll()
         
         for (_, data) in dict {
             
@@ -144,7 +166,7 @@ class WishListScreen: UITableViewController {
             newWhishListBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
             
             //Appending inside otherUser array
-            otherWishList.append(newWhishListBook)
+            otherUserItems.append(newWhishListBook)
         }
         
         //saving all the changes made in core data
@@ -183,32 +205,20 @@ extension WishListScreen: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        //search request
-        let searchRequest : NSFetchRequest<WishList> = WishList.fetchRequest()
-        let searchRequestOtherUser : NSFetchRequest<OthersWishList> = OthersWishList.fetchRequest()
-
-        
         //creating NSPredicate which finds keyword in bookName and author field
         let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
-        
-        //once the result is recived, sorting it by bookName
-        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
         
         //Checking if otherUser is empty
         if (!authInstance.isItOtherUsersPage(userEmail: usersWishList!)) {
             
             //creating request for current user's own WishList page
-            searchRequest.predicate = nsPredicate
-            searchRequest.sortDescriptors = nsSortDescriptor
-            loadItems(with: searchRequest)
+            requestForWishList.predicate = nsPredicate
         } else {
             
             //creating reqest for other user's WishList page
-            searchRequestOtherUser.predicate = nsPredicate
-            searchRequestOtherUser.sortDescriptors = nsSortDescriptor
-            loadItemsOtherUser(with: searchRequestOtherUser)
+            requestForOthersWishList.predicate = nsPredicate
         }
-        
+        loadItems()
         tableView.reloadData()
 
     }
@@ -220,12 +230,12 @@ extension WishListScreen: UISearchBarDelegate {
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
-            if !authInstance.isItOtherUsersPage(userEmail: usersWishList!) {
-                loadItems()
-            } else {
-                loadItemsOtherUser()
-            }
-            tableView.reloadData()        }
+            requestForWishList = WishList.fetchRequest()
+            requestForOthersWishList = OthersWishList.fetchRequest()
+            loadItems()
+            tableView.reloadData()
+            
+        }
     }
     
 }
@@ -243,19 +253,19 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 //move book from wishList to Owned books
                 
                 let newOwnedBook = OwnedBook(context: self.context)
-                newOwnedBook.author = self.itemArray[indexPath.row].author
-                newOwnedBook.bookName = self.itemArray[indexPath.row].bookName
+                newOwnedBook.author = self.currentUserItems[indexPath.row].author
+                newOwnedBook.bookName = self.currentUserItems[indexPath.row].bookName
                 newOwnedBook.status = true
                 
                 //This will move the selected book from WishList into OwnedBook
-                self.databaseIstance.moveWishListToOwnedBook (currentUserEmail: self.authInstance.getCurrentUserEmail()!, bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                self.databaseIstance.moveWishListToOwnedBook (currentUserEmail: self.authInstance.getCurrentUserEmail()!, bookName: self.currentUserItems[indexPath.row].bookName!, bookAuthor: self.currentUserItems[indexPath.row].author!)
                 
                 
                 //deleting data from persistence container
-                self.context.delete(self.itemArray[indexPath.row])
+                self.context.delete(self.currentUserItems[indexPath.row])
                 
                 //deleting data from itemArray and saving Coredata context
-                self.itemArray.remove(at: indexPath.row)
+                self.currentUserItems.remove(at: indexPath.row)
                 CoreDataClass.sharedCoreData.saveContext()
                 
             }
@@ -273,13 +283,13 @@ extension WishListScreen: SwipeTableViewCellDelegate{
             alert.addAction(UIAlertAction(title: "No", style: .cancel))
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                 // handle action by updating model with deletion
-                self.context.delete(self.itemArray[indexPath.row])
+                self.context.delete(self.currentUserItems[indexPath.row])
                 
                 //Using itemArray gettin name of book and book's author.
-                self.databaseIstance.removeWishListBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                self.databaseIstance.removeWishListBook(bookName: self.currentUserItems[indexPath.row].bookName!, bookAuthor: self.currentUserItems[indexPath.row].author!)
                 
                 //Removing the data from itemArray
-                self.itemArray.remove(at: indexPath.row)
+                self.currentUserItems.remove(at: indexPath.row)
                 CoreDataClass.sharedCoreData.saveContext()
                 tableView.reloadData()
             }))

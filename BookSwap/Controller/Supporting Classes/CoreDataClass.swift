@@ -17,7 +17,7 @@ class CoreDataClass {
     let WISH_LIST_ENTITY = "WishList"
     
     var ownedBook = [OwnedBook]()
-    
+    var friendList = [Friends]()
     
     //Singleton
     static let sharedCoreData = CoreDataClass()
@@ -186,28 +186,22 @@ class CoreDataClass {
     
     //MARK: Checking if data exist in Core Data
     //Method will be used to check if a user is friend of logged in user
-    func checkIfFriend (friendEmail : String) -> Bool {
+    func checkIfFriends(username : String) -> Bool {
+        print("Friend's email: \(username)")
         
-        print ("This is Friends Email:\(friendEmail)")
-        let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
-        //requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@",  friendEmail )
-
-        var results = [Friends]()
-        
-        do {
-            results = try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.fetch(requestForFriends)
-                //getContext().fetch(requestForFriends)
-            
-            print("Result of results.count: \(results.count)")
+        var friendList = [Friends]()
+        let request : NSFetchRequest<Friends> = Friends.fetchRequest()
+        request.predicate = NSPredicate(format: "(friendsEmail == %@)", username)
+        do{
+            friendList = try context.fetch(request)
+        } catch {
+            print("error fetching data \(error)")
         }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
+        print("count: \(friendList.count)")
         
-        return results.count > 0
+        return friendList.count > 0;
     }
-    
-    
+
     //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {
         

@@ -52,7 +52,7 @@
                                             <color key="titleColor" red="0.88800761421319796" green="0.4087103148383246" blue="0.40039629653294123" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="6uB-oO-Ruo" kind="show" id="ToZ-ZE-fEe"/>
+                                            <segue destination="6uB-oO-Ruo" kind="showDetail" id="ToZ-ZE-fEe"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -169,7 +169,7 @@
                                     <color key="titleColor" red="0.19760299592482131" green="0.63396533533113786" blue="0.76362348977098438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="F9U-b8-p17" kind="show" id="YbR-n8-2bV"/>
+                                    <segue destination="F9U-b8-p17" kind="showDetail" id="YbR-n8-2bV"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vi3-7d-Lk2">
@@ -1186,9 +1186,9 @@
         <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZRU-mL-IwO"/>
+        <segue reference="ToZ-ZE-fEe"/>
         <segue reference="vFB-ik-VlG"/>
-        <segue reference="H6v-Co-17d"/>
+        <segue reference="rWK-U0-pPj"/>
         <segue reference="wKf-6J-HU0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

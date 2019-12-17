@@ -34,7 +34,7 @@ class ProfileScreen: UIViewController {
         
         //databaseIstance.removeBookSwapRequestNotification(sendersEmail: "Sender", reciverEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
         
-        print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfFriend(friendEmail: "rutvik48@gmail.com"))")
+        //print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfFriends(username: "rutvik48@gmail.com")))")
 
         // Do any additional setup after loading the view.
 

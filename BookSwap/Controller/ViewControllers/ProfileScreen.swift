@@ -29,6 +29,10 @@ class ProfileScreen: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        
+        //databaseIstance.addSwapReqestNotification(senderEmail: "Sender", receiversEmail: "rutvik48@gmail.com", bookName: "Book Name2", bookAuthor: "Book Author2")
+        
+        //databaseIstance.removeBookSwapRequestNotification(sendersEmail: "Sender", reciverEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
 
         // Do any additional setup after loading the view.
 

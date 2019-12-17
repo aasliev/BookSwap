@@ -26,6 +26,7 @@ class FirebaseDatabase {
     let WISHLIST_SUB_COLLECTION = "WishList"
     let HISTORY_SUB_COLLECTION = "History"
     let HOLDINGS_SUB_COLLECTION = "HoldingBooks"
+    let NOTIFICATION_SUB_COLLECTION = "Notification"
     
     //MARK: Firestore Fields Names
     let USER_EMAIL_FIELD = "Email"
@@ -40,6 +41,15 @@ class FirebaseDatabase {
     let FRIENDSEMAIL_FIELD = "FriendsEmail"
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
     let LOWERCASED_USERNAME_FIELD = "LowecasedUsername"
+    let SENDERS_EMAIL_FIELD = "Sender"
+    let RECEIVERS_EMAIL_FIELD = "Receiver"
+    let NOTIFICATION_TYPE = "Type"
+    
+    //Notification Types
+    let BOOKSWAP_REQUEST_NOTIFICATION = "Book Swap"
+    let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
+    
+    let TIMESTAMP = "Timestamp"
     
     //MARK: Collection Paths
     let USER_COLLECTION_PATH : String
@@ -91,13 +101,6 @@ class FirebaseDatabase {
 
                 
             }
-//            
-//
-//            //print("the error\(err?.localizedDescription)")
-//            if (self.checkError(error: err, whileDoing: "adding new user to firebase")){
-//                completion(true)
-//            }
-//            completion(false)
         }
     }
     
@@ -130,6 +133,7 @@ class FirebaseDatabase {
             _ = self.checkError(error: err, whileDoing: "adding book to WishList")
         }
     }
+    
     
     //Add a New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool = true ) {
@@ -165,10 +169,10 @@ class FirebaseDatabase {
         removeWishListBook(bookName: bookName, bookAuthor: bookAuthor)
     }
     
-    
+    //Method will be called when user accepts a Book Swap request
     //Add book into Holding Sub Collection inside Firestore: Users/currentUser/Holdings/bookName-bookAuthor
-    func addHoldingBook (bookOwnerEmail: String, bookName: String, bookAuthor: String ) {
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
+    func addHoldingBook (bookOwnerEmail: String, bookRequester : String, bookName: String, bookAuthor: String ) {
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(bookRequester)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").setData([
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
@@ -180,32 +184,59 @@ class FirebaseDatabase {
             _ = self.checkError(error: err, whileDoing: "adding book to Holdings")
         }
         
-        //Changing book holder's email, so user can keep track of who has the book
-        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor)
+        //Changing book holder's email, so user can keep track of who has the book, and changing book status
+        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
+
+    }
+    
+    
+    //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
+    func addSwapReqestNotification (senderEmail: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
         
-        //Changing Status of book
-        changeBookStatus(bookName: bookName, bookAuthor: bookAuthor, bookOwnersEmail: bookOwnerEmail, status: false)
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)").document("\(senderEmail)-\(bookName)-\(bookAuthor)").setData([
+            
+            SENDERS_EMAIL_FIELD : senderEmail,
+            BOOKNAME_FIELD : bookName,
+            AUTHOR_FIELD : bookAuthor,
+            NOTIFICATION_TYPE : BOOKSWAP_REQUEST_NOTIFICATION,
+            TIMESTAMP : FieldValue.serverTimestamp()
+            
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding book to Swap Request")
+        }
+    }
+    
+    
+    //Method to add Friend reqest on Firestore: Users/reciver's user email/Notification/
+    private func addFriendReqestNotification (senderEmail: String, receiversEmail : String) {
+         db.collection("\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)").document("\(senderEmail)-\(FRIEND_REQUEST_NOTIFICATION)").setData([
+            
+            SENDERS_EMAIL_FIELD : senderEmail,
+            NOTIFICATION_TYPE : FRIEND_REQUEST_NOTIFICATION,
+            TIMESTAMP : FieldValue.serverTimestamp()
+        
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding Friend Request")
+        }
     }
     
     
     //MARK: Change Document Field Methods
     //changes book holder email, which will help user to keep track of book
-    private func changeBookHoldersEmail(bookOwnersEmail : String, bookReciversEmail: String, bookName : String, bookAuthor : String) {
+    private func changeBookHoldersEmail(bookOwnersEmail : String, bookReciversEmail: String, bookName : String, bookAuthor : String, bookStatus : Bool) {
         
         let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)")
         
         // Set the BookHolder = email of logged in user
         ref.updateData([
-            BOOK_HOLDER_FIELD: bookReciversEmail
+            BOOK_HOLDER_FIELD: bookReciversEmail,
+            BOOK_STATUS_FIELD : bookStatus
         ]) { err in
             
             _ = self.checkError(error: err, whileDoing: "changing BookHolder's email.")
         }
-    }
-    
-    
-    func startReturningHoldingBook (bookName: String, bookAuthor : String) {
-        
     }
     
     
@@ -217,44 +248,15 @@ class FirebaseDatabase {
             
             //Completion wil return '-1' if some error occured
             if bookHolder != "-1" {
-                self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail()!, bookReciversEmail: self.authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor)
                 
-                //Changing Status of book to true, when book is returned
-                self.changeBookStatus(bookName: bookName, bookAuthor: bookAuthor, bookOwnersEmail: bookHolder, status: true)
+                //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
+                self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail()!, bookReciversEmail: self.authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
                 
-                //self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: <#T##String#>)
-            }
-        }
-        
-        getBookOwnerFromHoldings(bookName: bookName, bookAuthor: bookAuthor) { (bookOwner) in
-            
-            //Completion wil return '-1' if some error occured
-            if bookOwner != "-1" {
-                self.changeBookHoldersEmail(bookOwnersEmail: bookOwner, bookReciversEmail: bookOwner, bookName: bookName, bookAuthor: bookAuthor)
-                
-                //Changing Status of book to true, when book is returned
-                self.changeBookStatus(bookName: bookName, bookAuthor: bookAuthor, bookOwnersEmail: bookOwner, status: true)
-                
-                //self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: <#T##String#>)
+                //Removes the book book from holdingBooks
+                self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder)
             }
         }
     }
-    
-    //Changing the book status when swap is performed(Owner give to Friend) or completed (Friends to Owner)
-    private func changeBookStatus(bookName: String, bookAuthor: String, bookOwnersEmail : String, status : Bool) {
-        
-        //Creating a refrence of OwnedBook Sub-Collection
-        let ref = db.collection("\(USERS_MAIN_COLLECTIN)/\(bookOwnersEmail)/\(OWNEDBOOK_SUB_COLLECTION)")
-        
-        //Changing the book status to false if swap is performed, and false if swap completed
-        ref.document("\(bookName)-\(bookAuthor)").updateData([
-            BOOK_STATUS_FIELD : status
-        ]) { err in
-            
-            _ = self.checkError(error: err, whileDoing: "changing BookHolder's email.")
-        }
-    }
-    
     
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
@@ -571,7 +573,7 @@ class FirebaseDatabase {
     }
     
     
-    private func removeBookFromHoldings (bookName: String, bookAuthor: String, bookHolder : String){
+    func removeBookFromHoldings (bookName: String, bookAuthor: String, bookHolder : String){
         
         //Removing as book data from holdings of the bookHolder user
         deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(bookHolder)/\(HOLDINGS_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
@@ -579,17 +581,42 @@ class FirebaseDatabase {
     }
     
     
+    //Method to remove friend reqest notification
+    func removeFriendRequestNotification (sendersEmail : String, reciverEmail : String, document : String) {
+        
+        let path =  "\(USERS_MAIN_COLLECTIN)/\(reciverEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        
+        //friend request document format : sender's email-Friend Request
+        let docName = "\(sendersEmail)-\(FRIEND_REQUEST_NOTIFICATION)"
+        deleteDocument(documentPath: path, documentName: docName)
+        
+        
+    }
+    
+    
+    //Method to remove book swap reqest notification
+    func removeBookSwapRequestNotification (sendersEmail : String, reciverEmail : String, bookName : String, bookAuthor: String) {
+        
+        let path =  "\(USERS_MAIN_COLLECTIN)/\(reciverEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        
+        //book swap request document format : sender's email-bookName-bookAuthor
+        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
+        deleteDocument(documentPath: path, documentName: docName)
+        
+    }
+    
+    
     //MARK: Error
-    func checkError (error: Error?, whileDoing: String) -> Bool{
+    private func checkError (error: Error?, whileDoing: String) -> Bool{
         
         //ternary operator
         //(error == err) ? print("Number of Swaps for Current User is incremented.") : print("Error while \(whileDoing): \(String(describing: error))")
         
         if error?.localizedDescription == nil{
-            print("Successful \(whileDoing)!")
+            print("Successful \(whileDoing)! Class: FirebaseDatabase.swift")
             return true
         } else {
-            print("Error while \(whileDoing) .: \(String(describing: error))")
+            print("Error while \(whileDoing) .: \(String(describing: error)) Class: FirebaseDatabase.swift")
             return false
         }
             

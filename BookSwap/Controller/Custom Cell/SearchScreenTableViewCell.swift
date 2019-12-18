@@ -36,7 +36,7 @@ class SearchScreenTableViewCell: UITableViewCell {
         print("Add Button Pressed!! Inside Search Screen")
         print("UserName: \(ratingLbl.text!)")
         
-        let currentUserEmail = authInstance.getCurrentUserEmail()!
+        let currentUserEmail = authInstance.getCurrentUserEmail()
         //FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
         
         databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in

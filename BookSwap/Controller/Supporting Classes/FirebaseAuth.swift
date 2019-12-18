@@ -13,7 +13,7 @@ class FirebaseAuth {
     
     let authInstance : Auth
     let commonFunctions : CommonFunctions
-    private var currentUser : String
+    private var currentUser : String?
     var usersScreen  : String = ""
     
     static let sharedFirebaseAuth = FirebaseAuth()
@@ -25,21 +25,21 @@ class FirebaseAuth {
 
         
         //checks if user is loged in. 
-        currentUser = (authInstance.currentUser == nil) ? "" : (authInstance.currentUser?.email)!
+        currentUser = (authInstance.currentUser == nil) ? "UserEmailMissing" : (authInstance.currentUser?.email)
         
     }
     
     
     //This method updates the currentUser variable which keeps track of email of currently logged in user
     func updateCurrentUser() {
-        currentUser = (authInstance.currentUser == nil) ? "" : (authInstance.currentUser?.email)!
+        currentUser = (authInstance.currentUser == nil) ? "UserEmailMissing"  : (authInstance.currentUser?.email)
     }
     
     //Returns email of current user
-    func getCurrentUserEmail() -> String? {
+    func getCurrentUserEmail() -> String {
         
         //currentUser will be equal to email of currently signed in user if
-        return currentUser
+        return currentUser!
         
     }
     

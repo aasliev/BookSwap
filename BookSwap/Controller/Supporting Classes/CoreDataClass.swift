@@ -82,17 +82,17 @@ class CoreDataClass {
     private func addDataIntoEntities (){
         
         //Getting list of Friends from Firestore Database
-        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()!) { (friendDict) in
+        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (friendDict) in
             self.addFriendList(friendList: friendDict)
         }
         
         //Getting list of OwnedBook from Firestore Database
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: true) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
         
         //Getting list of WishList books from Firestore Database
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: false) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
             self.addBooksIntoWishList(dictionary: dict)
         }
     }
@@ -116,6 +116,11 @@ class CoreDataClass {
         
          //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
+    }
+    
+    
+    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool) {
+        
     }
     
 
@@ -186,16 +191,22 @@ class CoreDataClass {
     
     //MARK: Checking if data exist in Core Data
     //Method will be used to check if a user is friend of logged in user
-    func checkIfFriends(username : String) -> Bool {
-        print("Friend's email: \(username)")
+
+    func checkIfFriend (friendEmail : String) -> Bool {
         
-        var friendList = [Friends]()
-        let request : NSFetchRequest<Friends> = Friends.fetchRequest()
-        request.predicate = NSPredicate(format: "(friendsEmail == %@)", username)
-        do{
-            friendList = try context.fetch(request)
-        } catch {
-            print("error fetching data \(error)")
+        print ("This is Friends Email:\(friendEmail)")
+        let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
+        requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS %@",  friendEmail )
+
+        var results = [Friends]()
+        
+        do {
+            results = try getContext().fetch(requestForFriends)
+            
+            print("Result of results.count: \(results.count)")
+        }
+        catch {
+            print("error executing fetch request: \(error)")
         }
         print("count: \(friendList.count)")
         

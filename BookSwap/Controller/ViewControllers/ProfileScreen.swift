@@ -34,7 +34,8 @@ class ProfileScreen: UIViewController {
         
         //databaseIstance.removeBookSwapRequestNotification(sendersEmail: "Sender", reciverEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
         
-        //print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfFriends(username: "rutvik48@gmail.com")))")
+        print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfFriend(friendEmail: "user@gmail.com"))")
+
 
         // Do any additional setup after loading the view.
 
@@ -51,7 +52,7 @@ class ProfileScreen: UIViewController {
         //If usersProfile is not initialized, set it equal to curent user's email
         //usersProfile will be nil when app auto log in the current user
         if usersProfile == nil {
-            usersProfile =  authInstance.getCurrentUserEmail()!
+            usersProfile =  authInstance.getCurrentUserEmail()
         }
         
         databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in

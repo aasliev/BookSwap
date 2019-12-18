@@ -45,7 +45,7 @@ class SearchScreenTableViewController: UITableViewController {
     func loadResult(search: String){
         
         searchResult.removeAll()
-        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: search) { (dict) in
+        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail(), searchText: search) { (dict) in
             
             var index = 0
             

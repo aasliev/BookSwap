@@ -82,17 +82,17 @@ class CoreDataClass {
     private func addDataIntoEntities (){
         
         //Getting list of Friends from Firestore Database
-        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()!) { (friendDict) in
+        databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (friendDict) in
             self.addFriendList(friendList: friendDict)
         }
         
         //Getting list of OwnedBook from Firestore Database
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: true) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
         
         //Getting list of WishList books from Firestore Database
-        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail()!, trueForOwnedBookFalseForWishList: false) { (dict) in
+        databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
             self.addBooksIntoWishList(dictionary: dict)
         }
     }
@@ -116,6 +116,11 @@ class CoreDataClass {
         
          //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
+    }
+    
+    
+    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool) {
+        
     }
     
 
@@ -190,13 +195,12 @@ class CoreDataClass {
         
         print ("This is Friends Email:\(friendEmail)")
         let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
-        //requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS[cd] %@",  friendEmail )
+        requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS %@",  friendEmail )
 
         var results = [Friends]()
         
         do {
-            results = try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.fetch(requestForFriends)
-                //getContext().fetch(requestForFriends)
+            results = try getContext().fetch(requestForFriends)
             
             print("Result of results.count: \(results.count)")
         }

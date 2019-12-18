@@ -147,11 +147,11 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         
         if (trueForOwnedBook_falseForWishList) {
             //add book to OwnedBook
-            databaseIstance.addToOwnedBook(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            databaseIstance.addToOwnedBook(currentUserEmail: authInstance.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         } else {
             //add book to WishList
-            databaseIstance.addToWishList(currentUserEmail: authInstance.getCurrentUserEmail()!, bookName: name, bookAuthor: author)
+            databaseIstance.addToWishList(currentUserEmail: authInstance.getCurrentUserEmail(), bookName: name, bookAuthor: author)
             
         }
     }

@@ -21,7 +21,7 @@ class NotificatonsScreen: UITableViewController {
 
         tableView.rowHeight = 100
         
-        databaseInstance.getNotifications(usersEmail: authInstance.getCurrentUserEmail()!) { (dict) in
+        databaseInstance.getNotifications(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
             print("Dictionary is: \(dict as AnyObject)")
             
 //            for (index,data) in dict {

@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if user != nil {
             // User is signed in.
             print("Automatic Sign In: \(String(describing: user?.email))")
-            CoreDataClass.sharedCoreData.updateCoreData()
+            //CoreDataClass.sharedCoreData.updateCoreData()
             let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileScreen")
 
             self.window!.rootViewController = initialViewController

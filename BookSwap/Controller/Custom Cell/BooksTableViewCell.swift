@@ -36,7 +36,7 @@ class BooksTableViewCell: SwipeTableViewCell {
         
         swap.isHidden = true
         
-        let currentUserEmail = authInstance.getCurrentUserEmail()!
+        let currentUserEmail = authInstance.getCurrentUserEmail()
         
         databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
         

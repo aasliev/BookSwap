@@ -203,7 +203,7 @@ class FirebaseDatabase {
         }
         
         //Changing book holder's email, so user can keep track of who has the book, and changing book status
-        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
+        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
 
     }
     
@@ -278,7 +278,7 @@ class FirebaseDatabase {
             if bookHolder != "-1" {
                 
                 //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
-                self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail()!, bookReciversEmail: self.authInstance.getCurrentUserEmail()!, bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
+                self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
                 
                 //Removes the book book from holdingBooks
                 self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder)
@@ -367,7 +367,7 @@ class FirebaseDatabase {
                 }
                 
                 //Filter the search results. Removes informatiom of current user (if needed)
-                dictionary.removeValue(forKey: self.authInstance.getCurrentUserEmail()!)
+                dictionary.removeValue(forKey: self.authInstance.getCurrentUserEmail())
                 
                 completion(dictionary)
                 
@@ -599,7 +599,7 @@ class FirebaseDatabase {
     //Returns Book owner's email which is stored inside Firestore: Users/Book holder's Email/Holdings/bookName-bookAuthor. Called by method successfullyReturnedHoldingBook
     private func getBookOwnerFromHoldings(bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
         
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(HOLDINGS_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
             
             if let document = document, document.exists {
                 
@@ -617,7 +617,7 @@ class FirebaseDatabase {
     //Called by method successfullyReturnedHoldingBook
     private func getBookHoldersEmail(bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
         
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
             
             if let document = document, document.exists {
                 
@@ -646,7 +646,7 @@ class FirebaseDatabase {
     //Remove book from OwnedBook from Firestore: Users/currentUser/OwnedBook/Document "BookName-AuthoName"
     func removeOwnedBook (bookName: String, bookAuthor: String) {
         
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(OWNEDBOOK_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(OWNEDBOOK_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
         
     }
     
@@ -654,7 +654,7 @@ class FirebaseDatabase {
     //Remove book from OwnedBook from Firestore: Users/currentUser/WishList/Document "BookName-AuthoName"
     func removeWishListBook (bookName: String, bookAuthor: String) {
         
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(WISHLIST_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(WISHLIST_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
         
     }
     
@@ -663,12 +663,12 @@ class FirebaseDatabase {
     func removeFriend (friendsEmail: String ){
         
         //Removing as friend from current user's  friends collection
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail()!)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(friendsEmail)")
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(FRIENDS_SUB_COLLECTION)", documentName: "\(friendsEmail)")
         
-        increment_OR_DecrementNumberOfFriends(userEmail: authInstance.getCurrentUserEmail()!, by: -1)
+        increment_OR_DecrementNumberOfFriends(userEmail: authInstance.getCurrentUserEmail(), by: -1)
         
         //Removing as friend from other user's (Friend of current user) friends collection
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail()!)")
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail())")
         
         increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
         

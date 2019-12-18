@@ -258,7 +258,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 newOwnedBook.status = true
                 
                 //This will move the selected book from WishList into OwnedBook
-                self.databaseIstance.moveWishListToOwnedBook (currentUserEmail: self.authInstance.getCurrentUserEmail()!, bookName: self.currentUserItems[indexPath.row].bookName!, bookAuthor: self.currentUserItems[indexPath.row].author!)
+                self.databaseIstance.moveWishListToOwnedBook (currentUserEmail: self.authInstance.getCurrentUserEmail(), bookName: self.currentUserItems[indexPath.row].bookName!, bookAuthor: self.currentUserItems[indexPath.row].author!)
                 
                 
                 //deleting data from persistence container

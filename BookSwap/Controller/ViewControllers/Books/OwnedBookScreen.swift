@@ -33,7 +33,6 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        print("inside The Owned Book")
         //setting usersBookShelf equals to email of usersScreen
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
@@ -113,7 +112,7 @@ class OwnedBookScreen: UITableViewController {
                 requestForBooks.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
                 currentUserItems = try context.fetch(requestForBooks)
             } else {
-                
+                //print("otherUserCount: = \(otherUserItems.count)")
                 if (otherUserItems.count == 0) {
                     databaseIstance.getListOfFriends (usersEmail: usersBookShelf!) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
@@ -142,12 +141,12 @@ class OwnedBookScreen: UITableViewController {
         for (_, data) in dict {
             
             //creating an object of OthersOwnedBook with the context of Core Data
-            let newOwnedBook = OthersOwnedBook(context: context)
+            let newOwnedBook = OthersOwnedBook(context: self.context)
             
             //adding data from dictionary, data holds information such as bookName, author and status
-            newOwnedBook.bookName = (data[databaseIstance.BOOKNAME_FIELD] as! String)
-            newOwnedBook.author = (data[databaseIstance.AUTHOR_FIELD] as! String)
-            newOwnedBook.status = data[databaseIstance.BOOK_STATUS_FIELD] as! Bool
+            newOwnedBook.bookName = (data[self.databaseIstance.BOOKNAME_FIELD] as! String)
+            newOwnedBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
+            newOwnedBook.status = data[self.databaseIstance.BOOK_STATUS_FIELD] as! Bool
             
             //Appending inside otherUser array
             otherUserItems.append(newOwnedBook)

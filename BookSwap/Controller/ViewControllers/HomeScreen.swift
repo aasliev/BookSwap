@@ -58,6 +58,9 @@ class HomeScreen: UIViewController {
                     print("Log in Successful!")
                     
                     CoreDataClass.sharedCoreData.updateCoreData()
+                    
+                    //This method updates the currentUser variable which keeps track of email of currently logged in user
+                    self.authInstance.updateCurrentUser()
                 
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     

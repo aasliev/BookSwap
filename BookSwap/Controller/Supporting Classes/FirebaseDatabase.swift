@@ -239,6 +239,7 @@ class FirebaseDatabase {
         ref.setData([
             
             SENDERS_EMAIL_FIELD : senderEmail,
+            SENDERS_USER_NAME_FIELD: sendersUserName,
             NOTIFICATION_TYPE : FRIEND_REQUEST_NOTIFICATION,
             TIMESTAMP : FieldValue.serverTimestamp()
         

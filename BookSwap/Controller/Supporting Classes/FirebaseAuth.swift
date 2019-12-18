@@ -29,22 +29,16 @@ class FirebaseAuth {
         
     }
     
+    
+    //This method updates the currentUser variable which keeps track of email of currently logged in user
+    func updateCurrentUser() {
+        currentUser = (authInstance.currentUser == nil) ? "" : (authInstance.currentUser?.email)!
+    }
+    
     //Returns email of current user
     func getCurrentUserEmail() -> String? {
         
         //currentUser will be equal to email of currently signed in user if
-        //otherUser is nil. otherUser will be asigned email of other user's email
-        if authInstance.currentUser != nil {
-            currentUser = (authInstance.currentUser?.email)!
-        } else {
-            currentUser = ""
-        }
-        
-//        //checking if otherUser holds email of logged in user
-//        if (otherUser == (authInstance.currentUser?.email)) {
-//            //if it is true change otherUser to 
-//            otherUser = ""
-//        }
         return currentUser
         
     }
@@ -58,6 +52,9 @@ class FirebaseAuth {
         
         do {
             try self.authInstance.signOut()
+            
+            //This method updates the currentUser variable which keeps track of email of currently logged in user
+            updateCurrentUser()
             
             //Reseting all data from Core Data of user 
             CoreDataClass.sharedCoreData.resetAllEntities()

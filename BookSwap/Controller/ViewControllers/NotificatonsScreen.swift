@@ -43,8 +43,7 @@ class NotificatonsScreen: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
-        let senderUserName = notificationDictionary[indexPath.row]!["Sender's UserName"] as! String //[databaseInstance.SENDERS_USER_NAME_FIELD] as! String
-//        let notificationTypeIsBookSwap = databaseInstance.NOTIFICATION_TYPE == notificationDictionary[indexPath.row]![databaseInstance.NOTIFICATION_TYPE] as! String
+        let senderUserName = notificationDictionary[indexPath.row]!["Sender's UserName"] as! String 
        
         if checkIfNotificationForBookSwap(index: indexPath.row) {
             let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String

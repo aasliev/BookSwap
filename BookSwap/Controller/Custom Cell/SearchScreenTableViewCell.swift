@@ -40,13 +40,13 @@ class SearchScreenTableViewCell: UITableViewCell {
         //FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
         
         databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
-            self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.authInstance.usersScreen)
+            
+            self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.emailLbl.text!)
         }
-        
         
         CoreDataClass.sharedCoreData.addFriendIntoCoreData(friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!, numberOfSwaps: "00")
         
-        addButton.isHidden = true
+        addButton.setTitle("Request\nSent", for: .highlighted)
     }
     
 }

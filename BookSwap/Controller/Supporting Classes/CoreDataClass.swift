@@ -17,7 +17,7 @@ class CoreDataClass {
     let WISH_LIST_ENTITY = "WishList"
     
     var ownedBook = [OwnedBook]()
-    
+    var friendList = [Friends]()
     
     //Singleton
     static let sharedCoreData = CoreDataClass()
@@ -191,6 +191,7 @@ class CoreDataClass {
     
     //MARK: Checking if data exist in Core Data
     //Method will be used to check if a user is friend of logged in user
+
     func checkIfFriend (friendEmail : String) -> Bool {
         
         print ("This is Friends Email:\(friendEmail)")
@@ -207,11 +208,11 @@ class CoreDataClass {
         catch {
             print("error executing fetch request: \(error)")
         }
+        print("count: \(friendList.count)")
         
-        return results.count > 0
+        return friendList.count > 0;
     }
-    
-    
+
     //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {
         

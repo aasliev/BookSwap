@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		360E44B5238054D600A58946 /* userData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 360E44B3238054D600A58946 /* userData.xcdatamodeld */; };
+		361699EA23A9C89600D33432 /* HoldBookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361699E923A9C89600D33432 /* HoldBookTableViewCell.swift */; };
 		363A8FFD235645E30071CC45 /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A8FFC235645E30071CC45 /* CommonFunctions.swift */; };
 		364080912396CCF100335CBE /* MessagesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364080902396CCF100335CBE /* MessagesScreen.swift */; };
 		364080932396CD6700335CBE /* NotificatonsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364080922396CD6700335CBE /* NotificatonsScreen.swift */; };
@@ -46,6 +47,7 @@
 		108D1839F26450719EAD6186 /* Pods-BookSwap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSwap.debug.xcconfig"; path = "Target Support Files/Pods-BookSwap/Pods-BookSwap.debug.xcconfig"; sourceTree = "<group>"; };
 		360DE7A8239B33E30075C32E /* BookSwap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookSwap.entitlements; sourceTree = "<group>"; };
 		360E44B4238054D600A58946 /* userData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = userData.xcdatamodel; sourceTree = "<group>"; };
+		361699E923A9C89600D33432 /* HoldBookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldBookTableViewCell.swift; sourceTree = "<group>"; };
 		363A8FFC235645E30071CC45 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
 		364080902396CCF100335CBE /* MessagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesScreen.swift; sourceTree = "<group>"; };
 		364080922396CD6700335CBE /* NotificatonsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificatonsScreen.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				364D5E3F238383250060EF94 /* WishListTableViewCell.swift */,
 				B30474CC2394822000438E85 /* SearchScreenTableViewCell.swift */,
 				36D7F58323974C890036F306 /* NotificationCell.swift */,
+				361699E923A9C89600D33432 /* HoldBookTableViewCell.swift */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -254,7 +257,7 @@
 				B302F23C234925BB00F4E537 /* Sources */,
 				B302F23D234925BB00F4E537 /* Frameworks */,
 				B302F23E234925BB00F4E537 /* Resources */,
-				DE8E0F0305D778AD9F442B8D /* [CP] Embed Pods Frameworks */,
+				4F225F41B7E6DB500ADFD545 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -314,6 +317,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4F225F41B7E6DB500ADFD545 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		58061FEAF3847C9D99E4EBAD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,23 +354,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE8E0F0305D778AD9F442B8D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BookSwap/Pods-BookSwap-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -387,6 +390,7 @@
 				364D5E3E23837EFA0060EF94 /* BooksTableViewCell.swift in Sources */,
 				364730842389FD3300DA1D8F /* ForgotPasswordScreen.swift in Sources */,
 				360E44B5238054D600A58946 /* userData.xcdatamodeld in Sources */,
+				361699EA23A9C89600D33432 /* HoldBookTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

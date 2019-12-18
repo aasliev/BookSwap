@@ -52,7 +52,7 @@
                                             <color key="titleColor" red="0.88800761421319796" green="0.4087103148383246" blue="0.40039629653294123" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="6uB-oO-Ruo" kind="show" id="ToZ-ZE-fEe"/>
+                                            <segue destination="6uB-oO-Ruo" kind="showDetail" id="ToZ-ZE-fEe"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -169,7 +169,7 @@
                                     <color key="titleColor" red="0.19760299592482131" green="0.63396533533113786" blue="0.76362348977098438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="F9U-b8-p17" kind="show" id="YbR-n8-2bV"/>
+                                    <segue destination="F9U-b8-p17" kind="showDetail" id="YbR-n8-2bV"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vi3-7d-Lk2">
@@ -474,7 +474,7 @@
                                                 <constraint firstAttribute="height" constant="35" id="nQn-Ti-ycS"/>
                                             </constraints>
                                             <state key="normal" title="Add">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
                                                 <action selector="addButtonPressed:" destination="Q9h-Ns-c4n" eventType="touchUpInside" id="nFb-no-5zY"/>
@@ -737,13 +737,13 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="Swap">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
                                                 <action selector="swapButton:" destination="ZiS-jx-Mxe" eventType="touchUpInside" id="E7f-AT-0HZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of The Book Name of The Book Name of The Book Name of The Book" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjB-uR-sLF">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of The Book " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjB-uR-sLF">
                                             <rect key="frame" x="25" y="15" width="315" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="bcX-8p-w8G"/>
@@ -774,6 +774,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="authorOfTheBook" destination="abP-tp-d6O" id="yGL-yb-jsR"/>
                                     <outlet property="nameOfTheBook" destination="cjB-uR-sLF" id="RPg-sz-Rec"/>
@@ -885,13 +886,66 @@
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="holdListCell" id="Je9-0X-ERs">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="holdListCell" rowHeight="120" id="Je9-0X-ERs" customClass="HoldBookTableViewCell" customModule="BookSwap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Je9-0X-ERs" id="Lg5-7l-xA8">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Of The Book" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5H6-dh-uGL">
+                                            <rect key="frame" x="35" y="16" width="279" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="ui1-HR-1iG"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Z2-ar-J5p">
+                                            <rect key="frame" x="35" y="71" width="55" height="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fqh-TA-rPJ">
+                                            <rect key="frame" x="335" y="30" width="54" height="34"/>
+                                            <color key="backgroundColor" red="1" green="0.82806688549999996" blue="0.37546503539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <state key="normal" title="Return">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="returnButtonPressed:" destination="Je9-0X-ERs" eventType="touchUpInside" id="zXF-KR-Brp"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Book Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02K-OZ-cnS">
+                                            <rect key="frame" x="299" y="82.5" width="100" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.1056895927" green="0.10482627899999999" blue="0.1545491219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="5Z2-ar-J5p" firstAttribute="top" secondItem="5H6-dh-uGL" secondAttribute="bottom" constant="5" id="0CS-eS-J43"/>
+                                        <constraint firstAttribute="trailing" secondItem="02K-OZ-cnS" secondAttribute="trailing" constant="15" id="0az-Cj-2tR"/>
+                                        <constraint firstItem="5Z2-ar-J5p" firstAttribute="leading" secondItem="Lg5-7l-xA8" secondAttribute="leadingMargin" constant="15" id="5sK-Kw-tYA"/>
+                                        <constraint firstItem="5H6-dh-uGL" firstAttribute="leading" secondItem="Lg5-7l-xA8" secondAttribute="leadingMargin" constant="15" id="8IG-2J-IPW"/>
+                                        <constraint firstItem="Fqh-TA-rPJ" firstAttribute="centerY" secondItem="Lg5-7l-xA8" secondAttribute="centerY" constant="-13" id="KQ5-rv-Xca"/>
+                                        <constraint firstAttribute="bottom" secondItem="02K-OZ-cnS" secondAttribute="bottom" constant="16" id="Qsb-in-zzV"/>
+                                        <constraint firstItem="5H6-dh-uGL" firstAttribute="top" secondItem="Lg5-7l-xA8" secondAttribute="topMargin" constant="5" id="rtd-5b-mL4"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Fqh-TA-rPJ" secondAttribute="trailing" constant="5" id="wSg-yi-UPI"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="5H6-dh-uGL" secondAttribute="trailing" constant="80" id="z16-xI-lyS"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.1056895927" green="0.10482627899999999" blue="0.1545491219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="authorOfTheBook" destination="5Z2-ar-J5p" id="H61-IY-pMM"/>
+                                    <outlet property="bookOwner" destination="02K-OZ-cnS" id="r5J-6h-bH0"/>
+                                    <outlet property="nameOfTheBook" destination="5H6-dh-uGL" id="VQV-Pw-wgc"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -903,7 +957,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyC-51-wSe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2587" y="994"/>
+            <point key="canvasLocation" x="2586.9565217391305" y="993.75"/>
         </scene>
         <!--Search-->
         <scene sceneID="jgv-gf-hPq">
@@ -1186,10 +1240,10 @@
         <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZRU-mL-IwO"/>
+        <segue reference="ToZ-ZE-fEe"/>
         <segue reference="vFB-ik-VlG"/>
-        <segue reference="H6v-Co-17d"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="rWK-U0-pPj"/>
+        <segue reference="uKd-0S-BGJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

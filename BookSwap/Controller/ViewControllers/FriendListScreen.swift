@@ -31,8 +31,8 @@ class FriendListScreen: UITableViewController {
     var friensEmail : String?
     
     //Request for search result
-    let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
-    let reqestForOthersFriends : NSFetchRequest<OthersFriend> = OthersFriend.fetchRequest()
+    var requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
+    var reqestForOthersFriends : NSFetchRequest<OthersFriend> = OthersFriend.fetchRequest()
     
     
     override func viewDidLoad() {
@@ -181,10 +181,10 @@ extension FriendListScreen: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         //creating NSPredicate which finds keyword in bookName and author field
-        let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
+        let nsPredicate = NSPredicate(format: "(userName CONTAINS[cd] %@) OR (friendsEmail CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
         
         //once the result is recived, sorting it by bookName
-        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
+        let nsSortDescriptor = [NSSortDescriptor(key: "userName", ascending: true)]
         
         //Checking if otherUser is empty
         if (!authInstance.isItOtherUsersPage(userEmail: usersFriendsList!)) {
@@ -210,6 +210,9 @@ extension FriendListScreen: UISearchBarDelegate {
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
+            
+            requestForFriends = Friends.fetchRequest()
+            reqestForOthersFriends = OthersFriend.fetchRequest()
             loadItems()
             tableView.reloadData()
         }

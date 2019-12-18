@@ -13,10 +13,14 @@ import SwipeCellKit
 class OwnedBookScreen: UITableViewController {
     
     //Array which takes objects of OwnedBook
-    var itemArray = [OwnedBook]()
-    var otherUser = [OthersOwnedBook]()
+    var currentUserItems = [OwnedBook]()
+    var otherUserItems = [OthersOwnedBook]()
     
     var usersBookShelf : String?
+    
+    //NSFetchRequest
+    var requestForBooks: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
+    var requestForOthersFriendsBooks : NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()
     
     //context of Core Data file
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -29,7 +33,6 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        print("inside The Owned Book")
         //setting usersBookShelf equals to email of usersScreen
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
@@ -40,11 +43,11 @@ class OwnedBookScreen: UITableViewController {
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
-        if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
-            loadItems()
-        } else {
-            loadItemsOtherUser()
-        }
+//        if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
+//            loadItems()
+//        } else {
+//            loadItemsOtherUser()
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,8 +67,8 @@ class OwnedBookScreen: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("This is otherUser.count: \(otherUser.count)")
-        return !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) ?  itemArray.count : otherUser.count
+        print("This is otherUser.count: \(otherUserItems.count)")
+        return !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) ?  currentUserItems.count : otherUserItems.count
     }
     
     
@@ -76,22 +79,22 @@ class OwnedBookScreen: UITableViewController {
         if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!){
             
             
-            cell.nameOfTheBook?.text = itemArray[indexPath.row].bookName
-            cell.authorOfTheBook?.text = itemArray[indexPath.row].author
+            cell.nameOfTheBook?.text = currentUserItems[indexPath.row].bookName
+            cell.authorOfTheBook?.text = currentUserItems[indexPath.row].author
             cell.swap.isHidden = true
-            if !(itemArray[indexPath.row].status) {
+            if !(currentUserItems[indexPath.row].status) {
                 cell.nameOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
                 cell.authorOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
             }
         
         } else {
             
-            cell.nameOfTheBook?.text = otherUser[indexPath.row].bookName
-            cell.authorOfTheBook?.text = otherUser[indexPath.row].author
+            cell.nameOfTheBook?.text = otherUserItems[indexPath.row].bookName
+            cell.authorOfTheBook?.text = otherUserItems[indexPath.row].author
             
             //If book status is true, it will show the book by making 'isHidden' = false
             //or if book status is false, it will hide the swap button
-            cell.swap.isHidden = !(otherUser[indexPath.row].status)
+            cell.swap.isHidden = !(otherUserItems[indexPath.row].status)
         }
        
         cell.delegate = self
@@ -101,42 +104,29 @@ class OwnedBookScreen: UITableViewController {
     
     //MARK: - Model Manipulation Methods
     
-    func loadItems(with request: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()) {
-         do {
-            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
-             itemArray = try context.fetch(request)
-            }
-         } catch {
-             print("Error fetching data from context \(error)")
-         }
-         
-     }
-
-    func loadItemsOtherUser(with request: NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()) {
-        print("Inside the loadItemsOtherUser")
+    func loadItems() {
         do {
-            
-            //Making sure the database call is made only once to get data and load it into 'otherUser' array
-            //Logic: if otherUser.count is equals to 0, that means function call (inside if statment) has not been made yet.
-            if (otherUser.count == 0) {
-                databaseIstance.getListOfOwnedBookOrWishList(usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
-
-                    //this method sends the data recived in dictionary from Firestore, and place it inside "otherUser" array.
-                    self.loadDataForOtherUser(dict: dataDictionary)
-                }
+            //checks which user is currently on the FriendsList page
+            //NOTE: Other User will be true if user open someone else's WishList
+            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
+                requestForBooks.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+                currentUserItems = try context.fetch(requestForBooks)
             } else {
-
-                //Once user searches anything in search bar, "requestForOthersOwnedBook" holds query.
-                //context.fetch... will fetch result and store it inside otherUser array
-                otherUser = try context.fetch(request)
+                //print("otherUserCount: = \(otherUserItems.count)")
+                if (otherUserItems.count == 0) {
+                    databaseIstance.getListOfFriends (usersEmail: usersBookShelf!) { (dataDictionary) in
+                        self.loadDataForOtherUser(dict: dataDictionary)
+                    }
+                } else {
+                    requestForOthersFriendsBooks.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
+                    otherUserItems = try context.fetch(requestForOthersFriendsBooks)
+                }
             }
+            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }
-        
     }
-    
-    
     
     
     //Loads the data inside OthersOwnedBook array, which is received from Firestore
@@ -146,20 +136,20 @@ class OwnedBookScreen: UITableViewController {
         coreDataClassInstance.resetOneEntitie(entityName: "OthersOwnedBook")
         
         //Clearing the array which holds objects of 'OthersWishList'
-        otherUser.removeAll()
+        otherUserItems.removeAll()
         
         for (_, data) in dict {
             
             //creating an object of OthersOwnedBook with the context of Core Data
-            let newOwnedBook = OthersOwnedBook(context: context)
+            let newOwnedBook = OthersOwnedBook(context: self.context)
             
             //adding data from dictionary, data holds information such as bookName, author and status
-            newOwnedBook.bookName = (data[databaseIstance.BOOKNAME_FIELD] as! String)
-            newOwnedBook.author = (data[databaseIstance.AUTHOR_FIELD] as! String)
-            newOwnedBook.status = data[databaseIstance.BOOK_STATUS_FIELD] as! Bool
+            newOwnedBook.bookName = (data[self.databaseIstance.BOOKNAME_FIELD] as! String)
+            newOwnedBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
+            newOwnedBook.status = data[self.databaseIstance.BOOK_STATUS_FIELD] as! Bool
             
             //Appending inside otherUser array
-            otherUser.append(newOwnedBook)
+            otherUserItems.append(newOwnedBook)
         }
         
         //saving all the changes made in core data
@@ -187,9 +177,13 @@ class OwnedBookScreen: UITableViewController {
         DispatchQueue.main.asyncAfter(deadline: deadLine) {
             self.refresher.endRefreshing()
         }
-        self.tableView.reloadData()
+        self.viewDidLoad()
+        tableView.reloadData()
     }
 }
+
+
+
 
 
 
@@ -199,32 +193,20 @@ extension OwnedBookScreen: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        //search requests
-        let searchRequest : NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
-        let searchRequestOtherUser : NSFetchRequest<OthersOwnedBook> = OthersOwnedBook.fetchRequest()
-
         //creating NSPredicate which finds keyword in bookName and author field
         let nsPredicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) OR (author CONTAINS[cd] %@)", searchBar.text!, searchBar.text!)
-        
-        //once the result is recived, sorting it by bookName
-        let nsSortDescriptor = [NSSortDescriptor(key: "bookName", ascending: true)]
         
         //Checking if otherUser is empty
         if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)) {
             
             //creating request for current user's own OwnedBook page
-            searchRequest.predicate = nsPredicate
-            searchRequest.sortDescriptors = nsSortDescriptor
-            loadItems(with: searchRequest)
-            
+            requestForBooks.predicate = nsPredicate
         } else {
             
             //creating reqest for other user's OwnedBook page
-            searchRequestOtherUser.predicate = nsPredicate
-            searchRequestOtherUser.sortDescriptors = nsSortDescriptor
-            loadItemsOtherUser(with: searchRequestOtherUser)
+            requestForOthersFriendsBooks.predicate = nsPredicate
         }
-        
+        loadItems()
         tableView.reloadData()
     }
     
@@ -235,16 +217,19 @@ extension OwnedBookScreen: UISearchBarDelegate{
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
-            if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
-                loadItems()
-            } else {
-                loadItemsOtherUser()
-            }
+            
+            requestForBooks = OwnedBook.fetchRequest()
+            requestForOthersFriendsBooks = OthersOwnedBook.fetchRequest()
+            loadItems()
             tableView.reloadData()
         }
     }
     
 }
+
+
+
+
 
 //MARK: SwipeCellKit
 extension OwnedBookScreen: SwipeTableViewCellDelegate{
@@ -264,13 +249,13 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
             alert.addAction(UIAlertAction(title: "No", style: .cancel))
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                  // handle action by updating model with deletion
-                self.context.delete(self.itemArray[indexPath.row])
+                self.context.delete(self.currentUserItems[indexPath.row])
                 
                 //Using itemArray gettin name of book and book's author.
-                self.databaseIstance.removeOwnedBook(bookName: self.itemArray[indexPath.row].bookName!, bookAuthor: self.itemArray[indexPath.row].author!)
+                self.databaseIstance.removeOwnedBook(bookName: self.currentUserItems[indexPath.row].bookName!, bookAuthor: self.currentUserItems[indexPath.row].author!)
                 
                 //Removing the data from itemArray
-                self.itemArray.remove(at: indexPath.row)
+                self.currentUserItems.remove(at: indexPath.row)
                 self.coreDataClassInstance.saveContext()
                 tableView.reloadData()
             }))

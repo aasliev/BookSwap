@@ -36,6 +36,7 @@ class ProfileScreen: UIViewController {
         
         print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfFriend(friendEmail: "user@gmail.com"))")
 
+
         // Do any additional setup after loading the view.
 
         setUserDetails()

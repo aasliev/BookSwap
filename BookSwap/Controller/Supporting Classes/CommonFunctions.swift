@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import CoreData
 
 class CommonFunctions{
     
@@ -78,6 +79,5 @@ class CommonFunctions{
             createUIalert("Error occured. Please try again.", screen)
         }
     }
-    
 }
 

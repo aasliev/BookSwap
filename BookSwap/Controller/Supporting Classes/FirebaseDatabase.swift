@@ -42,12 +42,12 @@ class FirebaseDatabase {
     let NUMBEROFFRIENDS_FIELD = "NumberOfFriends"
     let LOWERCASED_USERNAME_FIELD = "LowecasedUsername"
     let SENDERS_EMAIL_FIELD = "Sender"
-    let SENDERS_USER_NAME_FIELD = "Sende's UserName"
+    let SENDERS_USER_NAME_FIELD = "SendesUserName"
     let RECEIVERS_EMAIL_FIELD = "Receiver"
     let NOTIFICATION_TYPE = "Type"
     
     //Notification Types
-    let BOOKSWAP_REQUEST_NOTIFICATION = "Book Swap"
+    let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
     let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
     
     let TIMESTAMP = "Timestamp"
@@ -103,8 +103,6 @@ class FirebaseDatabase {
             } else {
                 print("Document successfully written!")
                 completion(true)
-
-                
             }
         }
     }

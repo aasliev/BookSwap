@@ -42,10 +42,11 @@ class NotificatonsScreen: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
-        
-        let senderUserName = notificationDictionary[indexPath.row]!["Sender's UserName"] as! String 
+        print(notificationDictionary[indexPath.row] as AnyObject)
+        let senderUserName = notificationDictionary[indexPath.row]!["\("Sender's UserName")"] as! String
        
         if checkIfNotificationForBookSwap(index: indexPath.row) {
+            
             let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
             let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
             
@@ -53,7 +54,6 @@ class NotificatonsScreen: UITableViewController {
         } else {
             return assignFriendReqestNotification(cell: cell, sender: senderUserName)
         }
-        
     }
     
     

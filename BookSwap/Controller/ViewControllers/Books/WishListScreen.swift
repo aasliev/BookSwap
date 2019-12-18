@@ -93,7 +93,7 @@ class WishListScreen: UITableViewController {
             } else {
                 
                 if (otherUserItems.count == 0) {
-                    databaseIstance.getListOfFriends (usersEmail: usersWishList!) { (dataDictionary) in
+                    databaseIstance.getListOfOwnedBookOrWishList (usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
                     }
                 } else {
@@ -267,7 +267,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 //deleting data from itemArray and saving Coredata context
                 self.currentUserItems.remove(at: indexPath.row)
                 CoreDataClass.sharedCoreData.saveContext()
-                
+                tableView.reloadData()
             }
             
             moreAction.image = UIImage(named: "More-icon")

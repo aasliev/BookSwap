@@ -114,7 +114,7 @@ class OwnedBookScreen: UITableViewController {
             } else {
                 //print("otherUserCount: = \(otherUserItems.count)")
                 if (otherUserItems.count == 0) {
-                    databaseIstance.getListOfFriends (usersEmail: usersBookShelf!) { (dataDictionary) in
+                    databaseIstance.getListOfOwnedBookOrWishList (usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
                     }
                 } else {

@@ -133,7 +133,7 @@ class OwnedBookScreen: UITableViewController {
     func loadDataForOtherUser(dict : Dictionary<Int  , Dictionary<String  , Any>>) {
         
         //Clearing the data stored inside Core Data file
-        coreDataClassInstance.resetOneEntitie(entityName: "OthersOwnedBook")
+        coreDataClassInstance.resetOneEntity(entityName: "OthersOwnedBook")
         
         //Clearing the array which holds objects of 'OthersWishList'
         otherUserItems.removeAll()

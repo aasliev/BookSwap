@@ -279,7 +279,7 @@ class CoreDataClass {
     //MARK: Change data of sigle file
     func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool ){
         
-        let book = getBook(bookName: bookName, bookAuthor: bookAuthor)
+        let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
         
         book[0].status = status
         book[0].holder = bookHolder

@@ -220,21 +220,7 @@ class CoreDataClass {
     func checkIfFriend (friendEmail : String) -> Bool {
         
         print ("This is Friends Email:\(friendEmail)")
-        let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
-        requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS %@",  friendEmail )
-
-        var results = [Friends]()
-        
-        do {
-            results = try getContext().fetch(requestForFriends)
-            
-            print("Result of results.count: \(results.count)")
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
-        print("count: \(friendList.count)")
-        
+        let friendList = getFriendData(email: friendEmail)
         return friendList.count > 0;
     }
     
@@ -255,7 +241,27 @@ class CoreDataClass {
     
     
     //MARK : Get Methods
-    func getOwnedBook (bookName : String, bookAuthor : String) -> [OwnedBook] {
+    private func getFriendData (email : String) -> [Friends] {
+        
+        let requestForFriends: NSFetchRequest<Friends> = Friends.fetchRequest()
+        requestForFriends.predicate = NSPredicate(format: "friendsEmail CONTAINS %@",  email )
+        
+        var results = [Friends]()
+        
+        do {
+            results = try getContext().fetch(requestForFriends)
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return results
+        
+        
+    }
+    
+    
+    private func getOwnedBook (bookName : String, bookAuthor : String) -> [OwnedBook] {
         
         //Creating a request, which fetch all the books
         let requestForFriends: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
@@ -279,7 +285,7 @@ class CoreDataClass {
     }
     
     //For Wish List books
-    func getWishListBook (bookName : String, bookAuthor : String) -> [WishList] {
+    private func getWishListBook (bookName : String, bookAuthor : String) -> [WishList] {
         
         //Creating a request, which fetch all the books
         let requestForFriends: NSFetchRequest<WishList> = WishList.fetchRequest()
@@ -304,7 +310,7 @@ class CoreDataClass {
     
     
     //MARK: Change data of sigle file
-    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool ){
+    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool ) {
         
         let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
         
@@ -312,6 +318,19 @@ class CoreDataClass {
         //book[0].holder = bookHolder
         
         saveContext()
+    }
+    
+    
+    func removeFriend (friendsEmail : String) {
+        
+        var friend = getFriendData(email: friendsEmail)
+        
+        for object in friend {
+            getContext().delete(object)
+        }
+        
+        saveContext()
+        
     }
 
 

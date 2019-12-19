@@ -144,7 +144,7 @@ class FriendListScreen: UITableViewController {
         
         //Clearing the data stored inside Core Data file\
         
-        self.coreDataClassInstance.resetOneEntitie(entityName: "OthersFriend")
+        self.coreDataClassInstance.resetOneEntity(entityName: "OthersFriend")
         
         //Clearing the array which holds objects of 'OthersOwnedBook'
         otherFriendsList.removeAll()

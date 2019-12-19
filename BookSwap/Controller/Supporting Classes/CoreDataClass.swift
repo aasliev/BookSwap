@@ -15,6 +15,7 @@ class CoreDataClass {
     let FRIENDS_ENTITY =  "Friends"
     let OWNED_BOOK_ENTITY = "OwnedBook"
     let WISH_LIST_ENTITY = "WishList"
+    let HOLDING_BOOKS = "HoldBook"
     
     var ownedBook = [OwnedBook]()
     var friendList = [Friends]()
@@ -31,7 +32,7 @@ class CoreDataClass {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
-    func resetOneEntitie(entityName : String) {
+    func resetOneEntity(entityName : String) {
 
         let entityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let entityDeleteRequest = NSBatchDeleteRequest(fetchRequest: entityFetchRequest)
@@ -51,14 +52,17 @@ class CoreDataClass {
         let friendsFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: FRIENDS_ENTITY)
         let booksFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: OWNED_BOOK_ENTITY)
         let wishListFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: WISH_LIST_ENTITY)
+        let holdingBookFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: HOLDING_BOOKS)
         // Create Batch Delete Request
         let friendsDeleteRequest = NSBatchDeleteRequest(fetchRequest: friendsFetchRequest)
         let booksDeleteRequest = NSBatchDeleteRequest(fetchRequest: booksFetchRequest)
         let wishListDeleteRequest = NSBatchDeleteRequest(fetchRequest: wishListFetchRequest)
+        let holdingBookDeleteRequest = NSBatchDeleteRequest(fetchRequest: holdingBookFetchRequest)
         do {
             try self.context.execute(friendsDeleteRequest)
             try self.context.execute(booksDeleteRequest)
             try self.context.execute(wishListDeleteRequest)
+            try self.context.execute(holdingBookDeleteRequest)
             
             print("Successfully Emptied Core Data.")
         } catch {
@@ -98,6 +102,13 @@ class CoreDataClass {
             print("Wish ListFrom CoreDataClass addDataIntoEntities: \(dict as AnyObject)")
             self.addBooksIntoWishList(dictionary: dict)
         }
+        
+        //Getting list of HoldingBook from FireStore Database
+        databaseInstance.getHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (holdingBookDict) in
+            //call function to add holding book
+            self.addHoldinBook(holdingBook: holdingBookDict)
+        }
+        
     }
 
 
@@ -144,6 +155,22 @@ class CoreDataClass {
         saveContext()
     }
 
+    
+    //add holdingBook to Core Data
+    private func addHoldinBook(holdingBook : Dictionary<Int, Dictionary<String, Any>>){
+        var holdingBooks = [HoldBook]()
+        for(_, data) in holdingBook {
+            let book = HoldBook(context: getContext())
+            
+            book.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
+            book.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            book.bookOwner = (data[databaseInstance.BOOK_OWNER_FIELD] as! String)
+            
+            holdingBooks.append(book)
+        }
+        
+        saveContext()
+    }
 
     //Adding list of friends and their details inside Core Data Model
     private func addFriendList (friendList : Dictionary<Int , Dictionary<String  , Any>>) {
@@ -297,13 +324,11 @@ class CoreDataClass {
     func removeFriend (friendsEmail : String) {
         
         var friend = getFriendData(email: friendsEmail)
-        print("At Start This is friend.count \(friend.count)")
         
         for object in friend {
             getContext().delete(object)
         }
         
-        print("At End This is friend.count \(friend.count)")
         saveContext()
         
     }

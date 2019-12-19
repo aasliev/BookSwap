@@ -93,7 +93,7 @@ class WishListScreen: UITableViewController {
             } else {
                 
                 if (otherUserItems.count == 0) {
-                    databaseIstance.getListOfFriends (usersEmail: usersWishList!) { (dataDictionary) in
+                    databaseIstance.getListOfOwnedBookOrWishList (usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
                     }
                 } else {
@@ -151,7 +151,7 @@ class WishListScreen: UITableViewController {
     func loadDataForOtherUser(dict : Dictionary<Int  , Dictionary<String  , Any>>) {
         
         //Clearing the data stored inside Core Data file
-        coreDataClassInstance.resetOneEntitie(entityName: "OthersWishList")
+        coreDataClassInstance.resetOneEntity(entityName: "OthersWishList")
         
         //Clearing the array which holds objects of 'OthersOwnedBook'
         otherUserItems.removeAll()
@@ -267,7 +267,7 @@ extension WishListScreen: SwipeTableViewCellDelegate{
                 //deleting data from itemArray and saving Coredata context
                 self.currentUserItems.remove(at: indexPath.row)
                 CoreDataClass.sharedCoreData.saveContext()
-                
+                tableView.reloadData()
             }
             
             moreAction.image = UIImage(named: "More-icon")

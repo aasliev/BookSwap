@@ -22,6 +22,7 @@ class ProfileScreen: UIViewController {
     let firebaseAuth = Auth.auth()
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let coreDataInstance = CoreDataClass.sharedCoreData
     
     //Variable to keep track of user's profile
     var usersProfile : String?
@@ -83,7 +84,12 @@ class ProfileScreen: UIViewController {
         
         if (authInstance.isItOtherUsersPage(userEmail: usersProfile!)) {
             
-            signOutButton.title = "Unfriend"
+            if (coreDataInstance.checkIfFriend(friendEmail: usersProfile!)) {
+                signOutButton.title = "Unfriend"
+            } else {
+                signOutButton.title = "Add Friend"
+            }
+            
         }
     }
     
@@ -115,7 +121,12 @@ class ProfileScreen: UIViewController {
         if (!authInstance.isItOtherUsersPage(userEmail: usersProfile!)){
             alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
         } else {
-            alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfriend?", preferredStyle: .alert)
+            if (coreDataInstance.checkIfFriend(friendEmail: usersProfile!)) {
+                alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfriend?", preferredStyle: .alert)
+            }else {
+                alert = UIAlertController(title: "Friend Request Sent!", message: "Friend Reqest has been sent. ", preferredStyle: .alert)
+            }
+            
         }
         
         
@@ -126,13 +137,13 @@ class ProfileScreen: UIViewController {
             if (!self.authInstance.isItOtherUsersPage(userEmail: self.usersProfile!)) {
                 // Sign Out the user from Firebase Auth
                 
-                do {
-                    try self.firebaseAuth.signOut()
-                    //CoreDataClass.sharedCoreData.resetAllEntities()
-                    
-                } catch let signOutError as NSError {
-                    print ("Error signing out: %@", signOutError)
-                }
+//                do {
+//                    try self.firebaseAuth.signOut()
+//                    //CoreDataClass.sharedCoreData.resetAllEntities()
+//
+//                } catch let signOutError as NSError {
+//                    print ("Error signing out: %@", signOutError)
+//                }
                 self.authInstance.signOutCurrentUser()
                 
                 self.navigationController?.navigationBar.isHidden = true;
@@ -148,16 +159,33 @@ class ProfileScreen: UIViewController {
                 //self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             } else {
                 
-                //Note: signOutButton text is changed to "Unfriend"
+                
                 //hide the button once user press "Yes"
                 self.signOutButton.isEnabled = false
                 self.signOutButton.tintColor = UIColor.clear
                 
-                //function call to unfriend the user
-                self.databaseIstance.removeFriend(friendsEmail: self.usersProfile!)
-                
-                //remove friend's name from Core Data
-                
+                //Note: signOutButton text is changed to "Unfriend" if users are friend. Else it is "Add Friend"
+                //Chrcking if users are friend, if true, unfriend will be performed
+                if (self.coreDataInstance.checkIfFriend(friendEmail: self.usersProfile!)) {
+                    //function call to unfriend the user
+                    self.databaseIstance.removeFriend(friendsEmail: self.usersProfile!)
+                    
+                    //remove friend's name from Core Data
+                    self.coreDataInstance.removeFriend(friendsEmail: self.usersProfile!)
+                    
+                } else {
+                    //If not friends, friend request will be sent.
+                    
+                    //getting email of logged in user
+                    let loggedInUserEmail = self.authInstance.getCurrentUserEmail()
+                    
+                    //Getting username of logged in user, which will be needed to send a friend request
+                    self.databaseIstance.getUserName(usersEmail: loggedInUserEmail, completion: { (userName) in
+                        
+                        //Sending a friend request. 'usersProfile' holds email of user whoes profile is on the screen.
+                        self.databaseIstance.addFriendReqestNotification(senderEmail: self.authInstance.getCurrentUserEmail(), sendersUserName: userName, receiversEmail: self.usersProfile!)
+                    })
+                }
             }
             
         }))

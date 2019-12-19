@@ -123,7 +123,7 @@ class CoreDataClass {
             newOwnedBook.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
             newOwnedBook.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
             newOwnedBook.status = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
-            newOwnedBook.holder = (data[databaseInstance.BOOK_HOLDER_FIELD] as! String)
+            //newOwnedBook.holder = (data[databaseInstance.BOOK_HOLDER_FIELD] as! String)
 
             ownedBook.append(newOwnedBook)
             
@@ -309,7 +309,7 @@ class CoreDataClass {
         let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
         
         book[0].status = status
-        book[0].holder = bookHolder
+        //book[0].holder = bookHolder
         
         saveContext()
     }

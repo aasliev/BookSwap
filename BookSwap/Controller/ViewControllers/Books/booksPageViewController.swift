@@ -218,10 +218,23 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     
     func saveBooks(viewControllerNumber: Int, title: String, author: String){
+        
         //write a function to save functions
         if(viewControllerNumber == 1){
-            //save inside the owned books
             
+            //Checking if book already exist in core data. if exist in CoreDat, that means it's duplicate
+            if (CoreDataClass.sharedCoreData.checkIfOwnedBookExist(bookName: title, bookAuthor: author)) {
+                commonFunctions.createUIalert(title: "Book Exist!", "This book titile with author already exist.", self)
+                return
+            }
+            
+            //Checking if book already exist in Wish List core data. if exist ask user to move it from there.
+            if (CoreDataClass.sharedCoreData.checkIfWishListBookExist(bookName: title, bookAuthor: author)) {
+                commonFunctions.createUIalert(title: "Book Exist in Wish List!", "Book you're trying to add is already exist in Wish List. \nMove it from Wish List", self)
+                return
+            }
+            
+            //save inside the owned books
             var ownedBook = [OwnedBook]()
             
             let newOwnedBook = OwnedBook(context: self.context)
@@ -232,6 +245,18 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             ownedBook.append(newOwnedBook)
             
         } else {
+            
+            //Checking if book already exist in Wish List Core Data. if exist in CoreDat, that means it's duplicate
+            if (CoreDataClass.sharedCoreData.checkIfWishListBookExist(bookName: title, bookAuthor: author)) {
+                commonFunctions.createUIalert(title: "Book Exist in Wish List!", "This book titile with author already exist.", self)
+                return
+            }
+            
+            //Checking if book already exist in core data. if exist in CoreDat, that means it's duplicate
+            if (CoreDataClass.sharedCoreData.checkIfOwnedBookExist(bookName: title, bookAuthor: author)) {
+                commonFunctions.createUIalert(title: "Book Exist in Bookshelf!", "This book titile with author already exist in Bookshelf.", self)
+                return
+            }
             //
             var wishListArray = [WishList]()
             let newWishListBook = WishList(context: self.context)

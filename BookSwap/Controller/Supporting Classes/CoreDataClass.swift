@@ -75,7 +75,7 @@ class CoreDataClass {
     func updateCoreData () {
         
         //First, in case there is data stored inside Core Data resetAllEntities() will clear it.
-        resetAllEntities()
+        //resetAllEntities()
 
         //Second, adding data into CoreData. Which is recived from Firestore.
         addDataIntoEntities()
@@ -87,16 +87,19 @@ class CoreDataClass {
         
         //Getting list of Friends from Firestore Database
         databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (friendDict) in
+            print("From CoreDataClass addDataIntoEntities: \(friendDict as AnyObject)")
             self.addFriendList(friendList: friendDict)
         }
         
         //Getting list of OwnedBook from Firestore Database
         databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
+            print("OwnedBook From CoreDataClass addDataIntoEntities: \(dict as AnyObject)")
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
         
         //Getting list of WishList books from Firestore Database
         databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
+            print("Wish ListFrom CoreDataClass addDataIntoEntities: \(dict as AnyObject)")
             self.addBooksIntoWishList(dictionary: dict)
         }
         
@@ -120,6 +123,7 @@ class CoreDataClass {
             newOwnedBook.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
             newOwnedBook.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
             newOwnedBook.status = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
+            newOwnedBook.holder = (data[databaseInstance.BOOK_HOLDER_FIELD] as! String)
 
             ownedBook.append(newOwnedBook)
             
@@ -127,11 +131,6 @@ class CoreDataClass {
         
          //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
-    }
-    
-    
-    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool) {
-        
     }
     
 
@@ -218,7 +217,6 @@ class CoreDataClass {
     
     //MARK: Checking if data exist in Core Data
     //Method will be used to check if a user is friend of logged in user
-
     func checkIfFriend (friendEmail : String) -> Bool {
         
         print ("This is Friends Email:\(friendEmail)")
@@ -239,6 +237,83 @@ class CoreDataClass {
         
         return friendList.count > 0;
     }
+    
+    //Method will be used to check if a user is book is in CoreData
+    func checkIfOwnedBookExist (bookName : String, bookAuthor : String) -> Bool {
+        
+        let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
+        
+        return book.count > 0
+    }
+    
+    func checkIfWishListBookExist (bookName : String, bookAuthor : String) -> Bool {
+        
+        let book = getWishListBook(bookName: bookName, bookAuthor: bookAuthor)
+        
+        return book.count > 0
+    }
+    
+    
+    //MARK : Get Methods
+    func getOwnedBook (bookName : String, bookAuthor : String) -> [OwnedBook] {
+        
+        //Creating a request, which fetch all the books
+        let requestForFriends: NSFetchRequest<OwnedBook> = OwnedBook.fetchRequest()
+        
+        //Searching for the one book
+        requestForFriends.predicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) AND (author CONTAINS[cd] %@)",  bookName, bookAuthor )
+        
+        var bookData = [OwnedBook]()
+        
+        do {
+            bookData = try getContext().fetch(requestForFriends)
+            
+            print("Result of results.count: \(bookData.count)")
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return bookData
+        
+    }
+    
+    //For Wish List books
+    func getWishListBook (bookName : String, bookAuthor : String) -> [WishList] {
+        
+        //Creating a request, which fetch all the books
+        let requestForFriends: NSFetchRequest<WishList> = WishList.fetchRequest()
+        
+        //Searching for the one book
+        requestForFriends.predicate = NSPredicate(format: "(bookName CONTAINS[cd] %@) AND (author CONTAINS[cd] %@)",  bookName, bookAuthor )
+        
+        var bookData = [WishList]()
+        
+        do {
+            bookData = try getContext().fetch(requestForFriends)
+            
+            print("Result of results.count: \(bookData.count)")
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return bookData
+        
+    }
+    
+    
+    //MARK: Change data of sigle file
+    func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool ){
+        
+        let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
+        
+        book[0].status = status
+        book[0].holder = bookHolder
+        
+        saveContext()
+    }
+
 
     //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {

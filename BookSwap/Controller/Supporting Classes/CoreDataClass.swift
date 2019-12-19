@@ -75,7 +75,7 @@ class CoreDataClass {
     func updateCoreData () {
         
         //First, in case there is data stored inside Core Data resetAllEntities() will clear it.
-        //resetAllEntities()
+        resetAllEntities()
 
         //Second, adding data into CoreData. Which is recived from Firestore.
         addDataIntoEntities()

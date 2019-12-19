@@ -945,6 +945,7 @@
                                     <outlet property="authorOfTheBook" destination="5Z2-ar-J5p" id="H61-IY-pMM"/>
                                     <outlet property="bookOwner" destination="02K-OZ-cnS" id="r5J-6h-bH0"/>
                                     <outlet property="nameOfTheBook" destination="5H6-dh-uGL" id="VQV-Pw-wgc"/>
+                                    <outlet property="returnButton" destination="Fqh-TA-rPJ" id="hra-RL-oO7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

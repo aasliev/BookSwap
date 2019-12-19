@@ -70,6 +70,7 @@ class FriendListScreen: UITableViewController {
         if authInstance.isItOtherUsersPage(userEmail: usersFriendsList!){
             
             friensEmail = otherFriendsList[indexPath.row].friendsEmail!
+        
         } else {
             //setting friendsEmail equals to email of
             friensEmail = itemArray[indexPath.row].friendsEmail!

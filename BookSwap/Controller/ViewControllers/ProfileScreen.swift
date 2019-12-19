@@ -103,6 +103,7 @@ class ProfileScreen: UIViewController {
             
             let destinationVC = segue.destination as! historyPageViewController
             destinationVC.usersHistory = usersProfile
+            authInstance.usersScreen = usersProfile!
         }
         
     }

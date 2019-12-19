@@ -13,6 +13,7 @@ class HoldBookTableViewCell: UITableViewCell {
     @IBOutlet weak var nameOfTheBook: UILabel!
     @IBOutlet weak var authorOfTheBook: UILabel!
     @IBOutlet weak var bookOwner: UILabel!
+    @IBOutlet weak var returnButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

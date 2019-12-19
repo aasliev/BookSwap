@@ -377,8 +377,8 @@ class FirebaseDatabase {
     private func getDocuments (docPath : String, docMessage : String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->())  {
         
         var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-        
-        db.collection(docPath).getDocuments { (querySnapshot, error) in
+       // db.collection("Users").document("as@li.com").collection("Friends")
+            db.collection(docPath).getDocuments { (querySnapshot, error) in
             
             if (self.checkError(error: error , whileDoing: docMessage)) {
                 var index = 0
@@ -391,7 +391,6 @@ class FirebaseDatabase {
             
             completion(dictionary)
         }
-        
         
     }
     

@@ -183,7 +183,7 @@ class FirebaseDatabase {
     
     //Method will be called when user accepts a Book Swap request
     //Add book into Holding Sub Collection inside Firestore: Users/currentUser/Holdings/bookName-bookAuthor
-    func addHoldingBook (bookOwnerEmail: String, bookRequester : String, bookName: String, bookAuthor: String ) {
+    func addHoldingBookToPerformBookSwap (bookOwnerEmail: String, bookRequester : String, bookName: String, bookAuthor: String ) {
         
         path = "\(USERS_MAIN_COLLECTIN)/\(bookRequester)/\(HOLDINGS_SUB_COLLECTION)"
         ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
@@ -201,7 +201,7 @@ class FirebaseDatabase {
         }
         
         //Changing book holder's email, so user can keep track of who has the book, and changing book status
-        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
+        changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: bookRequester, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
 
     }
     
@@ -681,7 +681,7 @@ class FirebaseDatabase {
     
     
     //Method to remove friend reqest notification
-    func removeFriendRequestNotification (sendersEmail : String, reciverEmail : String, document : String) {
+    func removeFriendRequestNotification (sendersEmail : String, reciverEmail : String) {
         
         let path =  "\(USERS_MAIN_COLLECTIN)/\(reciverEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         

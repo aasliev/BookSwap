@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol NotificationCellDelegate: class {
+    func notificationButtonPressed(ifAccepted : Bool)
+}
+
 class NotificationCell: UITableViewCell {
+    
+    weak var delegate: NotificationCellDelegate?
 
     @IBOutlet weak var notificationTextLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,7 +32,24 @@ class NotificationCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    
+    func hideButtons () {
+        acceptButton.isHidden = true
+        declineButton.isHidden = true
+    }
+    
+    @IBAction func acceptButtonPressed(_ sender: Any) {
+        //hideButtons()
+        delegate?.notificationButtonPressed(ifAccepted: true)
         
     }
-
+    
+    @IBAction func declineButtonPressd(_ sender: Any) {
+        //hideButtons()
+        delegate?.notificationButtonPressed(ifAccepted: false)
+    }
+    
+    
 }

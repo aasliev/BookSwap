@@ -43,9 +43,6 @@ class SearchScreenTableViewCell: UITableViewCell {
             
             self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.emailLbl.text!)
         }
-        
-        CoreDataClass.sharedCoreData.addFriendIntoCoreData(friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!, numberOfSwaps: "00")
-        
         addButton.setTitle("Request\nSent", for: .highlighted)
     }
     

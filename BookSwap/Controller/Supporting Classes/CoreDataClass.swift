@@ -158,6 +158,7 @@ class CoreDataClass {
     
     //add holdingBook to Core Data
     private func addHoldinBook(holdingBook : Dictionary<Int, Dictionary<String, Any>>){
+        
         var holdingBooks = [HoldBook]()
         for(_, data) in holdingBook {
             let book = HoldBook(context: getContext())
@@ -194,7 +195,10 @@ class CoreDataClass {
         saveContext()
     }
     
-    func addFriendIntoCoreData (friendsEmail : String, friendsUserName : String, numberOfSwaps : String) {
+    
+    //Method to add a single friend. 
+    func addAFriendIntoCoreData (friendsEmail : String, friendsUserName : String, numberOfSwaps : String) {
+        
         var friends = [Friends]()
         //Getting the latest Context, as saveContext is called before loop ends
         

@@ -12,6 +12,7 @@
 		363A8FFD235645E30071CC45 /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A8FFC235645E30071CC45 /* CommonFunctions.swift */; };
 		364080912396CCF100335CBE /* MessagesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364080902396CCF100335CBE /* MessagesScreen.swift */; };
 		364080932396CD6700335CBE /* NotificatonsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364080922396CD6700335CBE /* NotificatonsScreen.swift */; };
+		3644A67723ABAFB300E83912 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3644A67623ABAFB300E83912 /* Reachability.swift */; };
 		364730842389FD3300DA1D8F /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364730832389FD3300DA1D8F /* ForgotPasswordScreen.swift */; };
 		364751F92377440C00F05613 /* booksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364751F82377440C00F05613 /* booksPageViewController.swift */; };
 		364751FB2377442800F05613 /* historyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364751FA2377442800F05613 /* historyPageViewController.swift */; };
@@ -51,6 +52,7 @@
 		363A8FFC235645E30071CC45 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
 		364080902396CCF100335CBE /* MessagesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesScreen.swift; sourceTree = "<group>"; };
 		364080922396CD6700335CBE /* NotificatonsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificatonsScreen.swift; sourceTree = "<group>"; };
+		3644A67623ABAFB300E83912 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		364730832389FD3300DA1D8F /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
 		364751F82377440C00F05613 /* booksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = booksPageViewController.swift; sourceTree = "<group>"; };
 		364751FA2377442800F05613 /* historyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historyPageViewController.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */,
 				B30F6295237ECC8000210B9E /* FirebaseAuth.swift */,
 				36D7F581239742BA0036F306 /* NotificationFunctions.swift */,
+				3644A67623ABAFB300E83912 /* Reachability.swift */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -257,7 +260,7 @@
 				B302F23C234925BB00F4E537 /* Sources */,
 				B302F23D234925BB00F4E537 /* Frameworks */,
 				B302F23E234925BB00F4E537 /* Resources */,
-				4F225F41B7E6DB500ADFD545 /* [CP] Embed Pods Frameworks */,
+				4BD4F1B8C9639C1992FB769B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -317,7 +320,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4F225F41B7E6DB500ADFD545 /* [CP] Embed Pods Frameworks */ = {
+		4BD4F1B8C9639C1992FB769B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -370,6 +373,7 @@
 				B315C8B323859D4B00DF0ECF /* CoreDataClass.swift in Sources */,
 				B30474CD2394822100438E85 /* SearchScreenTableViewCell.swift in Sources */,
 				B30474CB2394815500438E85 /* SearchScreenTableViewController.swift in Sources */,
+				3644A67723ABAFB300E83912 /* Reachability.swift in Sources */,
 				B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */,
 				B302F26B23495A7F00F4E537 /* HistoryScreen.swift in Sources */,
 				364080932396CD6700335CBE /* NotificatonsScreen.swift in Sources */,

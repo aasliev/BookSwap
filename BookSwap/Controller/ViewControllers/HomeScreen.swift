@@ -64,7 +64,7 @@ class HomeScreen: UIViewController {
                     
                     self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
                     //update the data
-                    CoreDataClass.sharedCoreData.updateCoreData()
+                    //CoreDataClass.sharedCoreData.updateCoreData()
     
                     // SVProgressHUD.dismiss()
                 }

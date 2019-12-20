@@ -33,21 +33,18 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
         //setting usersBookShelf equals to email of usersScreen
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
-        
+        print("usersBookShelf:  \(usersBookShelf)")
         tableView.rowHeight = 120
         tableView.refreshControl = refresher
         
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
-//        if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!) {
-//            loadItems()
-//        } else {
-//            loadItemsOtherUser()
-//        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

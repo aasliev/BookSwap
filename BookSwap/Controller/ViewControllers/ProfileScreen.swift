@@ -41,10 +41,14 @@ class ProfileScreen: UIViewController {
 
         // Do any additional setup after loading the view.
 
-        setUserDetails()
-
-        checkOtherUser()
-        
+        if (Reachability.isConnectedToNetwork()){
+            setUserDetails()
+            checkOtherUser()
+        } else {
+            CommonFunctions.sharedCommonFunction.createUIalert("Network Error", self)
+            print("no internet connection")
+        }
+                
     }
     
     
@@ -110,6 +114,7 @@ class ProfileScreen: UIViewController {
             
             let destinationVC = segue.destination as! historyPageViewController
             destinationVC.usersHistory = usersProfile
+            authInstance.usersScreen = usersProfile!
         }
         
     }

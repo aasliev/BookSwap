@@ -730,15 +730,15 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="booksCell" id="ZiS-jx-Mxe" customClass="BooksTableViewCell" customModule="BookSwap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="booksCell" rowHeight="130" id="ZiS-jx-Mxe" customClass="BooksTableViewCell" customModule="BookSwap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="414" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZiS-jx-Mxe" id="oPP-jl-llc">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZiS-jx-Mxe" id="oPP-jl-llc">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="129.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WG-je-UDy">
-                                            <rect key="frame" x="344" y="43" width="50" height="34"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WG-je-UDy">
+                                            <rect key="frame" x="344" y="48" width="50" height="34"/>
                                             <color key="backgroundColor" red="0.99607843137254903" green="0.81960784313725488" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="GP5-Dl-eZt"/>
@@ -752,7 +752,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of The Book " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjB-uR-sLF">
-                                            <rect key="frame" x="25" y="15" width="315" height="60"/>
+                                            <rect key="frame" x="25" y="15" width="300" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="bcX-8p-w8G"/>
                                             </constraints>
@@ -760,10 +760,19 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abP-tp-d6O">
-                                            <rect key="frame" x="25" y="83" width="315" height="40"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abP-tp-d6O">
+                                            <rect key="frame" x="25" y="83" width="300" height="31.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="315" id="MCD-Dv-aDO"/>
+                                                <constraint firstAttribute="width" constant="300" id="MCD-Dv-aDO"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holder" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deS-Jh-L5O">
+                                            <rect key="frame" x="314" y="54" width="100" height="21.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="cQS-Ph-YTj"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -777,7 +786,9 @@
                                         <constraint firstAttribute="bottom" secondItem="abP-tp-d6O" secondAttribute="bottom" constant="15" id="OWR-CL-qn8"/>
                                         <constraint firstItem="cjB-uR-sLF" firstAttribute="top" secondItem="oPP-jl-llc" secondAttribute="topMargin" constant="4" id="YEU-hU-kOE"/>
                                         <constraint firstItem="cjB-uR-sLF" firstAttribute="trailing" secondItem="abP-tp-d6O" secondAttribute="trailing" id="cvZ-XO-WS4"/>
+                                        <constraint firstItem="deS-Jh-L5O" firstAttribute="centerY" secondItem="oPP-jl-llc" secondAttribute="centerY" id="ees-dP-qb1"/>
                                         <constraint firstItem="abP-tp-d6O" firstAttribute="leading" secondItem="oPP-jl-llc" secondAttribute="leading" constant="25" id="i46-yC-uoh"/>
+                                        <constraint firstAttribute="trailing" secondItem="deS-Jh-L5O" secondAttribute="trailing" id="uwC-hR-41d"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="3WG-je-UDy" secondAttribute="trailing" id="wHd-ml-C6K"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -785,6 +796,7 @@
                                 <color key="tintColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="authorOfTheBook" destination="abP-tp-d6O" id="yGL-yb-jsR"/>
+                                    <outlet property="holderLabel" destination="deS-Jh-L5O" id="fL9-Kt-mjy"/>
                                     <outlet property="nameOfTheBook" destination="cjB-uR-sLF" id="RPg-sz-Rec"/>
                                     <outlet property="swap" destination="3WG-je-UDy" id="vyS-dE-dHh"/>
                                 </connections>

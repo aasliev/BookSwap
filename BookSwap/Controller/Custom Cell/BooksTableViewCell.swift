@@ -16,6 +16,7 @@ class BooksTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var authorOfTheBook: UILabel!
     @IBOutlet weak var swap: UIButton!
     
+    @IBOutlet weak var holderLabel: UILabel!
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     

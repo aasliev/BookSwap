@@ -79,9 +79,23 @@ class OwnedBookScreen: UITableViewController {
             cell.nameOfTheBook?.text = currentUserItems[indexPath.row].bookName
             cell.authorOfTheBook?.text = currentUserItems[indexPath.row].author
             cell.swap.isHidden = true
-            if !(currentUserItems[indexPath.row].status) {
+            
+            //If User holds the book 'currentUserItems' will be true
+            if (currentUserItems[indexPath.row].status) {
+                cell.nameOfTheBook.textColor = UIColor.white
+                cell.authorOfTheBook.textColor = UIColor.white
+                cell.holderLabel.isHidden = true
+                
+            } else {
+                
                 cell.nameOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
                 cell.authorOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
+                
+                //Getting userName of holder. Holder field of currentUserItem holds email of person holding the book
+                databaseIstance.getUserName(usersEmail: currentUserItems[indexPath.row].holder!) { (userName) in
+                    cell.holderLabel?.text = userName
+                }
+                
             }
         
         } else {

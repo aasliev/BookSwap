@@ -240,6 +240,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             let newOwnedBook = OwnedBook(context: self.context)
             newOwnedBook.author = author
             newOwnedBook.bookName = title
+            newOwnedBook.holder = authInstance.getCurrentUserEmail()
             newOwnedBook.status = true
             
             ownedBook.append(newOwnedBook)

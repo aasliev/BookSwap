@@ -8,10 +8,11 @@
 
 import UIKit
 
-class NotificatonsScreen: UITableViewController {
+class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
 
     let databaseInstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    var indexRow : Int?
     
     var notificationDictionary : Dictionary<Int , Dictionary <String, Any> > = [:]
     
@@ -23,14 +24,59 @@ class NotificatonsScreen: UITableViewController {
         
         databaseInstance.getNotifications(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
             print("Dictionary is: \(dict as AnyObject)")
-            
-//            for (index,data) in dict {
-//                self.notificationDictionary[index] = data
-//            }
+
             self.notificationDictionary = dict
             self.tableView.reloadData()
+            
         }
 
+    }
+    
+    //NotificationCellDelegate Method. will be called when any button will be pressed
+    func notificationButtonPressed(ifAccepted : Bool) {
+        
+        //IfAccepted will be true if user press Accept. false if presses decline
+        if(ifAccepted) {
+            
+            let currentUser = authInstance.getCurrentUserEmail()
+            let requestersEmail = notificationDictionary[indexRow!]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
+            let requesterUserName = notificationDictionary[indexRow!]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
+            
+            //Checking for type of request. If returns true, that means it's BookSwap request
+            if (checkIfNotificationForBookSwap(index: indexRow!)) {
+                
+                
+                let bookName = notificationDictionary[indexRow!]![databaseInstance.BOOKNAME_FIELD] as! String
+                let bookAuthor = notificationDictionary[indexRow!]![databaseInstance.AUTHOR_FIELD] as! String
+                
+                databaseInstance.addHoldingBookToPerformBookSwap (bookOwnerEmail: currentUser, bookRequester: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
+                
+                //Making changes in CoreData. This changes holder's email from logged in user to requester's email. and makes bookStatus false
+                CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: bookName, bookAuthor: bookAuthor, bookHolder: requestersEmail, status: false)
+                
+                //Remove the Book Swap request from firestore
+                databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
+                
+                
+            } else {
+                
+                databaseInstance.addNewFriend(currentUserEmail: currentUser, friendsEmail: requestersEmail, friendsUserName: requesterUserName)
+                
+                databaseInstance.getNumberOfSwaps(usersEmail: requestersEmail) { (numOfSwaps) in
+                    
+                    CoreDataClass.sharedCoreData.addAFriendIntoCoreData(friendsEmail: requestersEmail, friendsUserName: requesterUserName, numberOfSwaps: "\(numOfSwaps)")
+                }
+                
+                //Remove Friend request from Firestore
+                databaseInstance.removeFriendRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser)
+            }
+            
+        }
+        
+        
+        
+        notificationDictionary.removeValue(forKey: indexRow!)
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,20 +87,55 @@ class NotificatonsScreen: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        indexRow = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
+        //This line connects NotificationCellDelegate.
+        cell.delegate = self
+        
+        //Method is used to keep track of indexPath.row for each button
+        addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)
+        
+        //Getting User Name of the user who sent the reruest
         let senderUserName = notificationDictionary[indexPath.row]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
        
+        //Checking if request is for BookSwap
         if checkIfNotificationForBookSwap(index: indexPath.row) {
             
+            //Getting book name and author from notificationDictionary
             let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
             let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
             
+            //It will create cell for book swap request and return the cell
             return assignBookRequestNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
         } else {
+            
+            //If it is not for book swap, it is a friend request. As of now, we only have two types of requests.
+            //It will create cell for friend request and return the cell
             return assignFriendReqestNotification(cell: cell, sender: senderUserName)
         }
     }
+    
+    
+    //This method add target when button is added in Notification Cell
+    func addButtonTargetAndSetTagValue (tableCell : NotificationCell, index : Int) {
+        
+        //Assigning target when Accept or Decline button is pressed, it will call connected() method.
+        tableCell.acceptButton.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+        tableCell.declineButton.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+        
+        //Tag will hold the value of idexPath.row
+        tableCell.acceptButton.tag = index
+        tableCell.declineButton.tag = index
+    }
+    
+    
+    //This object function will be called when user press Accept or Decline button
+    @objc func connected(sender: UIButton){
+        //setting sender's tag, which holds indexpath.row
+        indexRow = sender.tag
+    }
+    
     
     
     private func assignBookRequestNotification (cell : NotificationCell, sender : String, bookName: String, bookAuthor : String) -> NotificationCell {

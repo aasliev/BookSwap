@@ -23,6 +23,7 @@ class SVProgressHUDClass {
         
         SVProgressHUD.setDefaultStyle(.custom)
         SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setDefaultAnimationType(SVProgressHUDAnimationType.native) 
         SVProgressHUD.setForegroundColor(UIColor.init(white: 100, alpha: 1))           //Ring Color
         SVProgressHUD.setBackgroundColor(UIColor.init(white: 0, alpha: 0.0))        //HUD Color
         SVProgressHUD.setBackgroundLayerColor(UIColor.init(white:0, alpha: 0.6))    //Background Color

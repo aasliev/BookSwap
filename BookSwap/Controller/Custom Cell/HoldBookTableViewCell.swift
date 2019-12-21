@@ -6,14 +6,22 @@
 //  Copyright © 2019 RV. All rights reserved.
 //
 
+
 import UIKit
 
+protocol HoldBookCellDelegate: class {
+    func returnBookPressed()
+}
+
 class HoldBookTableViewCell: UITableViewCell {
+    
+    weak var delegate : HoldBookCellDelegate?
 
     @IBOutlet weak var nameOfTheBook: UILabel!
     @IBOutlet weak var authorOfTheBook: UILabel!
     @IBOutlet weak var bookOwner: UILabel!
     @IBOutlet weak var returnButton: UIButton!
+    
     
     let databaseInstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
@@ -30,7 +38,9 @@ class HoldBookTableViewCell: UITableViewCell {
     }
     @IBAction func returnButtonPressed(_ sender: Any) {
         
-        databaseInstance.addReturnBookRequestNotification(reciversEmail: bookOwner.text!, sendersEmail: authInstance.getCurrentUserEmail(), bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
+        
+        delegate?.returnBookPressed()
+        
     }
     
 }

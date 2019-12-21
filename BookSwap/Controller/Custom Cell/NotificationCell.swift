@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NotificationCellDelegate: class {
-    func notificationButtonPressed(ifAccepted : Bool)
+    func notificationButtonPressed(ifAccepted : Bool, indexRow : Int)
 }
 
 class NotificationCell: UITableViewCell {
@@ -42,13 +42,16 @@ class NotificationCell: UITableViewCell {
     
     @IBAction func acceptButtonPressed(_ sender: Any) {
         //hideButtons()
-        delegate?.notificationButtonPressed(ifAccepted: true)
+        delegate?.notificationButtonPressed(ifAccepted: true,  indexRow : (sender as! UIButton).tag)
         
     }
     
     @IBAction func declineButtonPressd(_ sender: Any) {
         //hideButtons()
-        delegate?.notificationButtonPressed(ifAccepted: false)
+        
+        delegate?.notificationButtonPressed(ifAccepted: false, indexRow : (sender as! UIButton).tag)
+        
+        
     }
     
     

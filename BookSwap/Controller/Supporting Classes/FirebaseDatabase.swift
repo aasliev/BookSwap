@@ -46,8 +46,9 @@ class FirebaseDatabase {
     let RECEIVERS_EMAIL_FIELD = "Receiver"
     let NOTIFICATION_TYPE = "Type"
     let RETURN_REQUESTED_FIELD = "ReturnRequested"
+    let SWAP_IN_PROCESS = "SwapInProcess"
     
-    //Notification Types
+    //Notification Sub-Collections
     let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
     let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
     let RETURN_BOOK_REQUEST_NOTIFICATION = "Returning Book"
@@ -274,6 +275,43 @@ class FirebaseDatabase {
     }
     
     
+    //Method to add book return request notification
+    func addBookSwapHistory (reciversEmail : String, sendersEmail : String, bookName: String, bookAuthor : String) {
+        
+        //History will for book swap will be added into both sender and reciver's collection on Firestore
+        //index is used to run while loop twice.
+        var index = 0
+        
+        //When index is 0, data will be added to reciver's collection
+        var forCollectionOf = reciversEmail
+        
+        while index < 2 {
+            //setting up connection for Firestore: Users/reciver's email/History/sender'semail-bookName-bookAuthor
+            path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
+            
+            ref.setData([
+                
+                SENDERS_EMAIL_FIELD : sendersEmail,
+                RECEIVERS_EMAIL_FIELD : reciversEmail,
+                BOOKNAME_FIELD : bookName,
+                AUTHOR_FIELD : bookAuthor,
+                SWAP_IN_PROCESS : true,
+                TIMESTAMP : FieldValue.serverTimestamp()
+                
+            ]) { err in
+                
+                _ = self.checkError(error: err, whileDoing: "adding History Data")
+            }
+            
+            index += 1
+            forCollectionOf = sendersEmail
+            
+        }
+        
+    }
+    
+    
     //MARK: Change Document Field Methods
     //changes book holder email, which will help user to keep track of book
     private func changeBookHoldersEmail(bookOwnersEmail : String, bookReciversEmail: String, bookName : String, bookAuthor : String, bookStatus : Bool) {
@@ -306,8 +344,34 @@ class FirebaseDatabase {
         }
     }
     
-    //This method will be called when user confirms that he recived a book back
-    func successfullyReturnedHoldingBook (bookName : String, bookAuthor : String) {
+    
+    //changes SwapInProcess field to false, which is used in History collection to check if swap is in process
+    private func changeSwapInProcessToFalse (sendersEmail : String, reciversEmail : String, bookName : String, bookAuthor : String) {
+        
+        var index = 0
+        var forCollectionOf = sendersEmail
+        
+        
+        while (index < 2) {
+            path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
+            
+            ref.updateData([
+                SWAP_IN_PROCESS : false
+            ]) { err in
+                
+                _ = self.checkError(error: err, whileDoing: "changing SwapIProcess to false in History.")
+            }
+            
+            index += 1
+            forCollectionOf = reciversEmail
+        }
+        
+    }
+    
+    
+    //This method will be called when user confirms that he recived a book back from Notification
+    func successfullyReturnedHoldingBook (sendersEmail : String, bookName : String, bookAuthor : String) {
         
         //First need to get the name  of the holder of the book, which will be done by this function
         getBookHoldersEmail(bookName: bookName, bookAuthor: bookAuthor) { (bookHolder) in
@@ -320,6 +384,8 @@ class FirebaseDatabase {
                 
                 //Removes the book book from holdingBooks
                 self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder)
+                
+                self.changeSwapInProcessToFalse(sendersEmail: sendersEmail, reciversEmail: bookHolder, bookName: bookName, bookAuthor: bookAuthor)
             }
         }
     }

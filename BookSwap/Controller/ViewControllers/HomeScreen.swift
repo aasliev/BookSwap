@@ -62,10 +62,13 @@ class HomeScreen: UIViewController {
                     self.authInstance.updateCurrentUser()
                     
                     CoreDataClass.sharedCoreData.updateCoreData()
+
+                    // get a reference to the app delegate
+                    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
                     
-                    self.performSegue(withIdentifier: "toProfileScreen",  sender: self)
-                    //update the data
-                    //CoreDataClass.sharedCoreData.updateCoreData()
+                    // call didFinishLaunchWithOptions, this will make HomeScreen as Root ViewController
+                    //Take user to Home Screen (Log In Screen), where user can log in.
+                    appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
     
                     // SVProgressHUD.dismiss()
                 }

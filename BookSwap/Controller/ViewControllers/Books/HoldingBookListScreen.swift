@@ -32,7 +32,7 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
     
     override func viewDidLoad() {
         currentUser = authInstance.getUsersScreen()
-        print("currentUser: \(currentUser)")
+        //print("currentUser: \(currentUser)")
         super.viewDidLoad()
         tableView.rowHeight = 120
         loadItems()
@@ -116,7 +116,7 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
                 currentUserItems = try coreDataClassInstance.getContext().fetch(requestForHoldBooks)
             } else {
                 if otherUserItems.count == 0 {
-                    print("printing current user: \(currentUser as! String)")
+                    //print("printing current user: \(currentUser as String)")
                     databaseInstance.getHoldingBooks(usersEmail: currentUser!) { (otherHoldingList) in
                         self.loadDataForOtherUser(dict: otherHoldingList)
                     }} else {

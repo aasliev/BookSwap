@@ -45,10 +45,12 @@ class FirebaseDatabase {
     let SENDERS_USER_NAME_FIELD = "SendesUserName"
     let RECEIVERS_EMAIL_FIELD = "Receiver"
     let NOTIFICATION_TYPE = "Type"
+    let RETURN_REQUESTED_FIELD = "ReturnRequested"
     
     //Notification Types
     let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
     let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
+    let RETURN_BOOK_REQUEST_NOTIFICATION = "Returning Book"
     
     let TIMESTAMP = "Timestamp"
     
@@ -192,8 +194,8 @@ class FirebaseDatabase {
             
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
-            BOOK_OWNER_FIELD : bookOwnerEmail
-            
+            BOOK_OWNER_FIELD : bookOwnerEmail,
+            RETURN_REQUESTED_FIELD : false
             
         ]) { err in
             
@@ -206,6 +208,7 @@ class FirebaseDatabase {
     }
     
     
+    //MARK: Add Notification Methods
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
     func addSwapReqestNotification (senderEmail: String, sendersUserName: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
         
@@ -247,6 +250,29 @@ class FirebaseDatabase {
         }
     }
     
+    //Method to add book return request notification
+    func addReturnBookRequestNotification (reciversEmail : String, sendersEmail : String, bookName: String, bookAuthor : String) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(reciversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
+        
+        ref.setData([
+            
+            SENDERS_EMAIL_FIELD : sendersEmail,
+            BOOKNAME_FIELD : bookName,
+            AUTHOR_FIELD : bookAuthor,
+            NOTIFICATION_TYPE : RETURN_BOOK_REQUEST_NOTIFICATION,
+            TIMESTAMP : FieldValue.serverTimestamp()
+            
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding Friend Request")
+        }
+        
+        changeReturnRequestedFieldInHoldings(currentUser: sendersEmail, bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
+        
+    }
+    
     
     //MARK: Change Document Field Methods
     //changes book holder email, which will help user to keep track of book
@@ -265,6 +291,20 @@ class FirebaseDatabase {
         }
     }
     
+    //changes book holder email, which will help user to keep track of book
+    private func changeReturnRequestedFieldInHoldings (currentUser : String, bookName : String, bookAuthor : String, bookStatus : Bool) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUser)/\(HOLDINGS_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        // Set the BookHolder = email of logged in user
+        ref.updateData([
+            BOOK_STATUS_FIELD : bookStatus
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "changing Return Requested of Holding books")
+        }
+    }
     
     //This method will be called when user confirms that he recived a book back
     func successfullyReturnedHoldingBook (bookName : String, bookAuthor : String) {
@@ -283,6 +323,7 @@ class FirebaseDatabase {
             }
         }
     }
+    
     
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document

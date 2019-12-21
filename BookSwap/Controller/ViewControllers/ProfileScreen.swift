@@ -23,6 +23,7 @@ class ProfileScreen: UIViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataInstance = CoreDataClass.sharedCoreData
+    let progressBarInstance = SVProgressHUDClass.shared
     
     //Variable to keep track of user's profile
     var usersProfile : String?
@@ -30,6 +31,8 @@ class ProfileScreen: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        
+        progressBarInstance.displayProgressBar()
         
         //databaseIstance.addSwapReqestNotification(senderEmail: "Sender", receiversEmail: "rutvik48@gmail.com", bookName: "Book Name2", bookAuthor: "Book Author2")
         
@@ -44,6 +47,7 @@ class ProfileScreen: UIViewController {
         if (Reachability.isConnectedToNetwork()){
             setUserDetails()
             checkOtherUser()
+            
         } else {
             CommonFunctions.sharedCommonFunction.createUIalert("Network Error", self)
             print("no internet connection")
@@ -78,6 +82,7 @@ class ProfileScreen: UIViewController {
             //Updating Number of swps user has done
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
+                self.progressBarInstance.dismissProgressBar()
             }
         }
   
@@ -123,12 +128,21 @@ class ProfileScreen: UIViewController {
         //create UIAlert with yes/no option
         let alert : UIAlertController
         
+        //Checking if it is not other user's profile screen.
         if (!authInstance.isItOtherUsersPage(userEmail: usersProfile!)){
             alert = UIAlertController(title: "Sing out", message: "Do you want to sign out?", preferredStyle: .alert)
-        } else {
+        
+        } else {  //if it is other user's profile screen. Show following alerts
+            
+            //Checking if this other user is Friend of logged in user.
             if (coreDataInstance.checkIfFriend(friendEmail: usersProfile!)) {
+                
+                //if true, show this following alert
                 alert = UIAlertController(title: "Unfriend", message: "Do you want to Unfriend?", preferredStyle: .alert)
+        
             }else {
+                
+                //If user is not friend of logged in user, show following alert on screen
                 alert = UIAlertController(title: "Friend Request Sent!", message: "Friend Reqest has been sent. ", preferredStyle: .alert)
             }
             
@@ -136,61 +150,19 @@ class ProfileScreen: UIViewController {
         
         
         alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        
+        //If user press 'yes', perform following functions
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             
-            
+           //this is for user on his/her profile screen.  This if function perform sign out procces
             if (!self.authInstance.isItOtherUsersPage(userEmail: self.usersProfile!)) {
-                // Sign Out the user from Firebase Auth
+           
+               self.performSignOut()
                 
-//                do {
-//                    try self.firebaseAuth.signOut()
-//                    //CoreDataClass.sharedCoreData.resetAllEntities()
-//
-//                } catch let signOutError as NSError {
-//                    print ("Error signing out: %@", signOutError)
-//                }
-                self.authInstance.signOutCurrentUser()
-                
-                self.navigationController?.navigationBar.isHidden = true;
-                
-                // get a reference to the app delegate
-                let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-                
-                // call didFinishLaunchWithOptions ... why?
-                appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
-                
-                
-                
-                //self.performSegue(withIdentifier: "toHomeScreen", sender: self)
             } else {
+                //These changes are for logged in user is on some other user's profile screen
                 
-                
-                //hide the button once user press "Yes"
-                self.signOutButton.isEnabled = false
-                self.signOutButton.tintColor = UIColor.clear
-                
-                //Note: signOutButton text is changed to "Unfriend" if users are friend. Else it is "Add Friend"
-                //Chrcking if users are friend, if true, unfriend will be performed
-                if (self.coreDataInstance.checkIfFriend(friendEmail: self.usersProfile!)) {
-                    //function call to unfriend the user
-                    self.databaseIstance.removeFriend(friendsEmail: self.usersProfile!)
-                    
-                    //remove friend's name from Core Data
-                    self.coreDataInstance.removeFriend(friendsEmail: self.usersProfile!)
-                    
-                } else {
-                    //If not friends, friend request will be sent.
-                    
-                    //getting email of logged in user
-                    let loggedInUserEmail = self.authInstance.getCurrentUserEmail()
-                    
-                    //Getting username of logged in user, which will be needed to send a friend request
-                    self.databaseIstance.getUserName(usersEmail: loggedInUserEmail, completion: { (userName) in
-                        
-                        //Sending a friend request. 'usersProfile' holds email of user whoes profile is on the screen.
-                        self.databaseIstance.addFriendReqestNotification(senderEmail: self.authInstance.getCurrentUserEmail(), sendersUserName: userName, receiversEmail: self.usersProfile!)
-                    })
-                }
+                self.performChangesForOthersProfileScreen()
             }
             
         }))
@@ -198,6 +170,76 @@ class ProfileScreen: UIViewController {
         self.present(alert, animated: true, completion: nil)
 
     }
+    
+    //MARK: Perform Sign Out
+    func performSignOut () {
+        
+        //This function call sign out user from Firebase Auth
+        self.authInstance.signOutCurrentUser()
+        
+        self.navigationController?.navigationBar.isHidden = true;
+        
+        // get a reference to the app delegate
+        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+        
+        // call didFinishLaunchWithOptions, this will make HomeScreen as Root ViewController
+        //Take user to Home Screen (Log In Screen), where user can log in.
+        appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
+        
+    }
+    
+    
+    //MARK: Unfriend or Send Friend Request Process
+    
+    //This method will be called when logged in user is on some other user's profile screen and
+    //clicks on text signOutButton hold. Text will be 'Unfriend' if users are friends, 'Add Friend' otherwise
+    func performChangesForOthersProfileScreen () {
+        
+        //hide the button once user press "Yes"
+        self.signOutButton.isEnabled = false
+        self.signOutButton.tintColor = UIColor.clear
+        
+        //Note: signOutButton text is changed to "Unfriend" if users are friend. Else it is "Add Friend"
+        //Chrcking if users are friend, if true, unfriend will be performed
+        if (self.coreDataInstance.checkIfFriend(friendEmail: self.usersProfile!)) {
+            
+            performUnfriendProcess ()
+            
+        } else {
+            //If not friends, friend request will be sent.
+            
+            performSendFriendRequestProcess()
+        }
+        
+    }
+
+    //Merhod will be called from if statment "performChangesForOthersProfileScreen()"
+    func performUnfriendProcess () {
+        
+        //function call to unfriend the user from Firestore data base
+        self.databaseIstance.removeFriend(friendsEmail: self.usersProfile!)
+        
+        //remove friend's name from Core Data
+        self.coreDataInstance.removeFriend(friendsEmail: self.usersProfile!)
+        
+    }
+    
+    //Merhod will be called from else statment "performChangesForOthersProfileScreen()"
+    func performSendFriendRequestProcess () {
+        
+        //getting email of logged in user
+        let loggedInUserEmail = self.authInstance.getCurrentUserEmail()
+        
+        //Getting username of logged in user, which will be needed to send a friend request
+        self.databaseIstance.getUserName(usersEmail: loggedInUserEmail, completion: { (userName) in
+            
+            //Sending a friend request. 'usersProfile' holds email of user whoes profile is on the screen.
+            self.databaseIstance.addFriendReqestNotification(senderEmail: self.authInstance.getCurrentUserEmail(), sendersUserName: userName, receiversEmail: self.usersProfile!)
+        })
+        
+    }
+    
+    
     @IBAction func friendsBtnPressed(_ sender: Any) {
         
         //FirebaseDatabase.init().addNewFriend(currentUserEmail: (firebaseAuth.currentUser?.email)!,friendsEmail: "Friend 3")

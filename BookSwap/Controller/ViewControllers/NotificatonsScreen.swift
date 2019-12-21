@@ -98,21 +98,25 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         //Getting User Name of the user who sent the reruest
         let senderUserName = notificationDictionary[indexPath.row]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
+        
+        //Getting book name and author from notificationDictionary
+        let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
+        let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
        
         //Checking if request is for BookSwap
         if checkIfNotificationForBookSwap(index: indexPath.row) {
             
-            //Getting book name and author from notificationDictionary
-            let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
-            
             //It will create cell for book swap request and return the cell
             return assignBookRequestNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
-        } else {
+        } else if (checkIfNotificationForFriendRequest(index: indexPath.row)){
             
             //If it is not for book swap, it is a friend request. As of now, we only have two types of requests.
             //It will create cell for friend request and return the cell
             return assignFriendReqestNotification(cell: cell, sender: senderUserName)
+        
+        } else /* if (checkIfNotificationForReturningABook(index: indexPath.row)) */{
+            
+            return assignReturningABookNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
         }
     }
     
@@ -148,7 +152,14 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     
     private func assignFriendReqestNotification (cell : NotificationCell, sender : String) -> NotificationCell{
         
-        cell.notificationTextLabel.text = "You have received friend request from \(sender)."
+        cell.notificationTextLabel.text = "Received friend request from \(sender)."
+        
+        return cell
+    }
+    
+    private func assignReturningABookNotification (cell : NotificationCell, sender : String, bookName: String, bookAuthor : String) -> NotificationCell{
+        
+        cell.notificationTextLabel.text = "Book return request from \(sender). For \(bookName) by \(bookAuthor)."
         
         return cell
     }
@@ -159,6 +170,20 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         let notificationType = notificationDictionary[index]![databaseInstance.NOTIFICATION_TYPE] as! String
         
         return databaseInstance.BOOKSWAP_REQUEST_NOTIFICATION == notificationType
+    }
+    
+    private func checkIfNotificationForFriendRequest (index : Int) -> Bool {
+        
+        let notificationType = notificationDictionary[index]![databaseInstance.NOTIFICATION_TYPE] as! String
+        
+        return databaseInstance.FRIEND_REQUEST_NOTIFICATION == notificationType
+    }
+    
+    private func checkIfNotificationForReturningABook (index : Int) -> Bool {
+        
+        let notificationType = notificationDictionary[index]![databaseInstance.NOTIFICATION_TYPE] as! String
+        
+        return databaseInstance.RETURN_BOOK_REQUEST_NOTIFICATION == notificationType
     }
 
 

@@ -33,19 +33,19 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     }
     
     //NotificationCellDelegate Method. will be called when any button will be pressed
-    func notificationButtonPressed(ifAccepted : Bool) {
+    func notificationButtonPressed(ifAccepted : Bool, indexRow : Int) {
         
         //IfAccepted will be true if user press Accept. false if presses decline
         if(ifAccepted) {
             
             let currentUser = authInstance.getCurrentUserEmail()
-            let requestersEmail = notificationDictionary[indexRow!]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
-            let requesterUserName = notificationDictionary[indexRow!]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
-            let bookName = notificationDictionary[indexRow!]![databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = notificationDictionary[indexRow!]![databaseInstance.AUTHOR_FIELD] as! String
+            let requestersEmail = notificationDictionary[indexRow]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
+            let requesterUserName = notificationDictionary[indexRow]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
+            let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
+            let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
             
             //Checking for type of request. If returns true, that means it's BookSwap request
-            if (checkIfNotificationForBookSwap(index: indexRow!)) {
+            if (checkIfNotificationForBookSwap(index: indexRow)) {
                 
                 databaseInstance.addHoldingBookToPerformBookSwap (bookOwnerEmail: currentUser, bookRequester: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
@@ -56,7 +56,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
                 
                 
-            } else if (checkIfNotificationForFriendRequest(index: indexRow!)) {
+            } else if (checkIfNotificationForFriendRequest(index: indexRow)) {
                 
                 databaseInstance.addNewFriend(currentUserEmail: currentUser, friendsEmail: requestersEmail, friendsUserName: requesterUserName)
                 
@@ -68,7 +68,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 //Remove Friend request from Firestore
                 databaseInstance.removeFriendRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser)
                 
-            } else if (checkIfNotificationForReturningABook(index: indexRow!)) {
+            } else if (checkIfNotificationForReturningABook(index: indexRow)) {
                 
                 databaseInstance.successfullyReturnedHoldingBook(sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
@@ -77,7 +77,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         }
         
         
-        notificationDictionary.removeValue(forKey: indexRow!)
+        notificationDictionary.removeValue(forKey: indexRow)
         tableView.reloadData()
     }
     
@@ -143,7 +143,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     //This object function will be called when user press Accept or Decline button
     @objc func connected(sender: UIButton){
         //setting sender's tag, which holds indexpath.row
-        indexRow = sender.tag
+        self.indexRow = sender.tag
     }
     
     

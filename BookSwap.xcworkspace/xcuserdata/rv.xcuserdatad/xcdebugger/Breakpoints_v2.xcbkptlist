@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "598645081.570134"
+            timestampString = "598647181.233776"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "260"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/ViewControllers/Books/HoldingBookListScreen.swift"
-            timestampString = "598645081.570272"
+            timestampString = "598647181.233917"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "95"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Custom Cell/HoldBookTableViewCell.swift"
-            timestampString = "598645081.571131"
+            timestampString = "598647181.234006"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/ViewControllers/NotificatonsScreen.swift"
-            timestampString = "598645081.571273"
+            timestampString = "598647181.234091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "connected(sender:)"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "notificationButtonPressed(ifAccepted:indexRow:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,12 +90,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/ViewControllers/NotificatonsScreen.swift"
-            timestampString = "598645081.572055"
+            timestampString = "598647181.23474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "notificationButtonPressed(ifAccepted:)"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "connected(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BookSwap/Controller/Custom Cell/NotificationCell.swift"
+            timestampString = "598647181.235153"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "declineButtonPressd(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

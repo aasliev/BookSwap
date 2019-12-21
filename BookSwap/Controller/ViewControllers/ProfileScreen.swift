@@ -47,7 +47,6 @@ class ProfileScreen: UIViewController {
         if (Reachability.isConnectedToNetwork()){
             setUserDetails()
             checkOtherUser()
-            
         } else {
             CommonFunctions.sharedCommonFunction.createUIalert("Network Error", self)
             print("no internet connection")

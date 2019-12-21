@@ -327,7 +327,7 @@ class CoreDataClass {
     
     func removeFriend (friendsEmail : String) {
         
-        var friend = getFriendData(email: friendsEmail)
+        let friend = getFriendData(email: friendsEmail)
         
         for object in friend {
             getContext().delete(object)

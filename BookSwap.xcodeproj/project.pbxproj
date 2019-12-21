@@ -41,6 +41,7 @@
 		B30F6296237ECC8000210B9E /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30F6295237ECC8000210B9E /* FirebaseAuth.swift */; };
 		B315C8B323859D4B00DF0ECF /* CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315C8B223859D4B00DF0ECF /* CoreDataClass.swift */; };
 		B364667723523FD800D2F3CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B364667623523FD800D2F3CA /* GoogleService-Info.plist */; };
+		B3670D9123AD329C000D125E /* SVProgressHUDClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3670D9023AD329C000D125E /* SVProgressHUDClass.swift */; };
 		B3CC80D92378E70000BF9D64 /* FirebaseDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +85,7 @@
 		B30F6295237ECC8000210B9E /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		B315C8B223859D4B00DF0ECF /* CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataClass.swift; sourceTree = "<group>"; };
 		B364667623523FD800D2F3CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B3670D9023AD329C000D125E /* SVProgressHUDClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUDClass.swift; sourceTree = "<group>"; };
 		B3CC80D82378E6FF00BF9D64 /* FirebaseDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 				B30F6295237ECC8000210B9E /* FirebaseAuth.swift */,
 				36D7F581239742BA0036F306 /* NotificationFunctions.swift */,
 				3644A67623ABAFB300E83912 /* Reachability.swift */,
+				B3670D9023AD329C000D125E /* SVProgressHUDClass.swift */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				364D5E3E23837EFA0060EF94 /* BooksTableViewCell.swift in Sources */,
 				364730842389FD3300DA1D8F /* ForgotPasswordScreen.swift in Sources */,
 				360E44B5238054D600A58946 /* userData.xcdatamodeld in Sources */,
+				B3670D9123AD329C000D125E /* SVProgressHUDClass.swift in Sources */,
 				361699EA23A9C89600D33432 /* HoldBookTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

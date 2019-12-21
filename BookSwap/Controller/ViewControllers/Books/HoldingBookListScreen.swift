@@ -57,7 +57,11 @@ class HoldingBookListScreen: UITableViewController {
             
             cell.authorOfTheBook.text = currentUserItems[indexPath.row].author
             cell.nameOfTheBook.text = currentUserItems[indexPath.row].bookName
-            cell.bookOwner.text = currentUserItems[indexPath.row].bookOwner
+            databaseInstance.getUserName(usersEmail: currentUserItems[indexPath.row].bookOwner!) { (userName) in
+                cell.bookOwner.text = userName
+            }
+            
+            cell.returnButton.isHidden = currentUserItems[indexPath.row].returnRequested
             
         } else {
             cell.authorOfTheBook.text = otherUserItems[indexPath.row].author

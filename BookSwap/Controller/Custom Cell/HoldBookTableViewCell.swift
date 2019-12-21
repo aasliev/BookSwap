@@ -15,6 +15,9 @@ class HoldBookTableViewCell: UITableViewCell {
     @IBOutlet weak var bookOwner: UILabel!
     @IBOutlet weak var returnButton: UIButton!
     
+    let databaseInstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,6 +30,7 @@ class HoldBookTableViewCell: UITableViewCell {
     }
     @IBAction func returnButtonPressed(_ sender: Any) {
         
+        databaseInstance.addReturnBookRequestNotification(reciversEmail: bookOwner.text!, sendersEmail: authInstance.getCurrentUserEmail(), bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
     }
     
 }

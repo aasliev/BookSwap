@@ -104,6 +104,8 @@ class ProfileScreen: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        //progressBarInstance.displayProgressBar()
+        
         if segue.identifier == "toFriendsList" {
             let destinationVC = segue.destination as! FriendListScreen
             destinationVC.usersFriendsList = usersProfile!

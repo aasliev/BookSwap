@@ -15,6 +15,7 @@ class HomeScreen: UIViewController {
     let commonFunctions = CommonFunctions.sharedCommonFunction
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let progressBarInstance = SVProgressHUDClass.shared
 
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!

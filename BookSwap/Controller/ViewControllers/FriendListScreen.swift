@@ -25,6 +25,7 @@ class FriendListScreen: UITableViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
+    let progressBarInstance = SVProgressHUDClass.shared
     
     //Variables to keep track of who's screen is user on
     var usersFriendsList : String?
@@ -87,9 +88,17 @@ class FriendListScreen: UITableViewController {
             cell.userName?.text = itemArray[indexPath.row].userName
             cell.add.isHidden = true
             
+            print("Index is : \(indexPath.row) \nitem.cout is : \(otherFriendsList.count)")
+            if (indexPath.row == (itemArray.count - 1)) {
+                progressBarInstance.displayProgressBar()}
+            
         } else {
             cell.userName?.text = otherFriendsList[indexPath.row].userName
             cell.add.isHidden = true
+            
+            print("Index is : \(indexPath.row) \nfriend.cout is : \(otherFriendsList.count)")
+            if (indexPath.row == (otherFriendsList.count - 1)) {
+                progressBarInstance.displayProgressBar()}
         }
         
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps

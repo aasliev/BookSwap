@@ -11,7 +11,9 @@ import Firebase
 import SVProgressHUD
 
 class SignUpScreen: UIViewController {
+    
     let commonFunctions = CommonFunctions.sharedCommonFunction
+    let progressBarInstance = SVProgressHUDClass.shared
 
     //Labels and TextFields from signUp.Storyboard
     
@@ -89,6 +91,9 @@ class SignUpScreen: UIViewController {
     
     @IBAction func signUpPressed(_ sender: Any) {
         
+        //Showing Processing Screen
+        progressBarInstance.displayProgressBar()
+        
         if (checkIfTextFieldIsEmpty() ){                                                //text if the fields are empty
             if(!(checkPassword(passwordTextField.text!, confirmPasswordTextField.text!))){          //check if the pswds are matching
                 self.commonFunctions.createUIalert("Passwords are not matching.", self)
@@ -101,8 +106,6 @@ class SignUpScreen: UIViewController {
                     //SVProgressHUD.show()
                     Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                         user, error in
-                        
-                        //SVProgressHUD.dismiss()
                         
                         self.chechError(error)
                 }

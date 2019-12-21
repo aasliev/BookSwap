@@ -11,13 +11,14 @@ import Foundation
 import CoreData
 
 
-class HoldingBookListScreen: UITableViewController {
-    
+class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
+
     //arrays
     var currentUserItems = [HoldBook]()
     var otherUserItems = [OtherHoldBook]()
 
     var currentUser : String?
+    var indexRow : Int?
     
     //fetch request
     var requestForHoldBooks : NSFetchRequest<HoldBook> = HoldBook.fetchRequest()
@@ -53,6 +54,11 @@ class HoldingBookListScreen: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "holdListCell", for: indexPath) as! HoldBookTableViewCell
         //initialize cell..
         
+        cell.delegate = self
+        
+        //Method is used to keep track of indexPath.row for each button
+        addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)
+        
         if !authInstance.isItOtherUsersPage(userEmail: currentUser!){
             
             cell.authorOfTheBook.text = currentUserItems[indexPath.row].author
@@ -66,10 +72,39 @@ class HoldingBookListScreen: UITableViewController {
         } else {
             cell.authorOfTheBook.text = otherUserItems[indexPath.row].author
             cell.nameOfTheBook.text = otherUserItems[indexPath.row].bookName
-            cell.bookOwner.text = otherUserItems[indexPath.row].bookOwner
+            databaseInstance.getUserName(usersEmail: otherUserItems[indexPath.row].bookOwner!) { (userName) in
+                cell.bookOwner.text = userName
+            }
             cell.returnButton.isHidden = true
         }
         return cell
+    }
+    
+    
+    //This method add target when button is added in Notification Cell
+    func addButtonTargetAndSetTagValue (tableCell : HoldBookTableViewCell, index : Int) {
+        
+        //Assigning target when Return button is pressed, it will call connected() method.
+        tableCell.returnButton.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+        
+        //Tag will hold the value of idexPath.row
+        tableCell.returnButton.tag = index
+    }
+    
+    //This object function will be called when user press Accept or Decline button
+    @objc func connected(sender: UIButton){
+        //setting sender's tag, which holds indexpath.row
+        indexRow = sender.tag
+    }
+    
+    func returnBookPressed() {
+        print("line number \(String(describing: indexRow))")
+        
+        let reciversEmail = (currentUserItems[indexRow!].bookOwner)!
+        let bookName = (currentUserItems[indexRow!].bookName)!
+        let bookAuthor = (currentUserItems[indexRow!].author)!
+        
+        databaseInstance.addReturnBookRequestNotification(reciversEmail: reciversEmail, sendersEmail: authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor)
     }
     
     

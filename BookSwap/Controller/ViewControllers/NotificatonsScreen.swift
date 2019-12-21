@@ -41,13 +41,11 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
             let currentUser = authInstance.getCurrentUserEmail()
             let requestersEmail = notificationDictionary[indexRow!]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
             let requesterUserName = notificationDictionary[indexRow!]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
+            let bookName = notificationDictionary[indexRow!]![databaseInstance.BOOKNAME_FIELD] as! String
+            let bookAuthor = notificationDictionary[indexRow!]![databaseInstance.AUTHOR_FIELD] as! String
             
             //Checking for type of request. If returns true, that means it's BookSwap request
             if (checkIfNotificationForBookSwap(index: indexRow!)) {
-                
-                
-                let bookName = notificationDictionary[indexRow!]![databaseInstance.BOOKNAME_FIELD] as! String
-                let bookAuthor = notificationDictionary[indexRow!]![databaseInstance.AUTHOR_FIELD] as! String
                 
                 databaseInstance.addHoldingBookToPerformBookSwap (bookOwnerEmail: currentUser, bookRequester: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
@@ -58,7 +56,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
                 
                 
-            } else {
+            } else if (checkIfNotificationForFriendRequest(index: indexRow!)) {
                 
                 databaseInstance.addNewFriend(currentUserEmail: currentUser, friendsEmail: requestersEmail, friendsUserName: requesterUserName)
                 
@@ -69,10 +67,14 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 
                 //Remove Friend request from Firestore
                 databaseInstance.removeFriendRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser)
+                
+            } else if (checkIfNotificationForReturningABook(index: indexRow!)) {
+                
+                databaseInstance.successfullyReturnedHoldingBook(sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
+                
             }
             
         }
-        
         
         
         notificationDictionary.removeValue(forKey: indexRow!)
@@ -87,7 +89,6 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        indexRow = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
         //This line connects NotificationCellDelegate.

@@ -37,7 +37,7 @@ class OwnedBookScreen: UITableViewController {
         //setting usersBookShelf equals to email of usersScreen
         //Whis was added inside ProfileScreen/prepareSegue
         usersBookShelf = authInstance.getUsersScreen()
-        print("usersBookShelf:  \(usersBookShelf)")
+        //print("usersBookShelf:  \(usersBookShelf)")
         tableView.rowHeight = 120
         tableView.refreshControl = refresher
         

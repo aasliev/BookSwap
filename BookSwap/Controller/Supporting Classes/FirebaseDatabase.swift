@@ -252,7 +252,7 @@ class FirebaseDatabase {
     }
     
     //Method to add book return request notification
-    func addReturnBookRequestNotification (reciversEmail : String, sendersEmail : String, bookName: String, bookAuthor : String) {
+    func addReturnBookRequestNotification (reciversEmail : String, sendersEmail : String, sendersUserName: String, bookName: String, bookAuthor : String) {
         
         path = "\(USERS_MAIN_COLLECTIN)/\(reciversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
@@ -262,6 +262,7 @@ class FirebaseDatabase {
             SENDERS_EMAIL_FIELD : sendersEmail,
             BOOKNAME_FIELD : bookName,
             AUTHOR_FIELD : bookAuthor,
+            SENDERS_USER_NAME_FIELD : sendersUserName,
             NOTIFICATION_TYPE : RETURN_BOOK_REQUEST_NOTIFICATION,
             TIMESTAMP : FieldValue.serverTimestamp()
             

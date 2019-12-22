@@ -10,7 +10,7 @@
 import UIKit
 
 protocol HoldBookCellDelegate: class {
-    func returnBookPressed()
+    func returnBookPressed(indexRow : Int)
 }
 
 class HoldBookTableViewCell: UITableViewCell {
@@ -39,7 +39,7 @@ class HoldBookTableViewCell: UITableViewCell {
     @IBAction func returnButtonPressed(_ sender: Any) {
         
         
-        delegate?.returnBookPressed()
+        delegate?.returnBookPressed(indexRow: (sender as! UIButton).tag)
         
     }
     

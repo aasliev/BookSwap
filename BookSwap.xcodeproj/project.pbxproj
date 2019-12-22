@@ -19,6 +19,7 @@
 		364D5E3C238375120060EF94 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D5E3B238375120060EF94 /* FriendsTableViewCell.swift */; };
 		364D5E3E23837EFA0060EF94 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D5E3D23837EFA0060EF94 /* BooksTableViewCell.swift */; };
 		364D5E40238383250060EF94 /* WishListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D5E3F238383250060EF94 /* WishListTableViewCell.swift */; };
+		367E418523AFC67C00A415BF /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E418423AFC67C00A415BF /* HistoryTableViewCell.swift */; };
 		368C415023937BC700E60CEE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368C414F23937BC700E60CEE /* TabBarViewController.swift */; };
 		36D7F582239742BA0036F306 /* NotificationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7F581239742BA0036F306 /* NotificationFunctions.swift */; };
 		36D7F58423974C890036F306 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7F58323974C890036F306 /* NotificationCell.swift */; };
@@ -60,6 +61,7 @@
 		364D5E3B238375120060EF94 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
 		364D5E3D23837EFA0060EF94 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
 		364D5E3F238383250060EF94 /* WishListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListTableViewCell.swift; sourceTree = "<group>"; };
+		367E418423AFC67C00A415BF /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		368C414F23937BC700E60CEE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		36D7F581239742BA0036F306 /* NotificationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFunctions.swift; sourceTree = "<group>"; };
 		36D7F58323974C890036F306 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				B30474CC2394822000438E85 /* SearchScreenTableViewCell.swift */,
 				36D7F58323974C890036F306 /* NotificationCell.swift */,
 				361699E923A9C89600D33432 /* HoldBookTableViewCell.swift */,
+				367E418423AFC67C00A415BF /* HistoryTableViewCell.swift */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				B30474CD2394822100438E85 /* SearchScreenTableViewCell.swift in Sources */,
 				B30474CB2394815500438E85 /* SearchScreenTableViewController.swift in Sources */,
 				3644A67723ABAFB300E83912 /* Reachability.swift in Sources */,
+				367E418523AFC67C00A415BF /* HistoryTableViewCell.swift in Sources */,
 				B302F244234925BB00F4E537 /* AppDelegate.swift in Sources */,
 				B302F26B23495A7F00F4E537 /* HistoryScreen.swift in Sources */,
 				364080932396CD6700335CBE /* NotificatonsScreen.swift in Sources */,

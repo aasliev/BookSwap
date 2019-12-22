@@ -106,6 +106,16 @@ class OwnedBookScreen: UITableViewController {
             //If book status is true, it will show the book by making 'isHidden' = false
             //or if book status is false, it will hide the swap button
             cell.swap.isHidden = !(otherUserItems[indexPath.row].status)
+            
+            //Getting userName of holder. Holder field of currentUserItem holds email of person holding the book
+            if (!otherUserItems[indexPath.row].status) {
+                databaseIstance.getUserName(usersEmail: otherUserItems[indexPath.row].holder!) { (userName) in
+                    cell.holderLabel?.text = userName
+                }
+            }
+
+            cell.holderLabel.isHidden = (otherUserItems[indexPath.row].status)
+            
         }
        
         cell.delegate = self
@@ -158,7 +168,7 @@ class OwnedBookScreen: UITableViewController {
             newOwnedBook.bookName = (data[self.databaseIstance.BOOKNAME_FIELD] as! String)
             newOwnedBook.author = (data[self.databaseIstance.AUTHOR_FIELD] as! String)
             newOwnedBook.status = data[self.databaseIstance.BOOK_STATUS_FIELD] as! Bool
-            
+            newOwnedBook.holder = (data[self.databaseIstance.BOOK_HOLDER_FIELD] as! String)
             //Appending inside otherUser array
             otherUserItems.append(newOwnedBook)
         }

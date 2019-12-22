@@ -16,6 +16,7 @@ class CoreDataClass {
     let OWNED_BOOK_ENTITY = "OwnedBook"
     let WISH_LIST_ENTITY = "WishList"
     let HOLDING_BOOKS = "HoldBook"
+    let HISTORY_ENTITY = "History"
     
     var ownedBook = [OwnedBook]()
     var friendList = [Friends]()
@@ -53,16 +54,20 @@ class CoreDataClass {
         let booksFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: OWNED_BOOK_ENTITY)
         let wishListFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: WISH_LIST_ENTITY)
         let holdingBookFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: HOLDING_BOOKS)
+        let historyFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: HISTORY_ENTITY)
         // Create Batch Delete Request
         let friendsDeleteRequest = NSBatchDeleteRequest(fetchRequest: friendsFetchRequest)
         let booksDeleteRequest = NSBatchDeleteRequest(fetchRequest: booksFetchRequest)
         let wishListDeleteRequest = NSBatchDeleteRequest(fetchRequest: wishListFetchRequest)
         let holdingBookDeleteRequest = NSBatchDeleteRequest(fetchRequest: holdingBookFetchRequest)
+        let historyDeleteRequest = NSBatchDeleteRequest(fetchRequest: historyFetchRequest)
+        
         do {
             try self.context.execute(friendsDeleteRequest)
             try self.context.execute(booksDeleteRequest)
             try self.context.execute(wishListDeleteRequest)
             try self.context.execute(holdingBookDeleteRequest)
+            try self.getContext().execute(historyDeleteRequest)
             
             print("Successfully Emptied Core Data.")
         } catch {

@@ -17,9 +17,7 @@
         <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="inProcessStatus" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="reciversEmail" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="reciversUserName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sendersEmail" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="sendersUserName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="HoldBook" representedClassName="HoldBook" syncable="YES" codeGenerationType="class">
         <attribute name="author" optional="YES" attributeType="String">
@@ -110,6 +108,6 @@
         <element name="OthersWishList" positionX="-27" positionY="27" width="128" height="75"/>
         <element name="OwnedBook" positionX="-54" positionY="-9" width="128" height="105"/>
         <element name="WishList" positionX="-36" positionY="9" width="128" height="75"/>
-        <element name="History" positionX="-36" positionY="45" width="128" height="165"/>
+        <element name="History" positionX="-36" positionY="45" width="128" height="135"/>
     </elements>
 </model>

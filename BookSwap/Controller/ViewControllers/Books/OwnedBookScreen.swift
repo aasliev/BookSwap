@@ -29,6 +29,7 @@ class OwnedBookScreen: UITableViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
+    let progressBarInstance = SVProgressHUDClass.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,10 @@ class OwnedBookScreen: UITableViewController {
                     cell.holderLabel?.text = userName
                 }
                 
+                if (indexPath.row == (currentUserItems.count - 1)) {
+                    progressBarInstance.dismissProgressBar()
+                }
+                
             }
         
         } else {
@@ -116,6 +121,10 @@ class OwnedBookScreen: UITableViewController {
             }
 
             cell.holderLabel.isHidden = (otherUserItems[indexPath.row].status)
+            
+            if (indexPath.row == (otherUserItems.count - 1)) {
+                progressBarInstance.dismissProgressBar()
+            }
             
         }
        

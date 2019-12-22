@@ -109,6 +109,11 @@ class CoreDataClass {
             self.addHoldinBook(holdingBook: holdingBookDict)
         }
         
+        databaseInstance.getHistoryData(usersEmail: authInstance.getCurrentUserEmail()) { (historyDict) in
+            
+            self.addHistoryData(dictionary: historyDict)
+        }
+        
     }
 
 
@@ -214,7 +219,34 @@ class CoreDataClass {
 
 
     //Adding history data to core data model
-    private func addHistoryData (dictionary : Dictionary<String, Dictionary<String, Any>>) {
+    private func addHistoryData (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
+        
+        var history = [History]()
+        
+        for (index, data) in dictionary {
+            
+            //Getting the latest Context, as saveContext is called before loop ends
+            
+            let newHistoryData = History(context: getContext())
+            let sendersEmail = (data[databaseInstance.SENDERS_EMAIL_FIELD] as! String)
+            let reciversEmail = (data[databaseInstance.RECEIVERS_EMAIL_FIELD] as! String)
+            let bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            let bookAuthor = (data[databaseInstance.AUTHOR_FIELD] as! String)
+            let inProcessStatus = (data[databaseInstance.SWAP_IN_PROCESS] as! Bool)
+            
+            newHistoryData.sendersEmail = sendersEmail
+            newHistoryData.reciversEmail = reciversEmail
+            newHistoryData.bookName = bookName
+            newHistoryData.authorName = bookAuthor
+            newHistoryData.inProcessStatus = inProcessStatus
+            newHistoryData.assignNumber = Int32(index)
+            
+            history.append(newHistoryData)
+        }
+        
+        
+        //Once all necessary changes has been made, saving the context into persistent container.
+        saveContext()
 
     }
     

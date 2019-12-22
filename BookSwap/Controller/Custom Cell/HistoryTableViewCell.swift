@@ -11,10 +11,11 @@ import UIKit
 class HistoryTableViewCell: UITableViewCell {
 
     
-    @IBOutlet weak var user1: UILabel! //user who did swap request
-    @IBOutlet weak var bookUser1: UILabel!
-    @IBOutlet weak var user2: UILabel! //who recieves swap request
-    @IBOutlet weak var bookUser2: UILabel!
+    @IBOutlet weak var sendersEmail: UILabel! //user who did swap request
+    @IBOutlet weak var bookData: UILabel!
+    @IBOutlet weak var reciversEmail: UILabel! //who recieves swap request
+    //@IBOutlet weak var bookUser2: UILabel!
+    @IBOutlet weak var inProcessLbl: UILabel!
     
     
     override func awakeFromNib() {

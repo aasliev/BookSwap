@@ -34,10 +34,11 @@ class ProfileScreen: UIViewController {
         
         progressBarInstance.displayProgressBar()
         
-        //databaseIstance.addSwapReqestNotification(senderEmail: "Sender", receiversEmail: "rutvik48@gmail.com", bookName: "Book Name2", bookAuthor: "Book Author2")
+        databaseIstance.addBookSwapHistory(reciversEmail: "rutvik48@gmail.com", sendersEmail: "as@li.com", bookName: "Book Name", bookAuthor: "Book Author")
         
-        //databaseIstance.removeBookSwapRequestNotification(sendersEmail: "Sender", reciverEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
-        
+        databaseIstance.addBookSwapHistory(reciversEmail: "jryan1205@gmail.com", sendersEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
+        databaseIstance.addBookSwapHistory(reciversEmail: "dryzhko13@gmail.com", sendersEmail: "as@li.com", bookName: "Book Name 1", bookAuthor: "Book Author 2")
+        databaseIstance.addBookSwapHistory(reciversEmail: "dryzhko13@gmail.com", sendersEmail: "jryan1205@gmail.com", bookName: "Book Name 2", bookAuthor: "Book Author 1")
         print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfOwnedBookExist(bookName: "bOOk", bookAuthor: "author"))")
 
         //CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: "book", bookAuthor: "author", bookHolder: "newHolding", status: false)

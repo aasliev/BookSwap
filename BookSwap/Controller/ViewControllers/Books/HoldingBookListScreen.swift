@@ -97,14 +97,20 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         indexRow = sender.tag
     }
     
-    func returnBookPressed() {
+    func returnBookPressed(indexRow : Int) {
         print("line number \(String(describing: indexRow))")
         
-        let reciversEmail = (currentUserItems[indexRow!].bookOwner)!
-        let bookName = (currentUserItems[indexRow!].bookName)!
-        let bookAuthor = (currentUserItems[indexRow!].author)!
+        let reciversEmail = (currentUserItems[indexRow].bookOwner)!
+        let bookName = (currentUserItems[indexRow].bookName)!
+        let bookAuthor = (currentUserItems[indexRow].author)!
+        let sendersEmail = authInstance.getCurrentUserEmail()
         
-        databaseInstance.addReturnBookRequestNotification(reciversEmail: reciversEmail, sendersEmail: authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor)
+        databaseInstance.getUserName(usersEmail: sendersEmail) { (userName) in
+            
+            self.databaseInstance.addReturnBookRequestNotification(reciversEmail: reciversEmail, sendersEmail: sendersEmail,sendersUserName: userName, bookName: bookName, bookAuthor: bookAuthor)
+            
+        }
+        
     }
     
     

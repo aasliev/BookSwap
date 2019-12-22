@@ -41,11 +41,12 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
             let currentUser = authInstance.getCurrentUserEmail()
             let requestersEmail = notificationDictionary[indexRow]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
             let requesterUserName = notificationDictionary[indexRow]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
-            let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
+            
             
             //Checking for type of request. If returns true, that means it's BookSwap request
             if (checkIfNotificationForBookSwap(index: indexRow)) {
+                let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
+                let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
                 
                 databaseInstance.addHoldingBookToPerformBookSwap (bookOwnerEmail: currentUser, bookRequester: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
@@ -69,6 +70,9 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 databaseInstance.removeFriendRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser)
                 
             } else if (checkIfNotificationForReturningABook(index: indexRow)) {
+                
+                let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
+                let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
                 
                 databaseInstance.successfullyReturnedHoldingBook(sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 

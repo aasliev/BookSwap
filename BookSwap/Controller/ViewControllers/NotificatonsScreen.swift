@@ -12,6 +12,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
 
     let databaseInstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let processingBarInstance = SVProgressHUDClass.shared
+    
     var indexRow : Int?
     
     var notificationDictionary : Dictionary<Int , Dictionary <String, Any> > = [:]
@@ -20,7 +22,12 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        processingBarInstance.displayProgressBar()
         tableView.rowHeight = 100
+        
+        //this disables the selection of row.
+        //When user clicks on book, no selection will highlight any row
+        tableView.allowsSelection = false
         
         databaseInstance.getNotifications(usersEmail: authInstance.getCurrentUserEmail()) { (dict) in
             print("Dictionary is: \(dict as AnyObject)")
@@ -86,7 +93,6 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("notificationDictionary.count \(notificationDictionary.count)")
         return notificationDictionary.count
 
     }
@@ -97,6 +103,11 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         //This line connects NotificationCellDelegate.
         cell.delegate = self
+        
+        //dismissing the processing screen while adding data to last table row
+        if (indexPath.row == (notificationDictionary.count - 1)){
+            processingBarInstance.dismissProgressBar()
+        }
         
         //Method is used to keep track of indexPath.row for each button
         addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)
@@ -128,6 +139,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
             
             return assignReturningABookNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
         }
+        
     }
     
     

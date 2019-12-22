@@ -63,9 +63,14 @@ class HistoryScreen: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath) as! HistoryTableViewCell
         
         if !authInstance.isItOtherUsersPage(userEmail: usersHistory!) {
+            databaseIstance.getUserName(usersEmail: currentUserHistory[indexPath.row].sendersEmail!) { (userName) in
+                cell.sendersEmail?.text = userName
+            }
             
-            cell.sendersEmail?.text = currentUserHistory[indexPath.row].sendersEmail
-            cell.reciversEmail?.text = currentUserHistory[indexPath.row].reciversEmail
+            databaseIstance.getUserName(usersEmail: currentUserHistory[indexPath.row].reciversEmail!) { (userName) in
+                cell.reciversEmail?.text = userName
+            }
+            
             cell.bookData?.text = ("\(currentUserHistory[indexPath.row].bookName ?? "BookName") by \((currentUserHistory[indexPath.row].authorName) ?? "BookAuthor")")
             cell.inProcessLbl?.text = currentUserHistory[indexPath.row].inProcessStatus ? "In Process" : "Completed"
             
@@ -75,10 +80,21 @@ class HistoryScreen: UITableViewController {
             
         } else {
             //data will be recived firestore in a dictionary
-            cell.sendersEmail?.text = "Email of Left User (Sender)"
-            cell.reciversEmail?.text = "Email of Right User (Reciver)"
-            cell.bookData?.text = "bookName-bookAutor"
-            cell.inProcessLbl?.text = "Recive Boolean if yes print 'In Process', otherwise 'Completed'"
+            let sendersEmail = otherUsersHistory[indexPath.row]![databaseIstance.SENDERS_EMAIL_FIELD] as! String
+            let reciversEmail = otherUsersHistory[indexPath.row]![databaseIstance.RECEIVERS_EMAIL_FIELD] as! String
+            let bookName = otherUsersHistory[indexPath.row]![databaseIstance.BOOKNAME_FIELD] as! String
+            let bookAuthor = otherUsersHistory[indexPath.row]![databaseIstance.AUTHOR_FIELD] as! String
+            let isProcessingStatus = otherUsersHistory[indexPath.row]![databaseIstance.SWAP_IN_PROCESS] as! Bool
+            
+            databaseIstance.getUserName(usersEmail: sendersEmail) { (userName) in
+                cell.sendersEmail?.text = userName
+            }
+            databaseIstance.getUserName(usersEmail: reciversEmail) { (userName) in
+                cell.reciversEmail?.text = userName
+            }
+            
+            cell.bookData?.text = "\(bookName) by \(bookAuthor)"
+            cell.inProcessLbl?.text = isProcessingStatus ? "In Proces" : "Completed"
             
             if (indexPath.row == (otherUsersHistory.count - 1)) {
                 progressBarInstance.dismissProgressBar()
@@ -96,15 +112,16 @@ class HistoryScreen: UITableViewController {
                 
                 requestForHistory.sortDescriptors = [NSSortDescriptor(key: "assignNumber", ascending: false)]
                 currentUserHistory = try coreDataClassInstance.getContext().fetch(History.fetchRequest())
+                tableView.reloadData()
             } else {
                 
                 if (otherUsersHistory.count == 0) {
                     databaseIstance.getHistoryData(usersEmail: usersHistory!) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
+                        self.tableView.reloadData()
                     }
                 } else {}
             }
-            tableView.reloadData()
         } catch {
             print("Error fetching data from context \(error)")
         }
@@ -116,6 +133,7 @@ class HistoryScreen: UITableViewController {
         otherUsersHistory.removeAll()
         
         otherUsersHistory = dict
+        
     }
     
 }

@@ -36,14 +36,22 @@ class SearchScreenTableViewCell: UITableViewCell {
         print("Add Button Pressed!! Inside Search Screen")
         print("UserName: \(ratingLbl.text!)")
         
+        let progressBarInstance = SVProgressHUDClass.shared
+        progressBarInstance.displayProgressBar()
+        
         let currentUserEmail = authInstance.getCurrentUserEmail()
         //FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
         
         databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
             
             self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.emailLbl.text!)
+            self.addButton.setTitle("Sent", for: .disabled)
+            self.addButton.isEnabled = false
+            progressBarInstance.dismissProgressBar()
+            progressBarInstance.displaySuccessSatus(successStatus: "Request has been sent to \(String(describing: self.userNameLbl.text!))")
+            
         }
-        addButton.setTitle("Request\nSent", for: .highlighted)
+        
     }
     
 }

@@ -121,7 +121,6 @@ class CoreDataClass {
         
     }
 
-
     //MARK: Add methods to add data to entities
     //Adding books into OwnedBook when user signUp
     private func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {

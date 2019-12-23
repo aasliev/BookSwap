@@ -88,18 +88,12 @@ class FriendListScreen: UITableViewController {
             cell.userName?.text = itemArray[indexPath.row].userName
             cell.add.isHidden = true
             
-            //Dismiss the progress bar when adding last
-            if (indexPath.row == (itemArray.count - 1)) {
-                progressBarInstance.dismissProgressBar()}
-            
         } else {
             cell.userName?.text = otherFriendsList[indexPath.row].userName
             cell.add.isHidden = true
             
             print("Index is : \(indexPath.row) \nfriend.cout is : \(otherFriendsList.count)")
-            if (indexPath.row == (otherFriendsList.count - 1)) {
-                progressBarInstance.dismissProgressBar()
-            }
+           
         }
         
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps
@@ -144,6 +138,10 @@ class FriendListScreen: UITableViewController {
                 }
             }
             tableView.reloadData()
+            
+            //Dismissing Progressing Screen
+            progressBarInstance.dismissProgressBar()
+            
         } catch {
             print("Error fetching data from context \(error)")
         }
@@ -178,6 +176,9 @@ class FriendListScreen: UITableViewController {
         
         //reloading the table view to show the latest result
         tableView.reloadData()
+        
+        //Dismissing Progressing Screen
+        progressBarInstance.dismissProgressBar()
         
     }
 
@@ -225,7 +226,6 @@ extension FriendListScreen: UISearchBarDelegate {
             requestForFriends = Friends.fetchRequest()
             reqestForOthersFriends = OthersFriend.fetchRequest()
             loadItems()
-            tableView.reloadData()
         }
     }
     

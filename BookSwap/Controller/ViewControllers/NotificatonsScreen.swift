@@ -35,6 +35,9 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
             self.notificationDictionary = dict
             self.tableView.reloadData()
             
+            //Dismissing Progressing Screen
+            self.processingBarInstance.dismissProgressBar()
+            
         }
 
     }
@@ -64,6 +67,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
                 
                 
+                
             } else if (checkIfNotificationForFriendRequest(index: indexRow)) {
                 
                 databaseInstance.addNewFriend(currentUserEmail: currentUser, friendsEmail: requestersEmail, friendsUserName: requesterUserName)
@@ -90,6 +94,9 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         notificationDictionary.removeValue(forKey: indexRow)
         tableView.reloadData()
+        
+        //Dismissing Progressing Screen
+        processingBarInstance.dismissProgressBar()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,10 +111,6 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         //This line connects NotificationCellDelegate.
         cell.delegate = self
         
-        //dismissing the processing screen while adding data to last table row
-        if (indexPath.row == (notificationDictionary.count - 1)){
-            processingBarInstance.dismissProgressBar()
-        }
         
         //Method is used to keep track of indexPath.row for each button
         addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)

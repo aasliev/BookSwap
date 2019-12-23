@@ -35,6 +35,11 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         //print("currentUser: \(currentUser)")
         super.viewDidLoad()
         tableView.rowHeight = 120
+        
+        //this disables the selection of row.
+        //When user clicks on book, no selection will highlight any row
+        tableView.allowsSelection = false
+        
         loadItems()
     }
     

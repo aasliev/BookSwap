@@ -29,6 +29,7 @@ class OwnedBookScreen: UITableViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
+    let progressBarInstance = SVProgressHUDClass.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +91,15 @@ class OwnedBookScreen: UITableViewController {
                 
                 cell.nameOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
                 cell.authorOfTheBook.textColor = UIColor.init(white: 1, alpha: 0.5)
+                cell.holderLabel.isHidden = false
                 
                 //Getting userName of holder. Holder field of currentUserItem holds email of person holding the book
                 databaseIstance.getUserName(usersEmail: currentUserItems[indexPath.row].holder!) { (userName) in
                     cell.holderLabel?.text = userName
+                }
+                
+                if (indexPath.row == (currentUserItems.count - 1)) {
+                    progressBarInstance.dismissProgressBar()
                 }
                 
             }
@@ -115,6 +121,10 @@ class OwnedBookScreen: UITableViewController {
             }
 
             cell.holderLabel.isHidden = (otherUserItems[indexPath.row].status)
+            
+            if (indexPath.row == (otherUserItems.count - 1)) {
+                progressBarInstance.dismissProgressBar()
+            }
             
         }
        

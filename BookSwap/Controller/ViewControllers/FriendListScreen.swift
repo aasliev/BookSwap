@@ -88,9 +88,9 @@ class FriendListScreen: UITableViewController {
             cell.userName?.text = itemArray[indexPath.row].userName
             cell.add.isHidden = true
             
-            print("Index is : \(indexPath.row) \nitem.cout is : \(otherFriendsList.count)")
+            //Dismiss the progress bar when adding last
             if (indexPath.row == (itemArray.count - 1)) {
-                progressBarInstance.displayProgressBar()}
+                progressBarInstance.dismissProgressBar()}
             
         } else {
             cell.userName?.text = otherFriendsList[indexPath.row].userName
@@ -98,7 +98,8 @@ class FriendListScreen: UITableViewController {
             
             print("Index is : \(indexPath.row) \nfriend.cout is : \(otherFriendsList.count)")
             if (indexPath.row == (otherFriendsList.count - 1)) {
-                progressBarInstance.displayProgressBar()}
+                progressBarInstance.dismissProgressBar()
+            }
         }
         
         //cell.detailTextLabel = itemArray[indexPath.row].numOfSwaps

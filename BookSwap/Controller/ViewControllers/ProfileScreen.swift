@@ -34,11 +34,6 @@ class ProfileScreen: UIViewController {
         
         progressBarInstance.displayProgressBar()
         
-        //databaseIstance.addSwapReqestNotification(senderEmail: "Sender", receiversEmail: "rutvik48@gmail.com", bookName: "Book Name2", bookAuthor: "Book Author2")
-        
-        //databaseIstance.removeBookSwapRequestNotification(sendersEmail: "Sender", reciverEmail: "rutvik48@gmail.com", bookName: "Book Name", bookAuthor: "Book Author")
-        
-        print("This is checkif call: \(CoreDataClass.sharedCoreData.checkIfOwnedBookExist(bookName: "bOOk", bookAuthor: "author"))")
 
         //CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: "book", bookAuthor: "author", bookHolder: "newHolding", status: false)
 
@@ -104,7 +99,7 @@ class ProfileScreen: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        //progressBarInstance.displayProgressBar()
+        progressBarInstance.displayProgressBar()
         
         if segue.identifier == "toFriendsList" {
             let destinationVC = segue.destination as! FriendListScreen

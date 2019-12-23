@@ -16,6 +16,7 @@ class CoreDataClass {
     let OWNED_BOOK_ENTITY = "OwnedBook"
     let WISH_LIST_ENTITY = "WishList"
     let HOLDING_BOOKS = "HoldBook"
+    let HISTORY_ENTITY = "History"
     
     var ownedBook = [OwnedBook]()
     var friendList = [Friends]()
@@ -53,16 +54,20 @@ class CoreDataClass {
         let booksFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: OWNED_BOOK_ENTITY)
         let wishListFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: WISH_LIST_ENTITY)
         let holdingBookFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: HOLDING_BOOKS)
+        let historyFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: HISTORY_ENTITY)
         // Create Batch Delete Request
         let friendsDeleteRequest = NSBatchDeleteRequest(fetchRequest: friendsFetchRequest)
         let booksDeleteRequest = NSBatchDeleteRequest(fetchRequest: booksFetchRequest)
         let wishListDeleteRequest = NSBatchDeleteRequest(fetchRequest: wishListFetchRequest)
         let holdingBookDeleteRequest = NSBatchDeleteRequest(fetchRequest: holdingBookFetchRequest)
+        let historyDeleteRequest = NSBatchDeleteRequest(fetchRequest: historyFetchRequest)
+        
         do {
             try self.context.execute(friendsDeleteRequest)
             try self.context.execute(booksDeleteRequest)
             try self.context.execute(wishListDeleteRequest)
             try self.context.execute(holdingBookDeleteRequest)
+            try self.getContext().execute(historyDeleteRequest)
             
             print("Successfully Emptied Core Data.")
         } catch {
@@ -107,6 +112,11 @@ class CoreDataClass {
         databaseInstance.getHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (holdingBookDict) in
             //call function to add holding book
             self.addHoldinBook(holdingBook: holdingBookDict)
+        }
+        
+        databaseInstance.getHistoryData(usersEmail: authInstance.getCurrentUserEmail()) { (historyDict) in
+            
+            self.addHistoryData(dictionary: historyDict)
         }
         
     }
@@ -214,7 +224,34 @@ class CoreDataClass {
 
 
     //Adding history data to core data model
-    private func addHistoryData (dictionary : Dictionary<String, Dictionary<String, Any>>) {
+    private func addHistoryData (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
+        
+        var history = [History]()
+        
+        for (index, data) in dictionary {
+            
+            //Getting the latest Context, as saveContext is called before loop ends
+            
+            let newHistoryData = History(context: getContext())
+            let sendersEmail = (data[databaseInstance.SENDERS_EMAIL_FIELD] as! String)
+            let reciversEmail = (data[databaseInstance.RECEIVERS_EMAIL_FIELD] as! String)
+            let bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            let bookAuthor = (data[databaseInstance.AUTHOR_FIELD] as! String)
+            let inProcessStatus = (data[databaseInstance.SWAP_IN_PROCESS] as! Bool)
+            
+            newHistoryData.sendersEmail = sendersEmail
+            newHistoryData.reciversEmail = reciversEmail
+            newHistoryData.bookName = bookName
+            newHistoryData.authorName = bookAuthor
+            newHistoryData.inProcessStatus = inProcessStatus
+            newHistoryData.assignNumber = Int32(index)
+            
+            history.append(newHistoryData)
+        }
+        
+        
+        //Once all necessary changes has been made, saving the context into persistent container.
+        saveContext()
 
     }
     

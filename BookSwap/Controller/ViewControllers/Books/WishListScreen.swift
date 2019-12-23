@@ -23,6 +23,7 @@ class WishListScreen: UITableViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
+    let progressBarInstance = SVProgressHUDClass.shared
     
     //Variable to keep track of who's screen is user on
     var usersWishList : String?
@@ -70,10 +71,18 @@ class WishListScreen: UITableViewController {
             cell.nameOfTheBook?.text = currentUserItems[indexPath.row].bookName
             cell.authorOfTheBook?.text = currentUserItems[indexPath.row].author
             
+            if (indexPath.row == (currentUserItems.count - 1)) {
+                progressBarInstance.dismissProgressBar()
+            }
+            
         } else {
             
             cell.nameOfTheBook?.text = otherUserItems[indexPath.row].bookName
             cell.authorOfTheBook?.text = otherUserItems[indexPath.row].author
+            
+            if (indexPath.row == (otherUserItems.count - 1)) {
+                progressBarInstance.dismissProgressBar()
+            }
         }
         
         cell.delegate = self

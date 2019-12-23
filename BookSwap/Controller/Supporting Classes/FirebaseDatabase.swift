@@ -566,7 +566,7 @@ class FirebaseDatabase {
     
     
     //Get history data from Firestore: Users/currentUser/History/friendsEmail/
-    func getHistoryData (usersEmail: String, friendsEmail: String, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()){
+    func getHistoryData (usersEmail: String, completion: @escaping (Dictionary<Int  , Dictionary<String  , Any>>)->()){
         
         path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)"
         message = "getting history data from History Collection"

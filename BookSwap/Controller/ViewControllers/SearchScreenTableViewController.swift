@@ -14,6 +14,7 @@ class SearchScreenTableViewController: UITableViewController {
     
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
+    let progressBarInstance = SVProgressHUDClass.shared
     
     var selectedUser : String?
     
@@ -59,6 +60,7 @@ class SearchScreenTableViewController: UITableViewController {
             print("This is Dict: \(self.searchResult as AnyObject)")
             
             self.tableView.reloadData()
+            self.progressBarInstance.dismissProgressBar()
         }
         
     }
@@ -88,6 +90,8 @@ class SearchScreenTableViewController: UITableViewController {
         
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendCell", for: indexPath) as! SearchScreenTableViewCell
+        
+        cell.addButton.isEnabled = true
         
         cell.userNameLbl?.text = (searchResult[indexPath.row]![USER_NAME]! as! String)
         cell.ratingLbl?.text = ("\(searchResult[indexPath.row]![RATING]!)")
@@ -149,7 +153,10 @@ extension SearchScreenTableViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        //here goes your code
+        
+        progressBarInstance.displayProgressBar()
         self.loadResult(search: searchBar.text!)
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "598750591.571026"
+            timestampString = "598828375.173043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "260"
             endingLineNumber = "260"
             landmarkName = "addReturnBookRequestNotification(reciversEmail:sendersEmail:sendersUserName:bookName:bookAuthor:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BookSwap/Controller/Custom Cell/NotificationCell.swift"
-            timestampString = "598647354.800228"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "declineButtonPressd(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

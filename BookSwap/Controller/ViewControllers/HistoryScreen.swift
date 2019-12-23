@@ -51,10 +51,11 @@ class HistoryScreen: UITableViewController {
     
     //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         //checks if it is not logged in user's whishListScreen, if true
         //it returns count of otherWishList elements. If false, itemArray's count
-        return !authInstance.isItOtherUsersPage(userEmail: usersHistory!) ?  currentUserHistory.count : otherUsersHistory.count
+        let numberOfRows = !authInstance.isItOtherUsersPage(userEmail: usersHistory!) ?  currentUserHistory.count : otherUsersHistory.count
+        
+        return numberOfRows
     }
     
     
@@ -73,10 +74,6 @@ class HistoryScreen: UITableViewController {
             
             cell.bookData?.text = ("\(currentUserHistory[indexPath.row].bookName ?? "BookName") by \((currentUserHistory[indexPath.row].authorName) ?? "BookAuthor")")
             cell.inProcessLbl?.text = currentUserHistory[indexPath.row].inProcessStatus ? "In Process" : "Completed"
-            
-            if (indexPath.row == (currentUserHistory.count - 1)) {
-                progressBarInstance.dismissProgressBar()
-            }
             
         } else {
             //data will be recived firestore in a dictionary
@@ -113,12 +110,14 @@ class HistoryScreen: UITableViewController {
                 requestForHistory.sortDescriptors = [NSSortDescriptor(key: "assignNumber", ascending: false)]
                 currentUserHistory = try coreDataClassInstance.getContext().fetch(History.fetchRequest())
                 tableView.reloadData()
+                progressBarInstance.dismissProgressBar()
             } else {
                 
                 if (otherUsersHistory.count == 0) {
                     databaseIstance.getHistoryData(usersEmail: usersHistory!) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
                         self.tableView.reloadData()
+                        self.progressBarInstance.dismissProgressBar()
                     }
                 } else {}
             }

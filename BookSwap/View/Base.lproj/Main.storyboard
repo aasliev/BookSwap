@@ -672,94 +672,87 @@
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.43529411759999997" green="0.79215686269999996" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyCell" rowHeight="160" id="DVr-tN-I8h" customClass="HistoryTableViewCell" customModule="BookSwap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="160"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyCell" rowHeight="120" id="DVr-tN-I8h" customClass="HistoryTableViewCell" customModule="BookSwap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DVr-tN-I8h" id="XVY-MX-Kb3">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mekhrangez Khalikov" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="saL-Nb-yBo" userLabel="user2">
+                                            <rect key="frame" x="207.66666666666666" y="10" width="109.33333333333334" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="k31-my-EiC"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="mKE-qy-hOf">
-                                            <rect key="frame" x="5" y="42.666666666666657" width="45" height="45"/>
+                                            <rect key="frame" x="5" y="7.6666666666666679" width="45" height="45"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="45" id="IVz-vl-kwf"/>
                                                 <constraint firstAttribute="width" constant="45" id="eNk-HM-mpz"/>
                                             </constraints>
                                         </imageView>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="bPZ-wI-plU">
-                                            <rect key="frame" x="325" y="42.666666666666657" width="45" height="45"/>
+                                            <rect key="frame" x="325" y="7.6666666666666679" width="45" height="45"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="45" id="5mX-nD-uif"/>
                                                 <constraint firstAttribute="width" constant="45" id="h6g-iA-LPB"/>
                                             </constraints>
                                         </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZU-hS-yJU" userLabel="User1 Stack View">
-                                            <rect key="frame" x="55.000000000000007" y="34.333333333333336" width="112.66666666666669" height="91.333333333333314"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asliddin Asliev" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1uK-iT-zaV" userLabel="user1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="112.66666666666667" height="20.333333333333332"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harry poTter and the prisoner of Askaban" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pI7-xE-cji" userLabel="book1">
-                                                    <rect key="frame" x="0.0" y="30.333333333333336" width="112.66666666666667" height="61.000000000000007"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </stackView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="l8s-E2-7UR" userLabel="User2 Stack View">
-                                            <rect key="frame" x="207.66666666666666" y="44.666666666666657" width="112.33333333333334" height="71"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mekhrangez Khalikov" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="saL-Nb-yBo" userLabel="user2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="112.33333333333333" height="40.666666666666664"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H74-Eh-Xtd" userLabel="book2">
-                                                    <rect key="frame" x="0.0" y="50.666666666666664" width="112.33333333333333" height="20.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </stackView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.swap" translatesAutoresizingMaskIntoConstraints="NO" id="qCc-z6-1Rv">
-                                            <rect key="frame" x="172.66666666666666" y="65" width="30" height="30"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qCc-z6-1Rv">
+                                            <rect key="frame" x="172.66666666666666" y="18" width="30" height="24.333333333333329"/>
                                             <color key="tintColor" red="1" green="0.83230179550000005" blue="0.3333084583" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="30" id="EAm-Pt-bev"/>
                                                 <constraint firstAttribute="height" constant="30" id="cgG-qN-DzP"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="InProcess" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sg6-S7-JBt">
-                                            <rect key="frame" x="112.66666666666669" y="135.66666666666666" width="150" height="21.666666666666657"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asliddin Asliev Asliddin Asliev" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1uK-iT-zaV" userLabel="user1">
+                                            <rect key="frame" x="58.000000000000007" y="10" width="109.66666666666669" height="40"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="RA2-Sl-PLd"/>
+                                                <constraint firstAttribute="height" constant="40" id="rHn-dN-t3g"/>
                                             </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harry Potter and The Prisoner of Askaban" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pI7-xE-cji" userLabel="book1">
+                                            <rect key="frame" x="58" y="60" width="220" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="220" id="cux-2R-t4P"/>
+                                                <constraint firstAttribute="height" constant="40" id="yUR-NC-Jfg"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In Process" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sg6-S7-JBt">
+                                            <rect key="frame" x="283" y="69.333333333333329" width="84" height="21.666666666666671"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="textColor" red="1" green="0.83655220269999997" blue="0.2793453038" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="EZU-hS-yJU" firstAttribute="leading" secondItem="mKE-qy-hOf" secondAttribute="trailing" constant="5" id="1xz-Q7-is1"/>
-                                        <constraint firstItem="mKE-qy-hOf" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-15" id="Enb-JE-B7J"/>
-                                        <constraint firstItem="qCc-z6-1Rv" firstAttribute="leading" secondItem="EZU-hS-yJU" secondAttribute="trailing" constant="5" id="MEk-f1-k3B"/>
-                                        <constraint firstItem="bPZ-wI-plU" firstAttribute="leading" secondItem="l8s-E2-7UR" secondAttribute="trailing" constant="5" id="Pf9-aJ-rhN"/>
-                                        <constraint firstItem="EZU-hS-yJU" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" id="Vc3-vA-QiB"/>
+                                        <constraint firstItem="1uK-iT-zaV" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-30" id="5ZI-mw-JoV"/>
+                                        <constraint firstItem="qCc-z6-1Rv" firstAttribute="leading" secondItem="1uK-iT-zaV" secondAttribute="trailing" constant="5" id="BOt-nW-EHG"/>
+                                        <constraint firstItem="pI7-xE-cji" firstAttribute="leading" secondItem="XVY-MX-Kb3" secondAttribute="leading" constant="58" id="BtH-e5-1MZ"/>
+                                        <constraint firstItem="mKE-qy-hOf" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-30" id="Enb-JE-B7J"/>
+                                        <constraint firstItem="pI7-xE-cji" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="20" id="Q5M-ZM-c6D"/>
                                         <constraint firstAttribute="trailing" secondItem="bPZ-wI-plU" secondAttribute="trailing" constant="5" id="YoA-sJ-n0Z"/>
+                                        <constraint firstItem="Sg6-S7-JBt" firstAttribute="leading" secondItem="pI7-xE-cji" secondAttribute="trailing" constant="5" id="am4-It-P3b"/>
                                         <constraint firstItem="qCc-z6-1Rv" firstAttribute="centerX" secondItem="XVY-MX-Kb3" secondAttribute="centerX" id="bCA-qE-x0b"/>
-                                        <constraint firstItem="bPZ-wI-plU" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-15" id="bfK-El-7fK"/>
-                                        <constraint firstItem="Sg6-S7-JBt" firstAttribute="top" secondItem="EZU-hS-yJU" secondAttribute="bottom" constant="10" id="gGR-Hp-FBV"/>
-                                        <constraint firstItem="l8s-E2-7UR" firstAttribute="leading" secondItem="qCc-z6-1Rv" secondAttribute="trailing" constant="5" id="jSD-1A-mil"/>
-                                        <constraint firstItem="qCc-z6-1Rv" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" id="nA5-EU-hpG"/>
+                                        <constraint firstItem="bPZ-wI-plU" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-30" id="bfK-El-7fK"/>
+                                        <constraint firstItem="bPZ-wI-plU" firstAttribute="leading" secondItem="saL-Nb-yBo" secondAttribute="trailing" constant="8" id="boE-tT-ibg"/>
+                                        <constraint firstItem="Sg6-S7-JBt" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="20" id="mtf-CC-nTe"/>
+                                        <constraint firstItem="qCc-z6-1Rv" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-30" id="nA5-EU-hpG"/>
+                                        <constraint firstItem="saL-Nb-yBo" firstAttribute="leading" secondItem="qCc-z6-1Rv" secondAttribute="trailing" constant="5" id="pWg-3r-hhV"/>
                                         <constraint firstItem="mKE-qy-hOf" firstAttribute="leading" secondItem="XVY-MX-Kb3" secondAttribute="leading" constant="5" id="qP2-tm-05n"/>
-                                        <constraint firstItem="Sg6-S7-JBt" firstAttribute="centerX" secondItem="XVY-MX-Kb3" secondAttribute="centerX" id="spw-DN-ahE"/>
-                                        <constraint firstItem="l8s-E2-7UR" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" id="w5P-c3-fdw"/>
+                                        <constraint firstItem="saL-Nb-yBo" firstAttribute="centerY" secondItem="XVY-MX-Kb3" secondAttribute="centerY" constant="-30" id="rHB-ew-e82"/>
+                                        <constraint firstItem="1uK-iT-zaV" firstAttribute="leading" secondItem="mKE-qy-hOf" secondAttribute="trailing" constant="8" id="rog-oN-4cA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.1056895927" green="0.10482627899999999" blue="0.1545491219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1030,7 +1023,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="8Jr-Wc-Voy">
                                             <rect key="frame" x="294.66666666666669" y="30.666666666666671" width="64.333333333333314" height="77"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fqh-TA-rPJ">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fqh-TA-rPJ">
                                                     <rect key="frame" x="5" y="0.0" width="54" height="34"/>
                                                     <color key="backgroundColor" red="1" green="0.82806688549999996" blue="0.37546503539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -1041,7 +1034,7 @@
                                                         <action selector="returnButtonPressed:" destination="Je9-0X-ERs" eventType="touchUpInside" id="zXF-KR-Brp"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Book Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="02K-OZ-cnS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Book Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="02K-OZ-cnS">
                                                     <rect key="frame" x="0.0" y="56" width="64.333333333333329" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.21960784310000001" green="0.61960784310000006" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1355,7 +1348,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.swap" width="64" height="50"/>
+        <image name="arrow.right" catalog="system" width="64" height="48"/>
         <image name="bell" width="64" height="62"/>
         <image name="bell.fill" width="64" height="62"/>
         <image name="bookcrab.png" width="279" height="253"/>

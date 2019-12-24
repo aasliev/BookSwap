@@ -35,6 +35,10 @@ class SVProgressHUDClass {
         SVProgressHUD.showSuccess(withStatus: successStatus)
     }
     
+    func displayMessage (message : String) {
+        SVProgressHUD.showInfo(withStatus: message)
+    }
+    
     func displayError (errorMsg: String) {
         SVProgressHUD.showError(withStatus: errorMsg)
     }

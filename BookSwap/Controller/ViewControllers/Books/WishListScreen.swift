@@ -44,7 +44,6 @@ class WishListScreen: UITableViewController {
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
-        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -181,9 +180,6 @@ class WishListScreen: UITableViewController {
         //saving all the changes made in core data
         coreDataClassInstance.saveContext()
         
-        //reloading the table view to show the latest result
-        tableView.reloadData()
-        
     }
     
 //MARK: Refresher
@@ -202,7 +198,6 @@ class WishListScreen: UITableViewController {
         DispatchQueue.main.asyncAfter(deadline: deadLine) {
             self.refresher.endRefreshing()
         }
-        self.tableView.reloadData()
         
     }
 }
@@ -228,7 +223,6 @@ extension WishListScreen: UISearchBarDelegate {
             requestForOthersWishList.predicate = nsPredicate
         }
         loadItems()
-        tableView.reloadData()
 
     }
     
@@ -242,7 +236,6 @@ extension WishListScreen: UISearchBarDelegate {
             requestForWishList = WishList.fetchRequest()
             requestForOthersWishList = OthersWishList.fetchRequest()
             loadItems()
-            tableView.reloadData()
             
         }
     }

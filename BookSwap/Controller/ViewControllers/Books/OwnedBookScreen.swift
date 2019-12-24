@@ -51,6 +51,8 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
     
         loadItems()
+        
+        progressBarInstance.displayMessage(message: "Swipe Left  for Wish List")
     }
     
     
@@ -98,9 +100,6 @@ class OwnedBookScreen: UITableViewController {
                     cell.holderLabel?.text = userName
                 }
                 
-                if (indexPath.row == (currentUserItems.count - 1)) {
-                    progressBarInstance.dismissProgressBar()
-                }
                 
             }
         
@@ -122,9 +121,6 @@ class OwnedBookScreen: UITableViewController {
 
             cell.holderLabel.isHidden = (otherUserItems[indexPath.row].status)
             
-            if (indexPath.row == (otherUserItems.count - 1)) {
-                progressBarInstance.dismissProgressBar()
-            }
             
         }
        
@@ -153,7 +149,10 @@ class OwnedBookScreen: UITableViewController {
                     otherUserItems = try context.fetch(requestForOthersFriendsBooks)
                 }
             }
+            
+            //Reseting the tableView.
             tableView.reloadData()
+            progressBarInstance.dismissProgressBar()
         } catch {
             print("Error fetching data from context \(error)")
         }
@@ -186,9 +185,6 @@ class OwnedBookScreen: UITableViewController {
         //saving all the changes made in core data
         coreDataClassInstance.saveContext()
         
-        //reloading the table view to show the latest result
-        tableView.reloadData()
-        
     }
     
     
@@ -209,7 +205,6 @@ class OwnedBookScreen: UITableViewController {
             self.refresher.endRefreshing()
         }
         self.viewDidLoad()
-        tableView.reloadData()
     }
 }
 
@@ -238,7 +233,6 @@ extension OwnedBookScreen: UISearchBarDelegate{
             requestForOthersFriendsBooks.predicate = nsPredicate
         }
         loadItems()
-        tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -252,7 +246,6 @@ extension OwnedBookScreen: UISearchBarDelegate{
             requestForBooks = OwnedBook.fetchRequest()
             requestForOthersFriendsBooks = OthersOwnedBook.fetchRequest()
             loadItems()
-            tableView.reloadData()
         }
     }
     

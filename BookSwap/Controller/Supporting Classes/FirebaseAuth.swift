@@ -14,6 +14,7 @@ class FirebaseAuth {
     let authInstance : Auth
     let commonFunctions : CommonFunctions
     private var currentUser : String?
+    var currentUserName : String?
     var usersScreen  : String = ""
     
     static let sharedFirebaseAuth = FirebaseAuth()
@@ -69,7 +70,7 @@ class FirebaseAuth {
     func getUserName()-> String {
         
         //username are stored as display name of Firebase Auth
-        return (authInstance.currentUser?.displayName) ?? "User Name"
+        return (currentUserName) ?? "User Name"
     }
     
     

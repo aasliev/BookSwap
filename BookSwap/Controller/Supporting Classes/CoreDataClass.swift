@@ -83,24 +83,47 @@ class CoreDataClass {
         resetAllEntities()
 
         //Second, adding data into CoreData. Which is recived from Firestore.
-        addDataIntoEntities()
+        addDataIntoAllEntities()
     }
     
     
     //Adding data of Friends, OwnedBook and WishList into Core Data Entity
-    private func addDataIntoEntities (){
+    private func addDataIntoAllEntities (){
+        
+        addDataIntoFriendEntity()
+        
+        addDataIntoOwnedBookEntity()
+        
+        addDataIntoWishListEntity()
+        
+        addDataIntoHoldingsEntity()
+        
+        addDataIntoHistoryEntity()
+        
+    }
+    
+    
+    //Mark: Methods to Update single entity
+    func addDataIntoFriendEntity () {
         
         //Getting list of Friends from Firestore Database
         databaseInstance.getListOfFriends(usersEmail: authInstance.getCurrentUserEmail()) { (friendDict) in
             print("From CoreDataClass addDataIntoEntities: \(friendDict as AnyObject)")
             self.addFriendList(friendList: friendDict)
         }
+    }
+    
+    func addDataIntoOwnedBookEntity () {
         
         //Getting list of OwnedBook from Firestore Database
         databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: true) { (dict) in
             print("OwnedBook From CoreDataClass addDataIntoEntities: \(dict as AnyObject)")
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
+       
+    }
+    
+    func addDataIntoWishListEntity () {
         
         //Getting list of WishList books from Firestore Database
         databaseInstance.getListOfOwnedBookOrWishList(usersEmail: authInstance.getCurrentUserEmail(), trueForOwnedBookFalseForWishList: false) { (dict) in
@@ -108,11 +131,19 @@ class CoreDataClass {
             self.addBooksIntoWishList(dictionary: dict)
         }
         
+    }
+    
+    func addDataIntoHoldingsEntity () {
+        
         //Getting list of HoldingBook from FireStore Database
         databaseInstance.getHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (holdingBookDict) in
             //call function to add holding book
             self.addHoldinBook(holdingBook: holdingBookDict)
         }
+    
+    }
+    
+    func addDataIntoHistoryEntity () {
         
         databaseInstance.getHistoryData(usersEmail: authInstance.getCurrentUserEmail()) { (historyDict) in
             
@@ -120,6 +151,7 @@ class CoreDataClass {
         }
         
     }
+    
 
     //MARK: Add methods to add data to entities
     //Adding books into OwnedBook when user signUp
@@ -175,6 +207,7 @@ class CoreDataClass {
             book.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
             book.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
             book.bookOwner = (data[databaseInstance.BOOK_OWNER_FIELD] as! String)
+            book.returnRequested = (data[databaseInstance.RETURN_REQUESTED_FIELD] as! Bool)
             
             holdingBooks.append(book)
         }
@@ -355,7 +388,7 @@ class CoreDataClass {
         let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
         
         book[0].status = status
-        //book[0].holder = bookHolder
+        book[0].holder = bookHolder
         
         saveContext()
     }

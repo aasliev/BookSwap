@@ -66,6 +66,8 @@ class FirebaseDatabase {
     var message : String = ""
     var ref : DocumentReference
     var numberOfHoldingBooks : Int?
+    var rating : Int?
+    var numberOfSwaps : Int?
     
     private init() {
         
@@ -681,44 +683,59 @@ class FirebaseDatabase {
     //Method gets username of given email of a user
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
-        getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
+        if (authInstance.currentUserName == nil) {
             
-            let userName : String
-            userName = Int("\(uName)") == nil ? uName as! String : ""
-            if (userName != ""){
-                completion(userName)
-            } else {
-                completion("Updating...")
+            getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
+                
+                let userName : String
+                userName = Int("\(uName)") == nil ? uName as! String : ""
+                if (userName != ""){
+                    completion(userName)
+                } else {
+                    completion("Updating...")
+                }
+                //completion((userName ?? "Updating" ) as! String)
+                
             }
-            //completion((userName ?? "Updating" ) as! String)
-            
+        } else {
+            completion(authInstance.getUserName())
         }
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
     func getRating(usersEmail: String, completion: @escaping (Int)->()) {
         
-        getFieldData(usersEmail: usersEmail.lowercased(), fieldName: RATING_FIELD){ rating in
-            
-            if ((rating as? Int != nil) && (rating as! Int != -1)){
-                completion(rating as! Int)
-            } else {
-                completion(-1)
+        if (rating == nil) {
+            getFieldData(usersEmail: usersEmail.lowercased(), fieldName: RATING_FIELD){ rating in
+                
+                if ((rating as? Int != nil) && (rating as! Int != -1)){
+                    self.rating = (rating as! Int)
+                    completion(rating as! Int)
+                } else {
+                    completion(-1)
+                }
             }
-            
+        } else {
+            completion(self.rating ?? -1)
         }
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfSwaps"
     func getNumberOfSwaps(usersEmail: String, completion: @escaping (Int)->()) {
         
-        getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in
+        if (self.numberOfSwaps == nil) {
             
-            if ((swaps as? Int != nil) && (swaps as! Int != -1)){
-                completion(swaps as! Int)
-            } else {
-                completion(-1)
+            getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in
+                
+                if ((swaps as? Int != nil) && (swaps as! Int != -1)){
+                    self.numberOfSwaps = (swaps as! Int)
+                    completion(swaps as! Int)
+                } else {
+                    completion(-1)
+                }
             }
+        } else {
+            completion(self.numberOfSwaps ?? -1)
         }
     }
     

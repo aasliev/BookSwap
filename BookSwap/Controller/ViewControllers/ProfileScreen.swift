@@ -66,9 +66,10 @@ class ProfileScreen: UIViewController {
         }
         
         databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in
-            self.userNameLbl.text = "\(userName)"
+           
             
             self.authInstance.currentUserName = userName
+             self.userNameLbl.text = "\(userName)"
         }
         
         
@@ -184,6 +185,11 @@ class ProfileScreen: UIViewController {
         self.coreDataInstance.resetAllEntities()
         
         self.navigationController?.navigationBar.isHidden = true;
+        
+        self.authInstance.currentUserName = nil
+        self.databaseIstance.rating = nil
+        self.databaseIstance.numberOfSwaps = nil
+        
         
         // get a reference to the app delegate
         let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate

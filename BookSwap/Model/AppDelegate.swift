@@ -18,13 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     
-    func userSignedOut () {
-        
-        let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
-        self.window!.rootViewController = initialViewController
-        
-    }
-    
     
     func applicationDidFinishLaunching(_ application: UIApplication) {
         
@@ -42,11 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window!.rootViewController = initialViewController
 
         }
-//        Auth.auth().addStateDidChangeListener {
-//            auth, user in
-//            print("User is: \(user)")
-//
-//        }
     }
 //
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

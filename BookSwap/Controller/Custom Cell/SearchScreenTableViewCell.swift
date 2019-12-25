@@ -42,9 +42,9 @@ class SearchScreenTableViewCell: UITableViewCell {
         let currentUserEmail = authInstance.getCurrentUserEmail()
         //FirebaseDatabase.shared.addNewFriend(currentUserEmail: currentUserEmail , friendsEmail: emailLbl.text!, friendsUserName: userNameLbl.text!)
         
-        self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: authInstance.getUserName(), receiversEmail: self.emailLbl.text!)
+        self.databaseIstance.addFriendReqestNotification(senderEmail: currentUserEmail, sendersUserName: authInstance.getCurrentUserName(), receiversEmail: self.emailLbl.text!)
         
-        self.addButton.setTitle("Sent", for: .highlighted)
+        self.addButton.setTitle("Sent", for: .normal)
         self.addButton.isEnabled = false
         progressBarInstance.dismissProgressBar()
         progressBarInstance.displaySuccessSatus(successStatus: "Request has been sent to \(String(describing: self.userNameLbl.text!))")

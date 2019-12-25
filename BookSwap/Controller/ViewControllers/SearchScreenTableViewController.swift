@@ -92,6 +92,7 @@ class SearchScreenTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendCell", for: indexPath) as! SearchScreenTableViewCell
         
         cell.addButton.isEnabled = true
+        cell.addButton.setTitle("Add", for: .normal)
         
         cell.userNameLbl?.text = (searchResult[indexPath.row]![USER_NAME]! as! String)
         cell.ratingLbl?.text = ("\(searchResult[indexPath.row]![RATING]!)")

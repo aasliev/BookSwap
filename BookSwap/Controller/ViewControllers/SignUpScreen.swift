@@ -24,6 +24,9 @@ class SignUpScreen: UIViewController {
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    var userNameAdded = false
+    var dataAddedIntoFirestore = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +66,24 @@ class SignUpScreen: UIViewController {
                 self.commonFunctions.showError(error: error, errorMsg: errorMsg, screen: self)
             }
         } else {
-            
+            self.databaseInstance.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){ boolean in
+                
+                print("Completion called from firestore \(boolean)")
+                if boolean {
+                    self.dataAddedIntoFirestore = true
+                    
+                    //This waits untill username is added
+                    if (self.userNameAdded) {
+                        // get a reference to the app delegate
+                        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+                        
+                        // call didFinishLaunchWithOptions, this will make HomeScreen as Root ViewController
+                        //Take user to Home Screen (Log In Screen), where user can log in.
+                        appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
+                        
+                    }
+                }
+                }
             addUserNameAndPerformSegue()
         }
     }
@@ -77,19 +97,18 @@ class SignUpScreen: UIViewController {
             
             if error == nil {
                 
-                self.databaseInstance.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){ boolean in
+                self.userNameAdded = true
+                //This waits untill data is added on firestore database
+                if (self.dataAddedIntoFirestore) {
+                    // get a reference to the app delegate
+                    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
                     
-                    print("Completion called from firestore \(boolean)")
-                    if boolean {
+                    // call didFinishLaunchWithOptions, this will make HomeScreen as Root ViewController
+                    //Take user to Home Screen (Log In Screen), where user can log in.
+                    appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
                     
-                        self.authInstance.currentUserName = self.userNameTextField.text!
-                        self.databaseInstance.rating = 5
-                        self.databaseInstance.numberOfSwaps = 0
-                        
-                        self.performSegue(withIdentifier: "toProfileScreen", sender: self)
-                    }
-
                 }
+                
             } else {
                 print("An error occured while adding username \(String(describing: error))")
             }

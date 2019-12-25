@@ -170,7 +170,7 @@ class FirebaseDatabase {
             if(self.checkError(error: err, whileDoing: "adding new friend")){
                 self.increment_OR_DecrementNumberOfFriends(userEmail: currentUserEmail, by: 1)
                 if(recursion) {
-                    self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getUserName(), recursion: false)
+                    self.addNewFriend(currentUserEmail: friendsEmail, friendsEmail: currentUserEmail, friendsUserName: self.authInstance.getCurrentUserName(), recursion: false)
                     
                 }
             }
@@ -211,6 +211,8 @@ class FirebaseDatabase {
         changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: bookRequester, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
         
         increment_OR_DecrementNumberOfHoldBook(userEmail: bookRequester, by: 1)
+        
+        addBookSwapHistory(reciversEmail: bookRequester, sendersEmail: bookOwnerEmail, bookName: bookName, bookAuthor: bookAuthor)
 
     }
     
@@ -683,23 +685,16 @@ class FirebaseDatabase {
     //Method gets username of given email of a user
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
-        if (authInstance.currentUserName == nil) {
-            
-            getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
+        getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
                 
                 let userName : String
                 userName = Int("\(uName)") == nil ? uName as! String : ""
                 if (userName != ""){
                     completion(userName)
                 } else {
-                    completion("Updating...")
+                    completion(self.authInstance.getCurrentUserName())
                 }
-                //completion((userName ?? "Updating" ) as! String)
-                
             }
-        } else {
-            completion(authInstance.getUserName())
-        }
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"

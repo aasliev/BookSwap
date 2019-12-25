@@ -7,12 +7,15 @@
 //
 
 import UIKit
+let progressBarInstance = SVProgressHUDClass.shared
 
 class MessagesScreen: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
+        
+        progressBarInstance.displayMessage(message: "Messages will be in the next version.")
 
     }
 

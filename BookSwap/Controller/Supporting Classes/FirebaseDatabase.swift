@@ -365,6 +365,7 @@ class FirebaseDatabase {
             path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
             ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
             
+            print("path: \(path)\nref: \(ref)")
             ref.updateData([
                 SWAP_IN_PROCESS : false
             ]) { err in
@@ -380,7 +381,7 @@ class FirebaseDatabase {
     
     
     //This method will be called when user confirms that he recived a book back from Notification
-    func successfullyReturnedHoldingBook (currentUser : String, sendersEmail : String, bookName : String, bookAuthor : String) {
+    func successfullyReturnedHoldingBook (reciversEmail : String, sendersEmail : String, bookName : String, bookAuthor : String) {
         
         //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
         self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
@@ -388,7 +389,7 @@ class FirebaseDatabase {
         //Removes the book book from holdingBooks
         removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: sendersEmail)
         
-        self.changeSwapInProcessToFalse(sendersEmail: sendersEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
+        self.changeSwapInProcessToFalse(sendersEmail: reciversEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
         
         //Decreasing number of book holding. Field "NumberOfHoldingBook" in Firestore: Users/currentUser
         increment_OR_DecrementNumberOfHoldBook(userEmail: sendersEmail, by: -1)
@@ -692,7 +693,12 @@ class FirebaseDatabase {
                 if (userName != ""){
                     completion(userName)
                 } else {
-                    completion(self.authInstance.getCurrentUserName())
+                    if (self.authInstance.isItOtherUsersPage(userEmail: usersEmail)) {
+                        completion("User Name")
+                    } else {
+                        completion(self.authInstance.getCurrentUserName())
+
+                    }
                 }
             }
     }

@@ -68,7 +68,7 @@ class FirebaseAuth {
     
     func getCurrentUserName () -> String{
         
-        return (authInstance.currentUser?.displayName)!
+        return (authInstance.currentUser != nil ? (authInstance.currentUser?.displayName)! : "Erorr loading...")
     }
     
     

@@ -65,6 +65,7 @@ class FirebaseDatabase {
     var path : String = ""
     var message : String = ""
     var ref : DocumentReference
+    var numberOfHoldingBooks : Int?
     
     private init() {
         
@@ -756,6 +757,22 @@ class FirebaseDatabase {
                 completion("-1")
             }
         }
+    }
+    
+    //Get Number of Holding Books
+    func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        if (numberOfHoldingBooks == nil) {
+            
+            getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { numberOfHoldingBooks in
+                
+                self.numberOfHoldingBooks = (numberOfHoldingBooks as! Int)
+                completion(self.numberOfHoldingBooks ?? 5)
+                
+            }
+        } else {
+                completion(self.numberOfHoldingBooks ?? 5)
+            }
 
         
     }

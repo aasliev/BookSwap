@@ -103,13 +103,16 @@ class SignUpScreen: UIViewController {
                 {
 
                     //Show showing the processing screen
-                    //SVProgressHUD.show()
+                    progressBarInstance.displayProgressBar()
+                    
                     Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) {
                         user, error in
                         
                         self.chechError(error)
+                        self.progressBarInstance.dismissProgressBar()
                 }
             }
+            progressBarInstance.dismissProgressBar()
         }
     }
 }

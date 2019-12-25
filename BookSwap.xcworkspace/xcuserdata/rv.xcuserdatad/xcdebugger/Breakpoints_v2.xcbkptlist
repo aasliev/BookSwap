@@ -25,7 +25,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BookSwap/Controller/ViewControllers/NotificatonsScreen.swift"
+            filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
             timestampString = "598896124.293541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

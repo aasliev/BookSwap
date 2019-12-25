@@ -103,6 +103,8 @@ class WishListScreen: UITableViewController {
                 if (otherUserItems.count == 0) {
                     databaseIstance.getListOfOwnedBookOrWishList (usersEmail: usersWishList!, trueForOwnedBookFalseForWishList: false) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
+                        //Reseting the tableView.
+                        self.tableView.reloadData()
                     }
                 } else {
                     requestForOthersWishList.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]

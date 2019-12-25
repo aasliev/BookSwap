@@ -67,8 +67,6 @@ class ProfileScreen: UIViewController {
         
         databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in
            
-            
-            self.authInstance.currentUserName = userName
              self.userNameLbl.text = "\(userName)"
         }
         
@@ -85,10 +83,10 @@ class ProfileScreen: UIViewController {
             //Updating Number of swps user has done
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
-                self.progressBarInstance.dismissProgressBar()
+                
             }
         }
-  
+  self.progressBarInstance.dismissProgressBar()
     }
     
     
@@ -185,10 +183,6 @@ class ProfileScreen: UIViewController {
         self.coreDataInstance.resetAllEntities()
         
         self.navigationController?.navigationBar.isHidden = true;
-        
-        self.authInstance.currentUserName = nil
-        self.databaseIstance.rating = nil
-        self.databaseIstance.numberOfSwaps = nil
         
         
         // get a reference to the app delegate

@@ -71,7 +71,6 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
             databaseInstance.getUserName(usersEmail: currentUserItems[indexPath.row].bookOwner!) { (userName) in
                 cell.bookOwner.text = userName
             }
-            print ("\(currentUserItems[indexPath.row].returnRequested)")
             cell.returnButton.isHidden = currentUserItems[indexPath.row].returnRequested
             
         } else {

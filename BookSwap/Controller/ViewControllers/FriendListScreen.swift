@@ -132,6 +132,8 @@ class FriendListScreen: UITableViewController {
                 if (otherFriendsList.count == 0) {
                     databaseIstance.getListOfFriends (usersEmail: usersFriendsList!) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
+                        //Reseting the tableView.
+                        self.tableView.reloadData()
                     }
                 } else {
                     otherFriendsList = try context.fetch(reqestForOthersFriends)

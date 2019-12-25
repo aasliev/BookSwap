@@ -143,6 +143,8 @@ class OwnedBookScreen: UITableViewController {
                 if (otherUserItems.count == 0) {
                     databaseIstance.getListOfOwnedBookOrWishList (usersEmail: usersBookShelf!, trueForOwnedBookFalseForWishList: true) { (dataDictionary) in
                         self.loadDataForOtherUser(dict: dataDictionary)
+                        //Reseting the tableView.
+                        self.tableView.reloadData()
                     }
                 } else {
                     requestForOthersFriendsBooks.sortDescriptors = [NSSortDescriptor(key: "bookName", ascending: true)]
@@ -199,12 +201,13 @@ class OwnedBookScreen: UITableViewController {
     
     @objc func refreshItems(){
         
-        self.loadItems()
+        
         let deadLine = DispatchTime.now() + .milliseconds(500)
         DispatchQueue.main.asyncAfter(deadline: deadLine) {
             self.refresher.endRefreshing()
         }
-        self.viewDidLoad()
+        self.loadItems()
+        //self.viewDidLoad()
     }
 }
 

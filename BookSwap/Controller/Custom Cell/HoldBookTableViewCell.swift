@@ -41,6 +41,8 @@ class HoldBookTableViewCell: UITableViewCell {
         
         delegate?.returnBookPressed(indexRow: (sender as! UIButton).tag)
         
+        returnButton.isHidden = true
+        
     }
     
 }

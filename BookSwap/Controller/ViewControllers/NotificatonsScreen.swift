@@ -14,10 +14,13 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let processingBarInstance = SVProgressHUDClass.shared
     
+    
     var indexRow : Int?
     
     var notificationDictionary : Dictionary<Int , Dictionary <String, Any> > = [:]
-    
+    //Used to show notifications
+    var i = 0
+    var lastIndex = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +107,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        lastIndex = -1
         return notificationDictionary.count
 
     }
@@ -113,8 +117,15 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
         //this if statment chaneck if index value has data in it.
-        if notificationDictionary[indexPath.row] == nil {return cell}
+        var i = 0
+        while ((notificationDictionary[indexPath.row+i] == nil) || (indexPath.row + i <= lastIndex )) {
+            i += 1
+        }
+        //print("1Index = \(indexPath.row) i = \(i) atIndex = \(lastIndex)")
+        //while(lastIndex < indexPath.row + i) { i += 1}
         
+        lastIndex = indexPath.row + i
+        print("2Index = \(indexPath.row) i = \(i) atIndex = \(lastIndex)")
         //This line connects NotificationCellDelegate.
         cell.delegate = self
         
@@ -124,19 +135,19 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         print("Index: \(indexPath.row)")
         //Getting User Name of the user who sent the reruest
-        let senderUserName = notificationDictionary[indexPath.row]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
+        let senderUserName = notificationDictionary[indexPath.row + i]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
         
         
        
         //Checking if request is for BookSwap
-        if checkIfNotificationForBookSwap(index: indexPath.row) {
+        if checkIfNotificationForBookSwap(index: indexPath.row + i) {
             //Getting book name and author from notificationDictionary
-            let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
+            let bookName = notificationDictionary[indexPath.row + i]![databaseInstance.BOOKNAME_FIELD] as! String
+            let bookAuthor = notificationDictionary[indexPath.row + i]![databaseInstance.AUTHOR_FIELD] as! String
             
             //It will create cell for book swap request and return the cell
             return assignBookRequestNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
-        } else if (checkIfNotificationForFriendRequest(index: indexPath.row)){
+        } else if (checkIfNotificationForFriendRequest(index: indexPath.row + i)){
             
             //If it is not for book swap, it is a friend request. As of now, we only have two types of requests.
             //It will create cell for friend request and return the cell
@@ -145,8 +156,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         } else /* if (checkIfNotificationForReturningABook(index: indexPath.row)) */{
             
             //Getting book name and author from notificationDictionary
-            let bookName = notificationDictionary[indexPath.row]![databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = notificationDictionary[indexPath.row]![databaseInstance.AUTHOR_FIELD] as! String
+            let bookName = notificationDictionary[indexPath.row + i]![databaseInstance.BOOKNAME_FIELD] as! String
+            let bookAuthor = notificationDictionary[indexPath.row + i]![databaseInstance.AUTHOR_FIELD] as! String
             
             return assignReturningABookNotification(cell: cell, sender: senderUserName, bookName: bookName, bookAuthor: bookAuthor)
         }

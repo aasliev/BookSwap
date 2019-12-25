@@ -283,7 +283,9 @@ extension WishListScreen: SwipeTableViewCellDelegate{
             //adding alert for delete function
             let alert = UIAlertController(title: "Delete Book", message: "Do you want to Delete the Book?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "No", style: .cancel))
+            
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                
                 // handle action by updating model with deletion
                 self.context.delete(self.currentUserItems[indexPath.row])
                 

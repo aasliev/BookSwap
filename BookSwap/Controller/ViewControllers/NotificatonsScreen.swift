@@ -90,7 +90,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
                 let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
                 
-                databaseInstance.successfullyReturnedHoldingBook(currentUser: authInstance.getCurrentUserEmail(), sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
+                print ("currentUser : \(currentUser)\n Senders Email: \(requestersEmail)")
+                databaseInstance.successfullyReturnedHoldingBook(reciversEmail: currentUser, sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
                 databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
                 

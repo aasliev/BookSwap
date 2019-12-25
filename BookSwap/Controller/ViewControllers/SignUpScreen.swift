@@ -14,6 +14,8 @@ class SignUpScreen: UIViewController {
     
     let commonFunctions = CommonFunctions.sharedCommonFunction
     let progressBarInstance = SVProgressHUDClass.shared
+    let databaseInstance = FirebaseDatabase.shared
+    let authInstance = FirebaseAuth.sharedFirebaseAuth
 
     //Labels and TextFields from signUp.Storyboard
     
@@ -75,14 +77,21 @@ class SignUpScreen: UIViewController {
             
             if error == nil {
                 
-                FirebaseDatabase.shared.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){ boolean in
+                self.databaseInstance.addNewUserToFirestore( userName: self.userNameTextField.text!, email: self.emailTextField.text!){ boolean in
                     
                     print("Completion called from firestore \(boolean)")
-                    if boolean {self.performSegue(withIdentifier: "toProfileScreen", sender: self)}
+                    if boolean {
+                    
+                        self.authInstance.currentUserName = self.userNameTextField.text!
+                        self.databaseInstance.rating = 5
+                        self.databaseInstance.numberOfSwaps = 0
+                        
+                        self.performSegue(withIdentifier: "toProfileScreen", sender: self)
+                    }
 
                 }
             } else {
-                print("An error occured while adding username\(String(describing: error))")
+                print("An error occured while adding username \(String(describing: error))")
             }
         }
         

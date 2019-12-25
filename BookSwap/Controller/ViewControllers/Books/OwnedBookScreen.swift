@@ -52,7 +52,7 @@ class OwnedBookScreen: UITableViewController {
     
         loadItems()
         
-        progressBarInstance.displayMessage(message: "Swipe Left  for Wish List")
+        progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
     }
     
     

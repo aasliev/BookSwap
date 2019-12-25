@@ -116,6 +116,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
+        cell.acceptButton.isHidden = false
+        cell.declineButton.isHidden = false
         //this if statment chaneck if index value has data in it.
         var i = 0
         while ((notificationDictionary[indexPath.row+i] == nil) || (indexPath.row + i <= lastIndex )) {

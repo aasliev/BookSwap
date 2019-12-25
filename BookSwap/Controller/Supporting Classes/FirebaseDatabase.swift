@@ -211,6 +211,8 @@ class FirebaseDatabase {
         changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: bookRequester, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
         
         increment_OR_DecrementNumberOfHoldBook(userEmail: bookRequester, by: 1)
+        
+        addBookSwapHistory(reciversEmail: bookRequester, sendersEmail: bookOwnerEmail, bookName: bookName, bookAuthor: bookAuthor)
 
     }
     

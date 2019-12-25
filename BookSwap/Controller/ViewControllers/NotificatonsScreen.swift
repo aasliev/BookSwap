@@ -85,14 +85,18 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
                 let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String
                 
-                databaseInstance.successfullyReturnedHoldingBook(sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
+                databaseInstance.successfullyReturnedHoldingBook(currentUser: authInstance.getCurrentUserEmail(), sendersEmail: requestersEmail, bookName: bookName, bookAuthor: bookAuthor)
                 
+                databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
+                
+                CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: bookName, bookAuthor: bookAuthor, bookHolder: authInstance.getCurrentUserEmail(), status: true)
             }
             
         }
         
         
         notificationDictionary.removeValue(forKey: indexRow)
+        //print("Dict: \(notificationDictionary as AnyObject)")
         tableView.reloadData()
         
         //Dismissing Progressing Screen
@@ -108,6 +112,9 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationCell
         
+        //this if statment chaneck if index value has data in it.
+        if notificationDictionary[indexPath.row] == nil {return cell}
+        
         //This line connects NotificationCellDelegate.
         cell.delegate = self
         
@@ -115,6 +122,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         //Method is used to keep track of indexPath.row for each button
         addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)
         
+        print("Index: \(indexPath.row)")
         //Getting User Name of the user who sent the reruest
         let senderUserName = notificationDictionary[indexPath.row]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
         

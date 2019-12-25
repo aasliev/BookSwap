@@ -32,6 +32,7 @@ class FirebaseDatabase {
     let USER_EMAIL_FIELD = "Email"
     let USERNAME_FIELD = "UserName"
     let NUMBER_OF_SWAPS_FIELD = "NumberOfSwaps"
+    let NUMBER_OF_HOLD_BOOKS = "NumberOfHoldingBooks"
     let RATING_FIELD = "Rating"
     let BOOKNAME_FIELD = "BookName"
     let AUTHOR_FIELD = "Author"
@@ -64,6 +65,7 @@ class FirebaseDatabase {
     var path : String = ""
     var message : String = ""
     var ref : DocumentReference
+    var numberOfHoldingBooks : Int?
     
     private init() {
         
@@ -205,6 +207,8 @@ class FirebaseDatabase {
         
         //Changing book holder's email, so user can keep track of who has the book, and changing book status
         changeBookHoldersEmail(bookOwnersEmail: bookOwnerEmail, bookReciversEmail: bookRequester, bookName: bookName, bookAuthor: bookAuthor, bookStatus: false)
+        
+        increment_OR_DecrementNumberOfHoldBook(userEmail: bookRequester, by: 1)
 
     }
     
@@ -338,7 +342,7 @@ class FirebaseDatabase {
         
         // Set the BookHolder = email of logged in user
         ref.updateData([
-            BOOK_STATUS_FIELD : bookStatus
+            RETURN_REQUESTED_FIELD : bookStatus
         ]) { err in
             
             _ = self.checkError(error: err, whileDoing: "changing Return Requested of Holding books")
@@ -372,23 +376,27 @@ class FirebaseDatabase {
     
     
     //This method will be called when user confirms that he recived a book back from Notification
-    func successfullyReturnedHoldingBook (sendersEmail : String, bookName : String, bookAuthor : String) {
+    func successfullyReturnedHoldingBook (currentUser : String, sendersEmail : String, bookName : String, bookAuthor : String) {
         
-        //First need to get the name  of the holder of the book, which will be done by this function
-        getBookHoldersEmail(bookName: bookName, bookAuthor: bookAuthor) { (bookHolder) in
-            
-            //Completion wil return '-1' if some error occured
-            if bookHolder != "-1" {
-                
-                //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
-                self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
-                
-                //Removes the book book from holdingBooks
-                self.removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder)
-                
-                self.changeSwapInProcessToFalse(sendersEmail: sendersEmail, reciversEmail: bookHolder, bookName: bookName, bookAuthor: bookAuthor)
-            }
-        }
+        //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
+        self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
+        
+        //Removes the book book from holdingBooks
+        removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: sendersEmail)
+        
+        self.changeSwapInProcessToFalse(sendersEmail: sendersEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
+        
+        //Decreasing number of book holding. Field "NumberOfHoldingBook" in Firestore: Users/currentUser
+        increment_OR_DecrementNumberOfHoldBook(userEmail: sendersEmail, by: -1)
+//        //First need to get the name  of the holder of the book, which will be done by this function
+//        getBookHoldersEmail(currentUser: currentUser, bookName: bookName, bookAuthor: bookAuthor) { (bookHolder) in
+//
+//            //Completion wil return '-1' if some error occured
+//            if bookHolder != "-1" {
+//
+//
+//            }
+//       }
     }
     
     
@@ -439,6 +447,20 @@ class FirebaseDatabase {
         ]) {
             error in
             _ = self.checkError(error: error, whileDoing: "increasing or decreasing number of friends")
+        }
+        
+    }
+    
+    //Method to increments field "numberOfHoldBook" inside Firestore: Users/currentUser document
+    private func increment_OR_DecrementNumberOfHoldBook (userEmail: String, by: Int) {
+        
+        let ref = db.collection(USERS_MAIN_COLLECTIN).document(userEmail)
+        // Incrememnt the NumberOfFriends field by 1.
+        ref.updateData([
+            self.NUMBER_OF_HOLD_BOOKS: FieldValue.increment(Int64(by))
+        ]) {
+            error in
+            _ = self.checkError(error: error, whileDoing: "increasing or decreasing number of Holding Books")
         }
         
     }
@@ -720,9 +742,9 @@ class FirebaseDatabase {
     }
     
     //Called by method successfullyReturnedHoldingBook
-    private func getBookHoldersEmail(bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
+    private func getBookHoldersEmail(currentUser : String, bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
         
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(currentUser)/\(OWNEDBOOK_SUB_COLLECTION)").document("\(bookName)-\(bookAuthor)").getDocument { (document, error) in
             
             if let document = document, document.exists {
                 
@@ -735,6 +757,22 @@ class FirebaseDatabase {
                 completion("-1")
             }
         }
+    }
+    
+    //Get Number of Holding Books
+    func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        if (numberOfHoldingBooks == nil) {
+            
+            getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { numberOfHoldingBooks in
+                
+                self.numberOfHoldingBooks = (numberOfHoldingBooks as! Int)
+                completion(self.numberOfHoldingBooks ?? 5)
+                
+            }
+        } else {
+                completion(self.numberOfHoldingBooks ?? 5)
+            }
 
         
     }

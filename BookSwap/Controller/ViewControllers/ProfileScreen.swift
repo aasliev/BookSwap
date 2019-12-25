@@ -49,6 +49,12 @@ class ProfileScreen: UIViewController {
                 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //coreDataInstance.updateCoreData()
+    }
+    
+    
+    
     
     
     func setUserDetails(){
@@ -61,6 +67,8 @@ class ProfileScreen: UIViewController {
         
         databaseIstance.getUserName(usersEmail: usersProfile!) { (userName) in
             self.userNameLbl.text = "\(userName)"
+            
+            self.authInstance.currentUserName = userName
         }
         
         
@@ -172,6 +180,8 @@ class ProfileScreen: UIViewController {
         
         //This function call sign out user from Firebase Auth
         self.authInstance.signOutCurrentUser()
+        
+        self.coreDataInstance.resetAllEntities()
         
         self.navigationController?.navigationBar.isHidden = true;
         

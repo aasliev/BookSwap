@@ -71,7 +71,7 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
             databaseInstance.getUserName(usersEmail: currentUserItems[indexPath.row].bookOwner!) { (userName) in
                 cell.bookOwner.text = userName
             }
-            
+            print ("\(currentUserItems[indexPath.row].returnRequested)")
             cell.returnButton.isHidden = currentUserItems[indexPath.row].returnRequested
             
         } else {
@@ -112,7 +112,12 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         
         databaseInstance.getUserName(usersEmail: sendersEmail) { (userName) in
             
+            //Adding a notificartion to return a book. And returnRequested field inside Firestore: Users/userEmail...
             self.databaseInstance.addReturnBookRequestNotification(reciversEmail: reciversEmail, sendersEmail: sendersEmail,sendersUserName: userName, bookName: bookName, bookAuthor: bookAuthor)
+            
+            //Changing returnRequested status inside CoreData
+            self.currentUserItems[indexRow].returnRequested = true
+            self.coreDataClassInstance.saveContext()
             
         }
         
@@ -155,7 +160,5 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         }
         
         coreDataClassInstance.saveContext()
-        tableView.reloadData()
-        
     }
 }

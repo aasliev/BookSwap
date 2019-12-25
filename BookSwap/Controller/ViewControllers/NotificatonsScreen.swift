@@ -71,7 +71,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 
                 
                 
-            } else if (checkIfNotificationForFriendRequest(index: indexRow)) {
+            } //for friend request
+            else if (checkIfNotificationForFriendRequest(index: indexRow)) {
                 
                 databaseInstance.addNewFriend(currentUserEmail: currentUser, friendsEmail: requestersEmail, friendsUserName: requesterUserName)
                 
@@ -83,7 +84,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 //Remove Friend request from Firestore
                 databaseInstance.removeFriendRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser)
                 
-            } else if (checkIfNotificationForReturningABook(index: indexRow)) {
+            } //book return request
+            else if (checkIfNotificationForReturningABook(index: indexRow)) {
                 
                 let bookName = notificationDictionary[indexRow]![databaseInstance.BOOKNAME_FIELD] as! String
                 let bookAuthor = notificationDictionary[indexRow]![databaseInstance.AUTHOR_FIELD] as! String

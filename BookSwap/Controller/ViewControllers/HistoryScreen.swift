@@ -47,7 +47,7 @@ class HistoryScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.historyNavigationItem.title = "History"
         loadHistory()
-        progressBarInstance.displayMessage(message: "Swipe Left  for Holding List")
+        //progressBarInstance.displayMessage(message: "Swipe Left  for Holding List")
     }
     
     //MARK: TableView DataSource Methods

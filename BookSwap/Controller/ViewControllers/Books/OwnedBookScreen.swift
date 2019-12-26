@@ -76,6 +76,8 @@ class OwnedBookScreen: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
         
+        cell.swap.setTitle("Swap", for: .normal)
+        
         if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!){
             
             

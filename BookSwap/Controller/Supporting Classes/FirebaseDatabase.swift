@@ -55,6 +55,7 @@ class FirebaseDatabase {
     let RETURN_BOOK_REQUEST_NOTIFICATION = "Returning Book"
     
     let TIMESTAMP = "Timestamp"
+
     
     //MARK: Collection Paths
     let USER_COLLECTION_PATH : String
@@ -68,6 +69,7 @@ class FirebaseDatabase {
     var numberOfHoldingBooks : Int?
     var rating : Int?
     var numberOfSwaps : Int?
+    let MAX_HOLDING_BOOKS = 5
     
     private init() {
         
@@ -83,6 +85,9 @@ class FirebaseDatabase {
         //this exact ref won't be used. This is written to silent the error : "Return from initializer without initializing all stored properties"
         ref = db.collection("Document Path").document("Document Name")
         
+        getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numOfHoldings) in
+            self.numberOfHoldingBooks = numOfHoldings
+        }
     }
 
     func getFriendsData () {
@@ -393,21 +398,15 @@ class FirebaseDatabase {
         
         //Decreasing number of book holding. Field "NumberOfHoldingBook" in Firestore: Users/currentUser
         increment_OR_DecrementNumberOfHoldBook(userEmail: sendersEmail, by: -1)
-//        //First need to get the name  of the holder of the book, which will be done by this function
-//        getBookHoldersEmail(currentUser: currentUser, bookName: bookName, bookAuthor: bookAuthor) { (bookHolder) in
-//
-//            //Completion wil return '-1' if some error occured
-//            if bookHolder != "-1" {
-//
-//
-//            }
+
+        incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: reciversEmail, friendsEmail: sendersEmail)
 //       }
     }
     
     
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document
-    private func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool) {
+    private func incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: String,friendsEmail: String, recursion: Bool = true) {
         
         let ref = db.collection(USERS_MAIN_COLLECTIN).document(currentUserEmail)
         
@@ -777,20 +776,15 @@ class FirebaseDatabase {
         }
     }
     
-    //Get Number of Holding Books
-    func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
+    //Get Number of Holding Books. Function is called inside init() of FirebaseDatabase
+    private func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
         
-        if (numberOfHoldingBooks == nil) {
+        getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { numberOfHoldingBooks in
             
-            getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { numberOfHoldingBooks in
-                
-                self.numberOfHoldingBooks = (numberOfHoldingBooks as! Int)
-                completion(self.numberOfHoldingBooks ?? 5)
-                
-            }
-        } else {
-                completion(self.numberOfHoldingBooks ?? 5)
-            }
+            self.numberOfHoldingBooks = (numberOfHoldingBooks as! Int)
+            completion(self.numberOfHoldingBooks ?? 5)
+            
+        }
 
         
     }
@@ -868,6 +862,15 @@ class FirebaseDatabase {
         
     }
     
+    
+    func canUserHoldMoreBook () -> Bool {
+        
+        if (numberOfHoldingBooks ?? 5 < MAX_HOLDING_BOOKS) {
+            return true
+        } else {
+            return false
+        }
+    }
     
     //MARK: Error
     private func checkError (error: Error?, whileDoing: String) -> Bool{

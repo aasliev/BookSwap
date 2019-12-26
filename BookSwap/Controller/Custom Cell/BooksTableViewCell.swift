@@ -35,14 +35,22 @@ class BooksTableViewCell: SwipeTableViewCell {
 
     @IBAction func swapButton(_ sender: Any) {
         
-        swap.isHidden = true
         
-        let currentUserEmail = authInstance.getCurrentUserEmail()
-        
-        databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
-        
-            self.databaseIstance.addSwapReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.authInstance.usersScreen, bookName: self.nameOfTheBook.text!, bookAuthor: self.authorOfTheBook.text!)
+        //Checking the number of holding Books. if true, holding book is less than limit
+        if databaseIstance.canUserHoldMoreBook() {
+            
+            swap.isHidden = true
+            swap.setTitle("Requested", for: .normal)
+            let currentUserEmail = authInstance.getCurrentUserEmail()
+            
+            databaseIstance.getUserName(usersEmail: currentUserEmail) { (userName) in
+                
+                self.databaseIstance.addSwapReqestNotification(senderEmail: currentUserEmail, sendersUserName: userName, receiversEmail: self.authInstance.usersScreen, bookName: self.nameOfTheBook.text!, bookAuthor: self.authorOfTheBook.text!)
+            }
+        } else {
+            SVProgressHUDClass.shared.displayError(errorMsg: "You are holding \(databaseIstance.numberOfHoldingBooks) books. \nWhich maximum number of book allowed.")
         }
+        
         
         //databaseIstance.addHoldingBook(bookOwnerEmail: authInstance.usersScreen, bookName: nameOfTheBook.text!, bookAuthor: authorOfTheBook.text!)
         

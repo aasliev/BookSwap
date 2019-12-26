@@ -76,6 +76,8 @@ class OwnedBookScreen: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "booksCell", for: indexPath) as! BooksTableViewCell
         
+        cell.swap.setTitle("Swap", for: .normal)
+        
         if !authInstance.isItOtherUsersPage(userEmail: usersBookShelf!){
             
             
@@ -110,7 +112,7 @@ class OwnedBookScreen: UITableViewController {
             
             //If book status is true, it will show the book by making 'isHidden' = false
             //or if book status is false, it will hide the swap button
-            cell.swap.isHidden = !((otherUserItems[indexPath.row].status) && databaseIstance.canUserHoldMoreBook())
+            cell.swap.isHidden = !(otherUserItems[indexPath.row].status)
             
             //Getting userName of holder. Holder field of currentUserItem holds email of person holding the book
             if (!otherUserItems[indexPath.row].status) {

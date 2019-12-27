@@ -54,9 +54,6 @@ class ProfileScreen: UIViewController {
     }
     
     
-    
-    
-    
     func setUserDetails(){
         
         //If usersProfile is not initialized, set it equal to curent user's email
@@ -81,6 +78,7 @@ class ProfileScreen: UIViewController {
             self.rating_numberOfSwaps.text = "Rating: \(rating)"
             
             //Updating Number of swps user has done
+            print ("user: \(self.usersProfile)")
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
                 

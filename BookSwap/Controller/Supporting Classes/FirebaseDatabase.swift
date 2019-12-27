@@ -68,7 +68,7 @@ class FirebaseDatabase {
     var ref : DocumentReference
     var numberOfHoldingBooks : Int?
     var rating : Int?
-    var numberOfSwaps : Int?
+    private var numberOfSwaps : Int?
     let MAX_HOLDING_BOOKS = 5
     
     private init() {
@@ -85,9 +85,9 @@ class FirebaseDatabase {
         //this exact ref won't be used. This is written to silent the error : "Return from initializer without initializing all stored properties"
         ref = db.collection("Document Path").document("Document Name")
         
-        getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numOfHoldings) in
-            self.numberOfHoldingBooks = numOfHoldings
-        }
+//        getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numOfHoldings) in
+//            self.numberOfHoldingBooks = numOfHoldings
+//        }
     }
 
     func getFriendsData () {
@@ -105,7 +105,8 @@ class FirebaseDatabase {
             LOWERCASED_USERNAME_FIELD: userName.lowercased(),
             NUMBER_OF_SWAPS_FIELD: 0,
             RATING_FIELD: 5.0,
-            NUMBEROFFRIENDS_FIELD: 0])
+            NUMBEROFFRIENDS_FIELD: 0,
+            NUMBER_OF_HOLD_BOOKS: 0])
         { err in
             
             if let err = err {
@@ -723,7 +724,7 @@ class FirebaseDatabase {
     //Gets rating of current user from Firestore: Users/currentUser/Document "NumberOfSwaps"
     func getNumberOfSwaps(usersEmail: String, completion: @escaping (Int)->()) {
         
-        if (self.numberOfSwaps == nil) {
+        if (self.numberOfSwaps == nil || authInstance.isItOtherUsersPage(userEmail: usersEmail)) {
             
             getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_SWAPS_FIELD) { swaps in
                 
@@ -870,6 +871,12 @@ class FirebaseDatabase {
         } else {
             return false
         }
+    }
+    
+    
+    func resetRatingAndSwaps() {
+        rating = nil
+        numberOfSwaps = nil
     }
     
     //MARK: Error

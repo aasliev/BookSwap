@@ -13,7 +13,7 @@ class FirebaseAuth {
     
     let authInstance : Auth
     let commonFunctions : CommonFunctions
-    private var currentUser : String?
+    private var currentUserEmail : String?
     //var currentUserName : String?
     var usersScreen  : String = ""
     
@@ -25,23 +25,42 @@ class FirebaseAuth {
         commonFunctions = CommonFunctions.sharedCommonFunction
 
         
-        //checks if user is loged in. 
-        currentUser = (authInstance.currentUser == nil) ? "UserEmailMissing" : (authInstance.currentUser?.email)
+        //checks if user is loged in.  Fi
+        currentUserEmail = (authInstance.currentUser == nil) ? nil: (authInstance.currentUser?.email)
         
     }
     
     
     //This method updates the currentUser variable which keeps track of email of currently logged in user
     func updateCurrentUser() {
-        currentUser = (authInstance.currentUser == nil) ? "UserEmailMissing"  : (authInstance.currentUser?.email)
+        
+        //Checking if any user is signed in. 'authInstance.currentUser' will be nil if no user is logged in
+        if (authInstance.currentUser == nil) {
+            
+            //This function resets rating and number of swaps of user.
+            //Why? : If a user sign outs and sign in with different id or sign up, rating and number of swaps still holds data of last logged in user
+            FirebaseDatabase.shared.resetRatingAndSwaps()
+            
+            //as not any user is logged in, set currentUserEmail = nil
+            currentUserEmail = nil
+        } else {
+            
+            //This sets currentUserEmail to email of logged in user
+            currentUserEmail = authInstance.currentUser?.email
+        }
+        
     }
     
     //Returns email of current user
     func getCurrentUserEmail() -> String {
         
         //currentUser will be equal to email of currently signed in user if
-        return currentUser!
-        
+        if (currentUserEmail == nil ){
+            updateCurrentUser()
+            return getCurrentUserEmail()
+        }else {
+            return currentUserEmail!
+        }
     }
     
     func getUsersScreen() -> String {

@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fT9-P5-WI8">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="EHf-IW-A2E">
+        <scene sceneID="twg-On-q9c">
             <objects>
-                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                <viewController id="fT9-P5-WI8" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5ym-8T-cxc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookcrab.png" translatesAutoresizingMaskIntoConstraints="NO" id="H4X-BH-K9o">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Ydn-sm-3Af">
                                 <rect key="frame" x="52.5" y="198.5" width="270" height="270"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="270" id="Pg3-Bo-iat"/>
-                                    <constraint firstAttribute="width" constant="270" id="pPI-HB-HFR"/>
+                                    <constraint firstAttribute="width" constant="270" id="tWe-t9-yrb"/>
+                                    <constraint firstAttribute="height" constant="270" id="uJ4-dH-4t2"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.15686274509803921" green="0.16862745098039217" blue="0.20784313725490197" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.15636768940000001" green="0.16786375640000001" blue="0.2093632221" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="H4X-BH-K9o" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="XzG-TW-vH6"/>
-                            <constraint firstItem="H4X-BH-K9o" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="sxF-rs-2me"/>
+                            <constraint firstItem="Ydn-sm-3Af" firstAttribute="centerX" secondItem="5ym-8T-cxc" secondAttribute="centerX" id="07L-B0-MhU"/>
+                            <constraint firstItem="Ydn-sm-3Af" firstAttribute="centerY" secondItem="5ym-8T-cxc" secondAttribute="centerY" id="97k-OM-xFL"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="brH-fJ-o2W"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vrN-Fr-ddI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="527" y="279"/>
         </scene>
     </scenes>
     <resources>
-        <image name="bookcrab.png" width="279" height="253"/>
+        <image name="launchScreenIcon" width="135" height="135"/>
     </resources>
 </document>

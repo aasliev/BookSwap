@@ -99,6 +99,7 @@ class HistoryScreen: UITableViewController {
             }
         }
         
+        
         return cell
     }
     

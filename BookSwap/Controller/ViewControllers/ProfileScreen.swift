@@ -46,7 +46,6 @@ class ProfileScreen: UIViewController {
             CommonFunctions.sharedCommonFunction.createUIalert("Network Error", self)
             print("no internet connection")
         }
-                
     }
     
     override func viewDidAppear(_ animated: Bool) {

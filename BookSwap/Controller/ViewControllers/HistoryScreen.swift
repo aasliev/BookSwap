@@ -25,7 +25,7 @@ class HistoryScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     let progressBarInstance = SVProgressHUDClass.shared
-    
+    let commonFunctionsInstance = CommonFunctions.sharedCommonFunction
     //Request for search result
     var requestForHistory : NSFetchRequest<History> = History.fetchRequest()
     
@@ -47,7 +47,10 @@ class HistoryScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.historyNavigationItem.title = "History"
         loadHistory()
-        //progressBarInstance.displayMessage(message: "Swipe Left  for Holding List")
+        if (commonFunctionsInstance.getPlistData().SVCounterHistory > 0){
+            progressBarInstance.displayMessage(message: "Swipe Left for Holding List")
+            commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.HISTORY_ENTITY)
+        }
     }
     
     //MARK: TableView DataSource Methods

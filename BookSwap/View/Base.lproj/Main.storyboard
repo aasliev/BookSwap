@@ -129,7 +129,7 @@
                                     <constraint firstAttribute="height" constant="200" id="VjG-fM-mSI"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="as@li.com" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-XH-Fsm" userLabel="userName">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-XH-Fsm" userLabel="userName">
                                 <rect key="frame" x="30" y="314" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.90794340285612507" green="0.90794340285612507" blue="0.90794340285612507" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -139,7 +139,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="121212" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-bC-945" userLabel="password">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-bC-945" userLabel="password">
                                 <rect key="frame" x="30" y="364" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.91711868523316065" green="0.91711868523316065" blue="0.91711868523316065" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -782,7 +782,7 @@
         <scene sceneID="cI9-vA-KML">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Scc-aj-RSZ" userLabel="Books Page View Controller" customClass="booksPageViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Book Shelf" id="lsu-Yo-5ma">
+                    <navigationItem key="navigationItem" title="BookShelf" id="lsu-Yo-5ma">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xlP-mS-OWu">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Scc-aj-RSZ" id="m9y-dO-XZp"/>
@@ -894,7 +894,7 @@
                             <outlet property="delegate" destination="ysN-qv-XJO" id="ig2-ad-XNP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Book Shelf" id="SaF-NH-rmh"/>
+                    <navigationItem key="navigationItem" title="BookShelf" id="SaF-NH-rmh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yV-Dt-vRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1358,9 +1358,9 @@
         <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ToZ-ZE-fEe"/>
+        <segue reference="ZRU-mL-IwO"/>
         <segue reference="vFB-ik-VlG"/>
-        <segue reference="H6v-Co-17d"/>
+        <segue reference="rWK-U0-pPj"/>
         <segue reference="wKf-6J-HU0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

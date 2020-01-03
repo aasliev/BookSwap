@@ -37,6 +37,8 @@ class SearchScreenTableViewController: UITableViewController {
         
         tableView.rowHeight = 80
         self.hideKeyboardWhenTappedAround()
+        
+        progressBarInstance.displayMessage(message: "Search by Username or Email")
 
         
     }

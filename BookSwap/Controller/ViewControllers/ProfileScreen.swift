@@ -50,6 +50,11 @@ class ProfileScreen: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         //coreDataInstance.updateCoreData()
+        
+        databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search: \(dict as AnyObject)")
+            self.coreDataInstance.addFriendList(friendList: dict)
+        }
     }
     
     
@@ -77,7 +82,6 @@ class ProfileScreen: UIViewController {
             self.rating_numberOfSwaps.text = "Rating: \(rating)"
             
             //Updating Number of swps user has done
-            print ("user: \(self.usersProfile)")
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
                 self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
                 

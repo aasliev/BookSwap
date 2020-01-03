@@ -51,7 +51,11 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
     
         loadItems()
+        
+        //Get's data from pList with the key 'SVCounterBook'. If it is 0 that means user is opening Bookshelf page for the first time
         if (commonFunctionsInstance.getPlistData().SVCounterBook > 0){
+            
+            //If 'SVCounterBook is 0,  user will see a message.
             progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.BOOK_ENTITY)
         }

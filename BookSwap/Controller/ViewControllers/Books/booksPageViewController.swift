@@ -185,7 +185,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             //else save it to wish list
             let tmp = self.navigationItem.title
             
-            if (tmp == "Book Shelf") {
+            if (tmp == "BookShelf") {
                 self.saveBooks(viewControllerNumber: 1, title: bookTitle, author: bookAuthor)
 
                 self.updateToFirestore(bookName: titleTextField.text!, bookAuthor: authorTextField.text!, trueForOwnedBook_falseForWishList: true)

@@ -129,7 +129,7 @@
                                     <constraint firstAttribute="height" constant="200" id="VjG-fM-mSI"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="as@li.com" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-XH-Fsm" userLabel="userName">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-XH-Fsm" userLabel="userName">
                                 <rect key="frame" x="30" y="314" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.90794340285612507" green="0.90794340285612507" blue="0.90794340285612507" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -139,7 +139,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="121212" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-bC-945" userLabel="password">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-bC-945" userLabel="password">
                                 <rect key="frame" x="30" y="364" width="315" height="50"/>
                                 <color key="backgroundColor" red="0.91711868523316065" green="0.91711868523316065" blue="0.91711868523316065" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -232,7 +232,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-hV-j0g" userLabel="ProfileView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="379"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jq2-nP-epB" userLabel="UserInfoStack">
                                         <rect key="frame" x="0.0" y="259" width="375" height="100"/>
@@ -283,10 +283,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N5p-vK-QNJ" userLabel="ButtonsStack">
-                                <rect key="frame" x="5" y="399" width="365" height="295"/>
+                                <rect key="frame" x="5" y="455" width="365" height="190"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9w-EF-v5x">
-                                        <rect key="frame" x="0.0" y="0.0" width="365" height="142.66666666666666"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="365" height="90"/>
                                         <color key="backgroundColor" red="0.65098039215686276" green="0.29019607843137257" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="tintColor" red="0.29822301429999998" green="0.64939669150000001" blue="0.6617907676" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -298,10 +298,10 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YeZ-fT-tnT">
-                                        <rect key="frame" x="0.0" y="152.66666666666663" width="365" height="142.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="100" width="365" height="90"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRW-wy-Sbg">
-                                                <rect key="frame" x="0.0" y="0.0" width="177.66666666666666" height="142.33333333333334"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="177.66666666666666" height="90"/>
                                                 <color key="backgroundColor" red="0.6588235294117647" green="0.29019607843137257" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="Friends">
@@ -313,7 +313,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYv-te-TLF">
-                                                <rect key="frame" x="187.66666666666663" y="0.0" width="177.33333333333337" height="142.33333333333334"/>
+                                                <rect key="frame" x="187.66666666666663" y="0.0" width="177.33333333333337" height="90"/>
                                                 <color key="backgroundColor" red="0.64313725490196083" green="0.29019607843137257" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="History">
@@ -389,7 +389,7 @@
         <scene sceneID="gNJ-oO-P2A">
             <objects>
                 <navigationController id="WkE-CU-fcu" userLabel="Messages" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Messages" image="message" selectedImage="message.fill" id="vyq-Mh-bKi">
+                    <tabBarItem key="tabBarItem" title="Messages" image="message" catalog="system" selectedImage="message.fill" id="vyq-Mh-bKi">
                         <color key="badgeColor" red="0.64313725489999995" green="0.2901960784" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wYk-DZ-FfH">
@@ -610,7 +610,7 @@
         <scene sceneID="4q9-zH-Q2v">
             <objects>
                 <navigationController id="aR9-Ty-C2l" userLabel="Notifications" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notification" image="bell" selectedImage="bell.fill" id="M4v-iY-vZa">
+                    <tabBarItem key="tabBarItem" title="Notification" image="bell" catalog="system" selectedImage="bell.fill" id="M4v-iY-vZa">
                         <color key="badgeColor" red="0.64313725489999995" green="0.2901960784" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F6P-3a-Rve">
@@ -782,7 +782,7 @@
         <scene sceneID="cI9-vA-KML">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Scc-aj-RSZ" userLabel="Books Page View Controller" customClass="booksPageViewController" customModule="BookSwap" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Book Shelf" id="lsu-Yo-5ma">
+                    <navigationItem key="navigationItem" title="BookShelf" id="lsu-Yo-5ma">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xlP-mS-OWu">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Scc-aj-RSZ" id="m9y-dO-XZp"/>
@@ -894,7 +894,7 @@
                             <outlet property="delegate" destination="ysN-qv-XJO" id="ig2-ad-XNP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Book Shelf" id="SaF-NH-rmh"/>
+                    <navigationItem key="navigationItem" title="BookShelf" id="SaF-NH-rmh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yV-Dt-vRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1324,7 +1324,7 @@
         <scene sceneID="Tuu-iI-xlT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pRQ-c8-yaQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="house" selectedImage="house.fill" id="j6O-AE-oXM"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house.fill" id="j6O-AE-oXM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cvs-Da-KAN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
@@ -1349,19 +1349,19 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="64" height="48"/>
-        <image name="bell" width="64" height="62"/>
-        <image name="bell.fill" width="64" height="62"/>
+        <image name="bell" catalog="system" width="64" height="62"/>
+        <image name="bell.fill" catalog="system" width="64" height="62"/>
         <image name="bookcrab.png" width="279" height="253"/>
-        <image name="house" width="64" height="54"/>
-        <image name="house.fill" width="64" height="52"/>
-        <image name="message" width="64" height="56"/>
-        <image name="message.fill" width="64" height="56"/>
+        <image name="house" catalog="system" width="64" height="54"/>
+        <image name="house.fill" catalog="system" width="64" height="52"/>
+        <image name="message" catalog="system" width="64" height="56"/>
+        <image name="message.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ToZ-ZE-fEe"/>
-        <segue reference="fgW-Yp-E5o"/>
+        <segue reference="ZRU-mL-IwO"/>
+        <segue reference="vFB-ik-VlG"/>
         <segue reference="rWK-U0-pPj"/>
-        <segue reference="hkk-Og-SfN"/>
+        <segue reference="wKf-6J-HU0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

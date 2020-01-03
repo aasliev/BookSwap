@@ -30,7 +30,7 @@ class OwnedBookScreen: UITableViewController {
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     let progressBarInstance = SVProgressHUDClass.shared
-
+    let commonFunctionsInstance = CommonFunctions.sharedCommonFunction
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -51,8 +51,10 @@ class OwnedBookScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
     
         loadItems()
-        
-        progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
+        if (commonFunctionsInstance.getPlistData().SVCounterBook > 0){
+            progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
+            commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.BOOK_ENTITY)
+        }
     }
     
     

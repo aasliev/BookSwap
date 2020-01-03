@@ -14,11 +14,55 @@ import CoreData
 class CommonFunctions{
     
     static let sharedCommonFunction = CommonFunctions()
-    
+    let dataURL : URL = Bundle.main.url(forResource: "Data", withExtension: "plist")!
+    let BOOK_ENTITY = "Book"
+    let HISTORY_ENTITY = "History"
     private init() {
-        
     }
-
+    
+    struct Data: Codable {
+        var SVCounterHistory: Int
+        var SVCounterBook: Int
+        
+        init(book: Int, history: Int){
+            self.SVCounterBook = book
+            self.SVCounterHistory = history
+        }
+    }
+    
+    
+    //plist functions
+    func getPlistData() -> Data{
+        do {
+            let path = Bundle.main.path(forResource: "Data", ofType: "plist")!
+            let xml = FileManager.default.contents(atPath: path)!
+            let decoder = PropertyListDecoder()
+            let data = try? decoder.decode(Data.self, from: xml)
+            return data as! Data
+        } catch {
+            //return 0
+            print("Error getting plist value \(error)")
+        }
+    }
+    
+    func decrementData(entityName: String){
+        var newData:Data?
+        if entityName == BOOK_ENTITY{
+            newData = Data(book: self.getPlistData().SVCounterBook-1, history: self.getPlistData().SVCounterHistory)
+        }else {
+            newData = Data(book: self.getPlistData().SVCounterBook, history: self.getPlistData().SVCounterHistory-1)
+        }
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
+        do{
+            let data = try encoder.encode(newData)
+            try data.write(to: self.dataURL)
+        } catch {
+            print("error decrementing Data.plist \(error)")
+        }
+    }
+    
+    
     func createUIalert(title : String = "Error", _ message : String, _ screen : UIViewController ) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

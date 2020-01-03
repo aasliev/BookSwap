@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:BookSwap/View/Base.lproj/LaunchScreen.storyboard">
-   </FileRef>
-   <FileRef
       location = "group:BookSwap.xcodeproj">
    </FileRef>
    <FileRef

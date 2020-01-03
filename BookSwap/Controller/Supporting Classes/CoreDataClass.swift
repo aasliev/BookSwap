@@ -216,20 +216,26 @@ class CoreDataClass {
     }
 
     //Adding list of friends and their details inside Core Data Model
-    private func addFriendList (friendList : Dictionary<Int , Dictionary<String  , Any>>) {
+    func addFriendList (friendList : Dictionary<Int , Dictionary<String  , Any>>) {
 
         var friends = [Friends]()
 
         for (_, data) in friendList {
 
-            //Getting the latest Context, as saveContext is called before loop ends
-
-            let newFriend = Friends(context: getContext())
-            newFriend.friendsEmail = (data[databaseInstance.FRIENDSEMAIL_FIELD] as! String)
-            newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
-            newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
+            let friendsEmail = data[databaseInstance.FRIENDSEMAIL_FIELD] as! String
+            if (!checkIfFriend(friendEmail: friendsEmail)) {
+                //Getting the latest Context, as saveContext is called before loop ends
+                let newFriend = Friends(context: getContext())
+                newFriend.friendsEmail = friendsEmail
+                newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
+                newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
+                
+                friends.append(newFriend)
+            } else {
+                print ("Friend already exist in core data")
+            }
             
-            friends.append(newFriend)
+            databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
         }
         
         

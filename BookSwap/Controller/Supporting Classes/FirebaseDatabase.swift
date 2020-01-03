@@ -48,6 +48,7 @@ class FirebaseDatabase {
     let NOTIFICATION_TYPE = "Type"
     let RETURN_REQUESTED_FIELD = "ReturnRequested"
     let SWAP_IN_PROCESS = "SwapInProcess"
+    let UPDATED_TO_COREDATA_FIELD = "UpdatedToCoreData"
     
     //Notification Sub-Collections
     let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
@@ -169,7 +170,10 @@ class FirebaseDatabase {
             
             USERNAME_FIELD: friendsUserName,
             FRIENDSEMAIL_FIELD: friendsEmail,
-            NUMBER_OF_SWAPS_FIELD: 0
+            NUMBER_OF_SWAPS_FIELD: 0,
+            //This field is used to check if data needs to be updated with CoreData.
+                //Note: 'recursion' is true while adding data for logged in user, flase while adding data fro friend
+            UPDATED_TO_COREDATA_FIELD : recursion
             
         ]) { err in
             
@@ -650,6 +654,25 @@ class FirebaseDatabase {
     }
     
     
+    func getListofFriendsNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+        db.collection("\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)").whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: false)
+            .getDocuments() { (querySnapshot, err) in
+                
+                
+                if (self.checkError(error: err , whileDoing: "getting friends which is not in CoreData")) {
+                    var index = 0
+                    for document in querySnapshot!.documents {
+                        dictionary[index] = document.data()
+                        index += 1
+                    }
+                }
+            completion(dictionary)
+        
+        }
+    }
+    
     //MARK: Get Field Data of a Document
     //Gets the field of current user from Firestore: Users/currentUser/Document "Field"
     private func getFieldData(usersEmail: String, fieldName: String, completion: @escaping (Any)->()) {
@@ -838,7 +861,6 @@ class FirebaseDatabase {
         
     }
     
-    
     //Method to remove friend reqest notification
     func removeFriendRequestNotification (sendersEmail : String, reciverEmail : String) {
         
@@ -864,6 +886,26 @@ class FirebaseDatabase {
     }
     
     
+    //MARK: Remove A field form a Document
+    private func removeField (path : String, documenName : String, fieldName : String) {
+        
+        db.collection(path).document(documenName).updateData([
+            fieldName : FieldValue.delete(),
+        ]) { err in
+            _ = self.checkError(error: err , whileDoing:"deleting \(self.UPDATED_TO_COREDATA_FIELD)")
+        }
+    }
+    
+    func removeCoreDataFieldFromFriends(currentUserEmail : String, friendsEmail: String) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)/"
+        
+        removeField(path: path, documenName: friendsEmail, fieldName: UPDATED_TO_COREDATA_FIELD)
+    }
+    
+    
+    
+    //Checks if user is holding the max number of book allowed to hold
     func canUserHoldMoreBook () -> Bool {
         
         if (numberOfHoldingBooks ?? 5 < MAX_HOLDING_BOOKS) {
@@ -873,7 +915,8 @@ class FirebaseDatabase {
         }
     }
     
-    
+    //Once user logout, this method will be called to reset rating and swap.
+    //Why? : If new user is logged in and rating and swaps are not nil, it will show previously logged in user's details
     func resetRatingAndSwaps() {
         rating = nil
         numberOfSwaps = nil

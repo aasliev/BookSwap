@@ -36,6 +36,7 @@ class SVProgressHUDClass {
     }
     
     func displayMessage (message : String) {
+        SVProgressHUD.setMaximumDismissTimeInterval(3)
         SVProgressHUD.showInfo(withStatus: message)
     }
     

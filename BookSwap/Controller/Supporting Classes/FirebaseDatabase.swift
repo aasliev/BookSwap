@@ -86,9 +86,6 @@ class FirebaseDatabase {
         //this exact ref won't be used. This is written to silent the error : "Return from initializer without initializing all stored properties"
         ref = db.collection("Document Path").document("Document Name")
         
-//        getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numOfHoldings) in
-//            self.numberOfHoldingBooks = numOfHoldings
-//        }
     }
 
     func getFriendsData () {
@@ -684,7 +681,12 @@ class FirebaseDatabase {
                 
                 let fieldData = document.get(fieldName)
                 
-                completion(fieldData as Any)
+                if (fieldData == nil ) {
+                    completion(-1)
+                } else {
+                    completion(fieldData as Any)
+                }
+                
                 
             } else {
                 print("\(fieldName) field does not exist")
@@ -763,6 +765,29 @@ class FirebaseDatabase {
         }
     }
     
+    //Get Number of Holding Books. Function is called inside init() of FirebaseDatabase
+    func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
+        
+        //Checking if 'numberOfHoldingBooks' is nil, that means code inside if statment isn't performed yet.
+        if (numberOfHoldingBooks == nil) {
+            
+            getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { holdingBooks in
+                
+                //'holdingBooks' will be -1 if data wasn't found
+                if (holdingBooks as! Int == -1){
+                    //In that case, send number of hoding book equals to 0
+                    completion(0)
+                } else {
+                    
+                    //If data ws recived successfully, set it to 'numberOfHoldingBooks' for later use
+                    self.numberOfHoldingBooks = (holdingBooks as! Int)
+                    completion(holdingBooks as! Int)
+                }
+            }
+        } else {
+            completion(self.numberOfHoldingBooks!)
+        }
+    }
     
     //Returns Book owner's email which is stored inside Firestore: Users/Book holder's Email/Holdings/bookName-bookAuthor. Called by method successfullyReturnedHoldingBook
     private func getBookOwnerFromHoldings(bookName: String, bookAuthor: String, completion: @escaping (String)->()) {
@@ -798,19 +823,6 @@ class FirebaseDatabase {
                 completion("-1")
             }
         }
-    }
-    
-    //Get Number of Holding Books. Function is called inside init() of FirebaseDatabase
-    private func getNumberOfHoldingBooks(usersEmail: String, completion: @escaping (Int)->()) {
-        
-        getFieldData(usersEmail: usersEmail, fieldName: NUMBER_OF_HOLD_BOOKS) { numberOfHoldingBooks in
-            
-            self.numberOfHoldingBooks = (numberOfHoldingBooks as! Int)
-            completion(self.numberOfHoldingBooks ?? 5)
-            
-        }
-
-        
     }
     
     
@@ -920,6 +932,7 @@ class FirebaseDatabase {
     func resetRatingAndSwaps() {
         rating = nil
         numberOfSwaps = nil
+        numberOfHoldingBooks = nil
     }
     
     //MARK: Error

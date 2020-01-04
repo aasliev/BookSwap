@@ -41,10 +41,14 @@ class OwnedBookScreen: UITableViewController {
         //print("usersBookShelf:  \(usersBookShelf)")
         tableView.rowHeight = 120
         tableView.refreshControl = refresher
-        
+
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
+        
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: self.tabBarController!.tabBar.frame.height, right: 0)
+        self.tableView.contentInset = adjustForTabbarInsets
+        self.tableView.scrollIndicatorInsets = adjustForTabbarInsets
 
     }
     
@@ -54,7 +58,7 @@ class OwnedBookScreen: UITableViewController {
         
         //Get's data from pList with the key 'SVCounterBook'. If it is 0 that means user is opening Bookshelf page for the first time
         if (commonFunctionsInstance.getPlistData().SVCounterBook > 0){
-            
+
             //If 'SVCounterBook is 0,  user will see a message.
             progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.BOOK_ENTITY)

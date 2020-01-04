@@ -49,12 +49,22 @@ class historyPageViewController: UIPageViewController, UIPageViewControllerDeleg
         self.pageControl.currentPage = 0
         self.pageControl.tintColor = UIColor.black
         self.pageControl.pageIndicatorTintColor = UIColor.white
-        self.pageControl.currentPageIndicatorTintColor = UIColor.black
+        self.pageControl.currentPageIndicatorTintColor = UIColor(red: 0, green: 50, blue: 100, alpha: 1)
         self.view.addSubview(pageControl)
     }
     
     func newVc(viewController: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for subView in view.subviews {
+            if  subView is  UIPageControl {
+                subView.frame.origin.y = self.view.frame.size.height - self.tabBarController!.tabBar.frame.height-40
+                
+            }
+        }
     }
     
     

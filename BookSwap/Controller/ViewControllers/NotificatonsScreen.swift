@@ -126,8 +126,6 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         while ((notificationDictionary[indexPath.row+i] == nil) || (indexPath.row + i <= lastIndex )) {
             i += 1
         }
-        //print("1Index = \(indexPath.row) i = \(i) atIndex = \(lastIndex)")
-        //while(lastIndex < indexPath.row + i) { i += 1}
         
         lastIndex = indexPath.row + i
         print("2Index = \(indexPath.row) i = \(i) atIndex = \(lastIndex)")

@@ -42,6 +42,12 @@ class FriendListScreen: UITableViewController {
     
         tableView.rowHeight = 80
         self.hideKeyboardWhenTappedAround()
+        
+        databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search: \(dict as AnyObject)")
+            self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadItems()
+        }
 
     }
     

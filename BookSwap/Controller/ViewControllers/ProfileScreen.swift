@@ -50,11 +50,6 @@ class ProfileScreen: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         //coreDataInstance.updateCoreData()
-        
-        databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-            print("Result of CoreData Search: \(dict as AnyObject)")
-            self.coreDataInstance.addFriendList(friendList: dict)
-        }
     }
     
     
@@ -88,7 +83,6 @@ class ProfileScreen: UIViewController {
             }
         }
         self.progressBarInstance.dismissProgressBar()
-        
         
         databaseIstance.getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numberOfHolding) in
             print("Number of Holding Books: \(numberOfHolding)")

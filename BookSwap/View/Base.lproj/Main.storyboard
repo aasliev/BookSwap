@@ -517,7 +517,9 @@
                             <outlet property="delegate" destination="TM8-el-Ulq" id="PzW-5o-OGq"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Messages" id="Xgc-37-GOA"/>
+                    <tabBarItem key="tabBarItem" title="Messages" id="Xgc-37-GOA">
+                        <color key="badgeColor" red="0.0" green="0.19607843137254902" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" title="Search" id="EEw-hU-BJj"/>
                     <connections>
                         <segue destination="WG9-qJ-nC0" kind="show" identifier="toProfileScreen" id="uKd-0S-BGJ"/>
@@ -655,7 +657,9 @@
                             <outlet property="delegate" destination="be1-0G-wpC" id="cYG-Le-G1P"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="" id="Obk-cF-TOU"/>
+                    <tabBarItem key="tabBarItem" title="" id="Obk-cF-TOU">
+                        <color key="badgeColor" red="0.19307449460000001" green="0.6181847453" blue="0.74381679300000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" title="Messages" id="EoJ-Ee-4qb"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgP-Im-NJy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1361,7 +1365,7 @@
         <segue reference="ZRU-mL-IwO"/>
         <segue reference="vFB-ik-VlG"/>
         <segue reference="rWK-U0-pPj"/>
-        <segue reference="wKf-6J-HU0"/>
+        <segue reference="uKd-0S-BGJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

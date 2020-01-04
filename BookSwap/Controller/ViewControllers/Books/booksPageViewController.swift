@@ -72,10 +72,20 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
         pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
         self.pageControl.numberOfPages = orderedViewControllers.count
         self.pageControl.currentPage = 0
-        self.pageControl.tintColor = UIColor.white
+        //self.pageControl.tintColor = UIColor.white
         self.pageControl.pageIndicatorTintColor = UIColor.white
-        self.pageControl.currentPageIndicatorTintColor = UIColor.black
+        self.pageControl.currentPageIndicatorTintColor =
+            UIColor(red: 0, green: 50, blue: 100, alpha: 1)
         self.view.addSubview(pageControl)
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for subView in view.subviews {
+            if  subView is  UIPageControl {
+                subView.frame.origin.y = self.view.frame.size.height - self.tabBarController!.tabBar.frame.height-40
+                
+            }
+        }
     }
     
     func newVc(viewController: String) -> UIViewController {

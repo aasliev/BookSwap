@@ -87,7 +87,12 @@ class ProfileScreen: UIViewController {
                 
             }
         }
-  self.progressBarInstance.dismissProgressBar()
+        self.progressBarInstance.dismissProgressBar()
+        
+        
+        databaseIstance.getNumberOfHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (numberOfHolding) in
+            print("Number of Holding Books: \(numberOfHolding)")
+        }
     }
     
     

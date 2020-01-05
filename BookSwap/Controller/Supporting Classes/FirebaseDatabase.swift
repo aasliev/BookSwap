@@ -223,6 +223,44 @@ class FirebaseDatabase {
 
     }
     
+    //This is function will be called by other Database functions to add a new field into a document
+    private func addCoreDataUpdatedField (path: String, documentName: String, fieldStatus: Bool = false){
+        
+        db.collection(path).document(documentName).setData([
+            UPDATED_TO_COREDATA_FIELD : false
+        ], merge: true) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding \(self.UPDATED_TO_COREDATA_FIELD) field for \(self.authInstance.getCurrentUserEmail())")
+        }
+    }
+    
+    
+    func addUpdateCoreDataRequestToBookshelf (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        
+        print("Path: \(path)\n /\(bookName)-\(bookAuthor)")
+        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
+    }
+    
+    //Method will add new field 'UpdatedCoreData' to a document inside History Sub-Collection.
+    func addUpdateCoreDataRequestToHistory(currentUsersEmail: String, sendersEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUsersEmail)/\(HISTORY_SUB_COLLECTION)"
+        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
+        
+        addCoreDataUpdatedField(path: path, documentName: docName)
+    }
+    
+    //Method will add new field 'UpdatedToCoreData' to a document inside HoldingBooks Sub-Collection.
+    func addUpdateCoreDataRequestToHoldings (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
+        
+        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
+        
+    }
+    
     
     //MARK: Add Notification Methods
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
@@ -296,12 +334,12 @@ class FirebaseDatabase {
         
         //History will for book swap will be added into both sender and reciver's collection on Firestore
         //index is used to run while loop twice.
-        var index = 0
         
         //When index is 0, data will be added to reciver's collection
-        var forCollectionOf = reciversEmail
+        var forCollectionOf = sendersEmail
+        var recursion = true
         
-        while index < 2 {
+        while recursion {
             //setting up connection for Firestore: Users/reciver's email/History/sender'semail-bookName-bookAuthor
             path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
             ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
@@ -313,15 +351,16 @@ class FirebaseDatabase {
                 BOOKNAME_FIELD : bookName,
                 AUTHOR_FIELD : bookAuthor,
                 SWAP_IN_PROCESS : true,
-                TIMESTAMP : FieldValue.serverTimestamp()
+                TIMESTAMP : FieldValue.serverTimestamp(),
+                UPDATED_TO_COREDATA_FIELD: recursion
                 
             ]) { err in
                 
                 _ = self.checkError(error: err, whileDoing: "adding History Data")
             }
             
-            index += 1
-            forCollectionOf = sendersEmail
+            recursion = false
+            forCollectionOf = reciversEmail
             
         }
         
@@ -343,6 +382,9 @@ class FirebaseDatabase {
             
             _ = self.checkError(error: err, whileDoing: "changing BookHolder's email.")
         }
+        
+        //Adding a field inside OwnedBook, Which Keeps stack of if data is updated to CoreData
+        addUpdateCoreDataRequestToBookshelf(userEmail: bookOwnersEmail, bookName: bookName, bookAuthor: bookAuthor)
     }
     
     //changes book holder email, which will help user to keep track of book
@@ -917,10 +959,12 @@ class FirebaseDatabase {
     
     
     
+    
+    
     //Checks if user is holding the max number of book allowed to hold
     func canUserHoldMoreBook () -> Bool {
         
-        if (numberOfHoldingBooks ?? 5 < MAX_HOLDING_BOOKS) {
+        if (numberOfHoldingBooks ?? 0 < MAX_HOLDING_BOOKS) {
             return true
         } else {
             return false

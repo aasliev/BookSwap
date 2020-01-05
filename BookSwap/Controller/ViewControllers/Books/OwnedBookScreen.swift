@@ -32,6 +32,8 @@ class OwnedBookScreen: UITableViewController {
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     let progressBarInstance = SVProgressHUDClass.shared
     let commonFunctionsInstance = CommonFunctions.sharedCommonFunction
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        

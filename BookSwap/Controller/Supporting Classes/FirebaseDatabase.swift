@@ -729,20 +729,20 @@ class FirebaseDatabase {
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
-    func getRating(usersEmail: String, completion: @escaping (Int)->()) {
+    func getRating(usersEmail: String, completion: @escaping (Double)->()) {
         
         if (rating == nil) {
             getFieldData(usersEmail: usersEmail.lowercased(), fieldName: RATING_FIELD){ rating in
                 
-                if ((rating as? Int != nil) && (rating as! Int != -1)){
+                if ((rating as? Double != nil) && (rating as! Double != -1)){
                     self.rating = (rating as! Int)
-                    completion(rating as! Int)
+                    completion(rating as! Double)
                 } else {
                     completion(-1)
                 }
             }
         } else {
-            completion(self.rating ?? -1)
+            completion(Double(self.rating ?? -1))
         }
     }
     

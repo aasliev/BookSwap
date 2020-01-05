@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Cosmos
 
 
 class ProfileScreen: UIViewController {
@@ -16,6 +17,8 @@ class ProfileScreen: UIViewController {
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var rating_numberOfSwaps: UILabel!
     @IBOutlet weak var signOutButton: UIBarButtonItem!
+    @IBOutlet weak var prifilePicture: UIImageView!
+    @IBOutlet weak var cosmosView: CosmosView!
     
     
     //Firebase Authentication instance
@@ -31,6 +34,12 @@ class ProfileScreen: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        
+        //setting up profile picture
+        prifilePicture.layer.cornerRadius = prifilePicture.frame.size.width/2
+        prifilePicture.clipsToBounds = true
+        prifilePicture.layer.borderColor = UIColor.white.cgColor
+        prifilePicture.layer.borderWidth = 3
         
         progressBarInstance.displayProgressBar()
         
@@ -75,15 +84,16 @@ class ProfileScreen: UIViewController {
         databaseIstance.getRating(usersEmail: usersProfile!) { (rating) in
             
             if rating == -1 {
-                self.rating_numberOfSwaps.text = "Error updating rating/swaps"
+                self.cosmosView.text = "Error updating rating/swaps"
                 return
                 
             }
-            self.rating_numberOfSwaps.text = "Rating: \(rating)"
+            self.cosmosView.rating = rating
+            self.cosmosView.text = "(\(rating))"
             
             //Updating Number of swps user has done
             self.databaseIstance.getNumberOfSwaps(usersEmail: self.usersProfile!) { (numberOfSwaps) in
-                self.rating_numberOfSwaps.text = "\((self.rating_numberOfSwaps.text)!) / Swaps: \(numberOfSwaps)"
+                self.rating_numberOfSwaps.text = "Swaps: \(numberOfSwaps)"
                 
             }
         }

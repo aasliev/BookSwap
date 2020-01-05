@@ -44,6 +44,10 @@ class WishListScreen: UITableViewController {
         //this disables the selection of row.
         //When user clicks on book, no selection will highlight any row
         tableView.allowsSelection = false
+        
+        //observer to reload data when save new book for wishlist
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshItems), name: .didReceiveData, object: nil)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -195,12 +199,11 @@ class WishListScreen: UITableViewController {
     
     
     @objc func refreshItems(){
-        self.loadItems()
         let deadLine = DispatchTime.now() + .milliseconds(500)
         DispatchQueue.main.asyncAfter(deadline: deadLine) {
             self.refresher.endRefreshing()
         }
-        
+        self.loadItems()
     }
 }
 

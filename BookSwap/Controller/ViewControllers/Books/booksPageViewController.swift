@@ -207,8 +207,7 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
                 
             }
             
-            self.commonFunctions.createUIalert(title : "New Book has been added!", "Pulldown list to update.", self)
-            
+           
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
@@ -278,12 +277,12 @@ class booksPageViewController: UIPageViewController, UIPageViewControllerDelegat
             //WishListScreen().refresher.beginRefreshing()
         }
         
+        //post notification!!!
+        NotificationCenter.default.post(name: .didReceiveData, object: nil)
+        
         //NOTE: Need to create another save method which does tableview.reloadData() once context is saved. 
         CoreDataClass.sharedCoreData.saveContext()
-//        OwnedBookScreen().self.loadItems()
-//        WishListScreen().self.loadItems()
-//        OwnedBookScreen().self.tableView.reloadData()
-//        WishListScreen().self.tableView.reloadData()
+
 
     }
     

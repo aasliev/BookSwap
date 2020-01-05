@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import SwipeCellKit
+import NotificationCenter
 
 class OwnedBookScreen: UITableViewController {
     
@@ -31,6 +32,8 @@ class OwnedBookScreen: UITableViewController {
     let coreDataClassInstance = CoreDataClass.sharedCoreData
     let progressBarInstance = SVProgressHUDClass.shared
     let commonFunctionsInstance = CommonFunctions.sharedCommonFunction
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -49,6 +52,9 @@ class OwnedBookScreen: UITableViewController {
         let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: self.tabBarController!.tabBar.frame.height, right: 0)
         self.tableView.contentInset = adjustForTabbarInsets
         self.tableView.scrollIndicatorInsets = adjustForTabbarInsets
+        
+        //adding an observer for reloading data
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshItems), name: .didReceiveData, object: nil)
 
     }
     
@@ -306,4 +312,10 @@ extension OwnedBookScreen: SwipeTableViewCellDelegate{
         deleteAction.image = UIImage(named: "trash-icon")
         return [deleteAction]
     }
+}
+
+
+
+extension Notification.Name {
+    static let didReceiveData = Notification.Name("didReceiveData")
 }

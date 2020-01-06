@@ -43,6 +43,14 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         loadItems()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
+            //self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadItems()
+        }
+    }
+    
     //MARK: Tableview methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //code...

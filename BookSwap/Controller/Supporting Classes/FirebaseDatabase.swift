@@ -49,15 +49,13 @@ class FirebaseDatabase {
     let RETURN_REQUESTED_FIELD = "ReturnRequested"
     let SWAP_IN_PROCESS = "SwapInProcess"
     let UPDATED_TO_COREDATA_FIELD = "UpdatedToCoreData"
+    let TIMESTAMP = "Timestamp"
     
     //Notification Sub-Collections
     let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
     let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
     let RETURN_BOOK_REQUEST_NOTIFICATION = "Returning Book"
-    
-    let TIMESTAMP = "Timestamp"
 
-    
     //MARK: Collection Paths
     let USER_COLLECTION_PATH : String
     
@@ -207,7 +205,8 @@ class FirebaseDatabase {
             BOOKNAME_FIELD: bookName,
             AUTHOR_FIELD: bookAuthor,
             BOOK_OWNER_FIELD : bookOwnerEmail,
-            RETURN_REQUESTED_FIELD : false
+            RETURN_REQUESTED_FIELD : false,
+            UPDATED_TO_COREDATA_FIELD: false
             
         ]) { err in
             
@@ -244,23 +243,22 @@ class FirebaseDatabase {
     }
     
     //Method will add new field 'UpdatedCoreData' to a document inside History Sub-Collection.
-    func addUpdateCoreDataRequestToHistory(currentUsersEmail: String, sendersEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
-        
-        path = "\(USERS_MAIN_COLLECTIN)/\(currentUsersEmail)/\(HISTORY_SUB_COLLECTION)"
-        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
-        
-        addCoreDataUpdatedField(path: path, documentName: docName)
-    }
+//    func addUpdateCoreDataRequestToHistory(currentUsersEmail: String, sendersEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+//
+//        path = "\(USERS_MAIN_COLLECTIN)/\(currentUsersEmail)/\(HISTORY_SUB_COLLECTION)"
+//        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
+//
+//        addCoreDataUpdatedField(path: path, documentName: docName)
+//    }
     
     //Method will add new field 'UpdatedToCoreData' to a document inside HoldingBooks Sub-Collection.
-    func addUpdateCoreDataRequestToHoldings (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
-        
-        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
-        
-        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
-        
-    }
-    
+//    func addUpdateCoreDataRequestToHoldings (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+//
+//        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
+//
+//        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
+//
+//    }
     
     //MARK: Add Notification Methods
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
@@ -334,15 +332,16 @@ class FirebaseDatabase {
         
         //History will for book swap will be added into both sender and reciver's collection on Firestore
         //index is used to run while loop twice.
-        
+        var index = 0
         //When index is 0, data will be added to reciver's collection
         var forCollectionOf = sendersEmail
-        var recursion = true
+        var status = true
         
-        while recursion {
+        
+        while index < 2 {
             //setting up connection for Firestore: Users/reciver's email/History/sender'semail-bookName-bookAuthor
             path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
-            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
+            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)-\(reciversEmail)")
             
             ref.setData([
                 
@@ -352,18 +351,16 @@ class FirebaseDatabase {
                 AUTHOR_FIELD : bookAuthor,
                 SWAP_IN_PROCESS : true,
                 TIMESTAMP : FieldValue.serverTimestamp(),
-                UPDATED_TO_COREDATA_FIELD: recursion
+                UPDATED_TO_COREDATA_FIELD: status
                 
             ]) { err in
-                
                 _ = self.checkError(error: err, whileDoing: "adding History Data")
             }
             
-            recursion = false
+            index += 1
+            status = false
             forCollectionOf = reciversEmail
-            
         }
-        
     }
     
     
@@ -693,23 +690,78 @@ class FirebaseDatabase {
     }
     
     
-    func getListofFriendsNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+    private func getListOfDocumentsNotAddedInCoreData(path: String, fieldStatus: Bool = false, message: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()) {
         
         var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-        db.collection("\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)").whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: false)
+        db.collection(path).whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: fieldStatus)
             .getDocuments() { (querySnapshot, err) in
                 
                 
-                if (self.checkError(error: err , whileDoing: "getting friends which is not in CoreData")) {
+                if (self.checkError(error: err , whileDoing: message)) {
                     var index = 0
                     for document in querySnapshot!.documents {
                         dictionary[index] = document.data()
                         index += 1
                     }
                 }
-            completion(dictionary)
-        
+                completion(dictionary)
         }
+    }
+
+    
+    func getListofFriendsNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)"
+        message = "getting friends which is not in CoreData"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
+            completion(dict)
+        }
+//        var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+//        db.collection("\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)").whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: false)
+//            .getDocuments() { (querySnapshot, err) in
+//                if (self.checkError(error: err , whileDoing: "getting friends which is not in CoreData")) {
+//                    var index = 0
+//                    for document in querySnapshot!.documents {
+//                        dictionary[index] = document.data()
+//                        index += 1
+//                    }
+//                }
+//            completion(dictionary)
+//        }
+    }
+    
+    
+    func getListofHistoryNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HISTORY_SUB_COLLECTION)"
+        message = "getting history which is not in CoreData"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
+            completion(dict)
+        }
+    }
+    
+    func getListofHoldingBooksNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
+        message = "getting holding books which is not in CoreData"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
+            completion(dict)
+        }
+        
+    }
+    
+    func getListofOwnedBookNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        message = "getting owned booka which is not in CoreData"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
+            completion(dict)
+        }
+        
     }
     
     //MARK: Get Field Data of a Document

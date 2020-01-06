@@ -51,6 +51,12 @@ class HistoryScreen: UITableViewController {
             progressBarInstance.displayMessage(message: "Swipe Left for Holding List")
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.HISTORY_ENTITY)
         }
+        
+        databaseIstance.getListofHistoryNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search inside History: \(dict as AnyObject)")
+            //self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadHistory()
+        }
     }
     
     //MARK: TableView DataSource Methods

@@ -51,6 +51,8 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         //IfAccepted will be true if user press Accept. false if presses decline
         if(ifAccepted) {
             
+            print("index: \(indexRow)")
+            
             let currentUser = authInstance.getCurrentUserEmail()
             let requestersEmail = notificationDictionary[indexRow]![databaseInstance.SENDERS_EMAIL_FIELD] as! String
             let requesterUserName = notificationDictionary[indexRow]![databaseInstance.SENDERS_USER_NAME_FIELD] as! String
@@ -68,8 +70,6 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 
                 //Remove the Book Swap request from firestore
                 databaseInstance.removeBookSwapRequestNotification(sendersEmail: requestersEmail, reciverEmail: currentUser, bookName: bookName, bookAuthor: bookAuthor)
-                
-                
                 
             } //for friend request
             else if (checkIfNotificationForFriendRequest(index: indexRow)) {
@@ -97,9 +97,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
                 
                 CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: bookName, bookAuthor: bookAuthor, bookHolder: authInstance.getCurrentUserEmail(), status: true)
             }
-            
         }
-        
         
         notificationDictionary.removeValue(forKey: indexRow)
         //print("Dict: \(notificationDictionary as AnyObject)")

@@ -69,6 +69,12 @@ class OwnedBookScreen: UITableViewController {
             progressBarInstance.displayMessage(message: "Swipe Left for Wish List")
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.BOOK_ENTITY)
         }
+        
+        databaseIstance.getListofOwnedBookNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search inside OwnedBooks: \(dict as AnyObject)")
+            //self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadItems()
+        }
     }
     
     

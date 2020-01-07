@@ -237,8 +237,7 @@ class CoreDataClass {
             
             databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
         }
-        
-        
+    
          //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
     }

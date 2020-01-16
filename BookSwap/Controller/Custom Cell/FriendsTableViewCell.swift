@@ -13,11 +13,15 @@ class FriendsTableViewCell: SwipeTableViewCell {
 
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var add: UIButton!
+    @IBOutlet weak var profilePicture: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width/2
+        profilePicture.clipsToBounds = true
+        profilePicture.layer.borderColor = UIColor.white.cgColor
+        profilePicture.layer.borderWidth = 1
         
         
     }

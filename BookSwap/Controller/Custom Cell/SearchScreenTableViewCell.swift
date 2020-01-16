@@ -16,6 +16,7 @@ class SearchScreenTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingLbl: UILabel!
     @IBOutlet weak var emailLbl: UILabel!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var profilePicture: UIImageView!
     
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
@@ -23,6 +24,10 @@ class SearchScreenTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width/2
+        profilePicture.clipsToBounds = true
+        profilePicture.layer.borderColor = UIColor.white.cgColor
+        profilePicture.layer.borderWidth = 1
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

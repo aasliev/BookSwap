@@ -229,8 +229,6 @@ class CoreDataClass {
             databaseInstance.removeCoreDataFieldFromHoldingBook(currentUserEmail: currentUser, bookOwner: bookOwner, bookName: bookName, bookAuthor: author)
         }
         
-        
-        
         saveContext()
     }
 

@@ -44,6 +44,8 @@ class ProfileScreen: UIViewController {
         progressBarInstance.displayProgressBar()
         
 
+        //CoreDataClass.sharedCoreData.changeBookStatusAndHolder(bookName: "book", bookAuthor: "author", bookHolder: "newHolding", status: false)
+
         // Do any additional setup after loading the view.
 
         if (Reachability.isConnectedToNetwork()){
@@ -57,7 +59,6 @@ class ProfileScreen: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         //coreDataInstance.updateCoreData()
-        
     }
     
     

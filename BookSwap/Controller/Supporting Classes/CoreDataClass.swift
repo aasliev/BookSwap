@@ -18,15 +18,6 @@ class CoreDataClass {
     let HOLDING_BOOKS = "HoldBook"
     let HISTORY_ENTITY = "History"
     
-    //Adding name of the attributes in each entity.
-    //NOTE: Need to set 'bookName' and 'bookAuthor' to all entity where book is stored. Doing this will help to -
-    //- reduce different variable for each entity. One variable can be used for book attribute for all entity where required
-    let HISTORY_ATTRIBUTE_BOOK_NAME = "bookName"
-    let HISTORY_ATTRIBUTE_BOOK_AUTHOR = "authorName"
-    let HISTORY_ATTRIBUTE_SENDER =  "sendersEmail"
-    let HISTORY_ATTRIBUTE_RECIVER = "reciversEmail"
-    let HISTORY_ATTRIBUTE_IN_PROCESS_STATUS = "inProcessStatus"
-    
     var ownedBook = [OwnedBook]()
     var friendList = [Friends]()
     
@@ -395,101 +386,17 @@ class CoreDataClass {
         
     }
     
-    //Getting History from CoreData
-    private func getSingleHistory (sender: String, bookName : String, bookAuthor : String, reciver: String) -> [History] {
-        
-        //Creating a request, which fetch all the books
-        let requestForFriends: NSFetchRequest<History> = History.fetchRequest()
-        
-        //Creating search queries
-        let searchQuery_sender = "\(HISTORY_ATTRIBUTE_SENDER) CONTAINS[cd] %@"
-        let searchQuery_bookName = "\(HISTORY_ATTRIBUTE_BOOK_NAME) CONTAINS[cd] %@"
-        let searchQuery_bookAuthor = "\(HISTORY_ATTRIBUTE_BOOK_AUTHOR) CONTAINS[cd] %@"
-        let searchQuery_reciver = "\(HISTORY_ATTRIBUTE_RECIVER) CONTAINS[cd] %@"
-        
-        //Searching for the one history
-        requestForFriends.predicate = NSPredicate(format: "(\(searchQuery_sender)) AND (\(searchQuery_bookName) AND \(searchQuery_bookAuthor)) AND (\(searchQuery_reciver))",  sender, bookName, bookAuthor, reciver )
-        
-        var bookData = [History]()
-        
-        do {
-            bookData = try getContext().fetch(requestForFriends)
-            
-            print("Result of results.count: \(bookData.count)")
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
-        
-        return bookData
-        
-    }
     
-    
-    //MARK: Change data of a single file
-    
-    //To update data of Bookshelf (OwnedBook)
+    //MARK: Change data of sigle file
     func changeBookStatusAndHolder (bookName : String, bookAuthor: String, bookHolder : String, status : Bool ) {
         
         let book = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
         
-        //Note: Expacting only file. That's why index is '0'
         book[0].status = status
         book[0].holder = bookHolder
         
         saveContext()
     }
-    
-    
-    //to Update HIstory
-    func changeSwapInProcessStatusForHistory(sender: String, bookName: String, bookAuthor : String, reciver: String, status: Bool) {
-        
-        let history = getSingleHistory(sender: sender, bookName: bookName, bookAuthor: bookAuthor, reciver: reciver)
-        
-        print(history)
-        //Note: Expacting only file. That's why index is '0'
-        history[0].inProcessStatus = status
-    }
-    
-    //MARK: Update CoreData
-    //These methods are called to update the coredata, for changes made to Firestore while user were offline
-
-    func updateOwnedBook(dictionary: Dictionary<Int, Dictionary<String, Any>>){
-        
-        for (_,data) in dictionary {
-            let bookName = data[databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = data[databaseInstance.AUTHOR_FIELD] as! String
-            let bookHolder = data[databaseInstance.BOOK_HOLDER_FIELD] as! String
-            let bookStatus = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
-            
-            //var bookData = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
-            
-            changeBookStatusAndHolder(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder, status: bookStatus)
-            
-            databaseInstance.changeUpdatedCoreDataStatusForOwnedBook(userEmail: authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, status: true)
-        }
-    }
-    
-    
-    func updateHistory(dictionary: Dictionary<Int, Dictionary<String, Any>>){
-        
-        for (_,data) in dictionary {
-            let bookName = data[databaseInstance.BOOKNAME_FIELD] as! String
-            let bookAuthor = data[databaseInstance.AUTHOR_FIELD] as! String
-            let sender = data[databaseInstance.SENDERS_EMAIL_FIELD] as! String
-            //As reciver name is added later, some document might doesn't have reciver field.
-            //To make sure app doesn't crash checking if it's nil. If nil, reciver = '-1'
-            let reciver = (data[databaseInstance.RECEIVERS_EMAIL_FIELD] ?? "-1") as! String
-            let inProcessStatus = (data[databaseInstance.SWAP_IN_PROCESS]) as! Bool
-            
-            reciver == "-1" ? print("Reciver is missing for book: \(bookName)") :
-            
-            changeSwapInProcessStatusForHistory(sender: sender, bookName: bookName, bookAuthor: bookAuthor, reciver: reciver, status: inProcessStatus)
-            
-        databaseInstance.changeUpdatedCoreDataStatusForHistory(usersEmail: authInstance.getCurrentUserEmail(), sender: sender, bookName: bookName, bookAuthor: bookAuthor, reciver: reciver, status: true)
-        }
-    }
-    
     
     
     func removeFriend (friendsEmail : String) {

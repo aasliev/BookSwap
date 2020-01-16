@@ -70,12 +70,10 @@ class OwnedBookScreen: UITableViewController {
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.BOOK_ENTITY)
         }
         
-        if (!authInstance.isItOtherUsersPage(userEmail: usersBookShelf!)){
-            databaseIstance.getListofOwnedBookNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-                print("Result of CoreData Search inside OwnedBooks: \(dict as AnyObject)")
-                self.coreDataClassInstance.updateOwnedBook(dictionary: dict)
-                self.loadItems()
-            }
+        databaseIstance.getListofOwnedBookNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search inside OwnedBooks: \(dict as AnyObject)")
+            //self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadItems()
         }
     }
     

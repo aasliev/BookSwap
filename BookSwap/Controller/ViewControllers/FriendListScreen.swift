@@ -43,19 +43,10 @@ class FriendListScreen: UITableViewController {
         tableView.rowHeight = 80
         self.hideKeyboardWhenTappedAround()
         
-        if (!authInstance.isItOtherUsersPage(userEmail: usersFriendsList!)) {
-            databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-                print("Result of CoreData Search: \(dict as AnyObject)")
-                
-                //Checking if dictionary holds any data. If yes, it will call function to update core data
-                if (dict.count > 0){
-                    self.coreDataClassInstance.addFriendList(friendList: dict)
-                    self.loadItems()
-                } else {
-                    print("Friends CoreData is up to date.")
-                }
-                
-            }
+        databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("Result of CoreData Search: \(dict as AnyObject)")
+            self.coreDataClassInstance.addFriendList(friendList: dict)
+            self.loadItems()
         }
 
     }

@@ -147,7 +147,7 @@ class CoreDataClass {
         //Getting list of HoldingBook from FireStore Database
         databaseInstance.getHoldingBooks(usersEmail: authInstance.getCurrentUserEmail()) { (holdingBookDict) in
             //call function to add holding book
-            self.addHoldinBook(holdingBook: holdingBookDict)
+            self.addHoldingBook(holdingBook: holdingBookDict)
         }
     
     }
@@ -207,19 +207,29 @@ class CoreDataClass {
 
     
     //add holdingBook to Core Data
-    private func addHoldinBook(holdingBook : Dictionary<Int, Dictionary<String, Any>>){
+    func addHoldingBook(holdingBook : Dictionary<Int, Dictionary<String, Any>>){
         
+        let currentUser = authInstance.getCurrentUserEmail()
         var holdingBooks = [HoldBook]()
+        
         for(_, data) in holdingBook {
             let book = HoldBook(context: getContext())
+            let bookOwner = (data[databaseInstance.BOOK_OWNER_FIELD] as! String)
+            let bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
+            let returnRequest = (data[databaseInstance.RETURN_REQUESTED_FIELD] as! Bool)
+            let author = (data[databaseInstance.AUTHOR_FIELD] as! String)
             
-            book.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
-            book.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
-            book.bookOwner = (data[databaseInstance.BOOK_OWNER_FIELD] as! String)
-            book.returnRequested = (data[databaseInstance.RETURN_REQUESTED_FIELD] as! Bool)
+            book.author = author
+            book.bookName = bookName
+            book.bookOwner = bookOwner
+            book.returnRequested = returnRequest
             
             holdingBooks.append(book)
+            
+            databaseInstance.removeCoreDataFieldFromHoldingBook(currentUserEmail: currentUser, bookOwner: bookOwner, bookName: bookName, bookAuthor: author)
         }
+        
+        
         
         saveContext()
     }
@@ -232,6 +242,8 @@ class CoreDataClass {
         for (_, data) in friendList {
 
             let friendsEmail = data[databaseInstance.FRIENDSEMAIL_FIELD] as! String
+            let currentUser = authInstance.getCurrentUserEmail()
+            
             if (!checkIfFriend(friendEmail: friendsEmail)) {
                 //Getting the latest Context, as saveContext is called before loop ends
                 let newFriend = Friends(context: getContext())
@@ -244,7 +256,7 @@ class CoreDataClass {
                 print ("Friend already exist in core data")
             }
             
-            databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
+            databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: currentUser, friendsEmail: friendsEmail)
         }
     
          //Once all necessary changes has been made, saving the context into persistent container.
@@ -341,12 +353,8 @@ class CoreDataClass {
         catch {
             print("error executing fetch request: \(error)")
         }
-        
         return results
-        
-        
     }
-    
     
     private func getOwnedBook (bookName : String, bookAuthor : String) -> [OwnedBook] {
         
@@ -425,6 +433,30 @@ class CoreDataClass {
         
     }
     
+    //Getting a holding book
+    private func getHoldBook (owner: String, bookName : String, bookAuthor : String) -> [HoldBook] {
+        
+        //Creating a request, which fetch all the books
+        let requestForHoldBook: NSFetchRequest<HoldBook> = HoldBook.fetchRequest()
+        
+        //Searching for the one book
+        requestForHoldBook.predicate = NSPredicate(format: "(bookOwner CONTAINS[cd]%@) AND (bookName CONTAINS[cd] %@) AND (author CONTAINS[cd] %@)", owner,  bookName, bookAuthor )
+        
+        var holdBook = [HoldBook]()
+        
+        do {
+            holdBook = try getContext().fetch(requestForHoldBook)
+            
+            print("HoldBook search results.count: \(holdBook.count)")
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return holdBook
+        
+    }
+    
     
     //MARK: Change data of a single file
     
@@ -443,7 +475,6 @@ class CoreDataClass {
         
     }
     
-    
     //to Update HIstory
     func changeSwapInProcessStatusForHistory(sender: String, bookName: String, bookAuthor : String, reciver: String, status: Bool) {
         
@@ -456,7 +487,6 @@ class CoreDataClass {
             
             saveContext()
         }
-        
     }
     
     	
@@ -469,8 +499,6 @@ class CoreDataClass {
             let bookAuthor = data[databaseInstance.AUTHOR_FIELD] as! String
             let bookHolder = data[databaseInstance.BOOK_HOLDER_FIELD] as! String
             let bookStatus = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
-            
-            //var bookData = getOwnedBook(bookName: bookName, bookAuthor: bookAuthor)
             
             changeBookStatusAndHolder(bookName: bookName, bookAuthor: bookAuthor, bookHolder: bookHolder, status: bookStatus)
             
@@ -499,6 +527,9 @@ class CoreDataClass {
     }
     
     
+    //MARK: Removing data
+    
+    //Removing friend from coreData.
     func removeFriend (friendsEmail : String) {
         
         let friend = getFriendData(email: friendsEmail)
@@ -506,9 +537,21 @@ class CoreDataClass {
         for object in friend {
             getContext().delete(object)
         }
+        saveContext()
+    }
+    
+    
+    //Removing a Holding book from CoreData
+    func removeHoldingBook (bookOwner: String, bookName: String, bookAuthor: String) {
         
+        let holdingBook = getHoldBook(owner: bookOwner, bookName: bookName, bookAuthor: bookAuthor)
+        
+        for object in holdingBook {
+            getContext().delete(object)
+        }
         saveContext()
         
+        databaseInstance.removeBookFromHolding (bookName: bookName, bookAuthor: bookAuthor, bookHolder: authInstance.getCurrentUserEmail(), bookOwner: bookOwner)
     }
 
 
@@ -522,7 +565,5 @@ class CoreDataClass {
             print("Error saving context \(error)")
         }
     }
-
-    
     
 }

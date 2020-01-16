@@ -47,7 +47,7 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         if (!authInstance.isItOtherUsersPage(userEmail: currentUser!)){
             databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
                 print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
-                //self.coreDataClassInstance.addFriendList(friendList: dict)
+                self.coreDataClassInstance.addHoldingBook(holdingBook: dict)
                 self.loadItems()
             }
         }

@@ -43,16 +43,21 @@ class FriendListScreen: UITableViewController {
         tableView.rowHeight = 80
         self.hideKeyboardWhenTappedAround()
         
-        databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-            print("Result of CoreData Search: \(dict as AnyObject)")
-            self.coreDataClassInstance.addFriendList(friendList: dict)
-            self.loadItems()
-        }
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+        
+        if (!authInstance.isItOtherUsersPage(userEmail: usersFriendsList!)){
+            
+            databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+                print("Friend search result of CoreData Search: \(dict as AnyObject)")
+                self.coreDataClassInstance.addFriendList(friendList: dict)
+                self.loadItems()
+            }
+            
+        }
         
         loadItems()
         

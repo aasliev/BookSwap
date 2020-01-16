@@ -401,7 +401,7 @@ class FirebaseDatabase {
     
     
     //changes SwapInProcess field to false, which is used in History collection to check if swap is in process
-    private func changeSwapInProcessToFalse (sendersEmail : String, reciversEmail : String, bookName : String, bookAuthor : String) {
+    private func changeSwapInProcessToFalseInHistory (sendersEmail : String, reciversEmail : String, bookName : String, bookAuthor : String) {
         
         var index = 0
         var forCollectionOf = sendersEmail
@@ -409,11 +409,12 @@ class FirebaseDatabase {
         
         while (index < 2) {
             path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
-            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)")
+            ref = db.collection(path).document("\(sendersEmail)-\(bookName)-\(bookAuthor)-\(reciversEmail)")
             
             print("path: \(path)\nref: \(ref)")
             ref.updateData([
-                SWAP_IN_PROCESS : false
+                SWAP_IN_PROCESS : false,
+                UPDATED_TO_COREDATA_FIELD: false
             ]) { err in
                 
                 _ = self.checkError(error: err, whileDoing: "changing SwapIProcess to false in History.")
@@ -429,13 +430,14 @@ class FirebaseDatabase {
     //This method will be called when user confirms that he recived a book back from Notification
     func successfullyReturnedHoldingBook (reciversEmail : String, sendersEmail : String, bookName : String, bookAuthor : String) {
         
-        //Second, changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
+        //Changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
         self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
         
         //Removes the book book from holdingBooks
         removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: sendersEmail)
         
-        self.changeSwapInProcessToFalse(sendersEmail: reciversEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
+        //Updating the Swap In Process in History Sub-Collection
+        self.changeSwapInProcessToFalseInHistory(sendersEmail: reciversEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
         
         //Decreasing number of book holding. Field "NumberOfHoldingBook" in Firestore: Users/currentUser
         increment_OR_DecrementNumberOfHoldBook(userEmail: sendersEmail, by: -1)
@@ -443,6 +445,48 @@ class FirebaseDatabase {
         incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: reciversEmail, friendsEmail: sendersEmail)
 //       }
     }
+    
+    
+    //MARK: Methods to Update CoreData Fields on Firestore
+    
+    //Will be called to update CoreData field status
+    func changeUpdatedCoreDataStatusForOwnedBook(userEmail: String, bookName: String, bookAuthor: String, status: Bool){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        message = "in OwnedBook changing \(UPDATED_TO_COREDATA_FIELD) field to \(status)"
+        
+        // path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        print("path: \(path)\nref: \(ref)")
+        ref.updateData([
+            UPDATED_TO_COREDATA_FIELD : status
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: self.message)
+        }
+        
+        
+    }
+    
+    //Will be called to update CoreData field status
+    func changeUpdatedCoreDataStatusForHistory(usersEmail: String, sender: String, bookName: String, bookAuthor: String, reciver: String, status: Bool){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)"
+        message = "In History changing \(UPDATED_TO_COREDATA_FIELD) field to \(status)"
+        
+        // path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(sender)-\(bookName)-\(bookAuthor)-\(reciver)")
+        
+        print("path: \(path)\nref: \(ref)")
+        ref.updateData([
+            UPDATED_TO_COREDATA_FIELD : status
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: self.message)
+        }
+    }
+
     
     
     //MARK: Increment Methods

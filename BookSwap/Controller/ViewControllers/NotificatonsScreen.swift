@@ -132,7 +132,7 @@ class NotificatonsScreen: UITableViewController, NotificationCellDelegate {
         
         
         //Method is used to keep track of indexPath.row for each button
-        addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row)
+        addButtonTargetAndSetTagValue(tableCell: cell, index: indexPath.row + i)
         
         print("Index: \(indexPath.row)")
         //Getting User Name of the user who sent the reruest

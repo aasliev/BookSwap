@@ -42,6 +42,10 @@ class HistoryScreen: UITableViewController {
         usersHistory = authInstance.getUsersScreen()
         
         tableView.rowHeight = 150
+        
+        //this disables the selection of row.
+        //When user clicks on book, no selection will highlight any row
+        tableView.allowsSelection = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,11 +56,20 @@ class HistoryScreen: UITableViewController {
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.HISTORY_ENTITY)
         }
         
-        databaseIstance.getListofHistoryNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-            print("Result of CoreData Search inside History: \(dict as AnyObject)")
-            //self.coreDataClassInstance.addFriendList(friendList: dict)
-            self.loadHistory()
+        if (!authInstance.isItOtherUsersPage(userEmail: usersHistory!)){
+            databaseIstance.getListofHistoryNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+                
+                //Checking if dictionary holds any data. If yes, it will call function to update core data
+                if (dict.count>0) {
+                    self.coreDataClassInstance.updateHistory(dictionary: dict)
+                    self.loadHistory()
+                } else {
+                    print("History CoreData is up to date.")
+                }
+                
+            }
         }
+
     }
     
     //MARK: TableView DataSource Methods

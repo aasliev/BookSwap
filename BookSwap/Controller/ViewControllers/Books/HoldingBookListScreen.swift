@@ -44,10 +44,12 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-            print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
-            //self.coreDataClassInstance.addFriendList(friendList: dict)
-            self.loadItems()
+        if (!authInstance.isItOtherUsersPage(userEmail: currentUser!)){
+            databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+                print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
+                //self.coreDataClassInstance.addFriendList(friendList: dict)
+                self.loadItems()
+            }
         }
     }
     

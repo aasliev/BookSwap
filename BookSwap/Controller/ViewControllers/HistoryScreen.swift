@@ -52,10 +52,19 @@ class HistoryScreen: UITableViewController {
             commonFunctionsInstance.decrementData(entityName: commonFunctionsInstance.HISTORY_ENTITY)
         }
         
-        databaseIstance.getListofHistoryNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+        if (!authInstance.isItOtherUsersPage(userEmail: usersHistory!)){
+            databaseIstance.getListofHistoryNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
             print("Result of CoreData Search inside History: \(dict as AnyObject)")
-            //self.coreDataClassInstance.addFriendList(friendList: dict)
-            self.loadHistory()
+                
+                //Checking if dictionary holds any data. If yes, it will call function to update core data
+                if (dict.count>0) {
+                    self.coreDataClassInstance.updateHistory(dictionary: dict)
+                    self.loadHistory()
+                } else {
+                    print("History CoreData is up to date.")
+                }
+                
+            }
         }
     }
     

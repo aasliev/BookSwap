@@ -425,7 +425,6 @@ class FirebaseDatabase {
         
     }
     
-    
     //This method will be called when user confirms that he recived a book back from Notification
     func successfullyReturnedHoldingBook (reciversEmail : String, sendersEmail : String, bookName : String, bookAuthor : String) {
         
@@ -444,6 +443,46 @@ class FirebaseDatabase {
 //       }
     }
     
+    
+    //MARK: Methods to Update CoreData Fields on Firestore
+    
+    //Will be called to update CoreData field status
+    func changeUpdatedCoreDataStatusForOwnedBook(userEmail: String, bookName: String, bookAuthor: String, status: Bool){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(OWNEDBOOK_SUB_COLLECTION)"
+        message = "in OwnedBook changing \(UPDATED_TO_COREDATA_FIELD) field to \(status)"
+        
+       // path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        
+        print("path: \(path)\nref: \(ref)")
+        ref.updateData([
+            UPDATED_TO_COREDATA_FIELD : status
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: self.message)
+        }
+        
+        
+    }
+    
+    //Will be called to update CoreData field status
+    func changeUpdatedCoreDataStatusForHistory(usersEmail: String, sender: String, bookName: String, bookAuthor: String, reciver: String, status: Bool){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)"
+        message = "In History changing \(UPDATED_TO_COREDATA_FIELD) field to \(status)"
+        
+        // path = "\(USERS_MAIN_COLLECTIN)/\(forCollectionOf)/\(HISTORY_SUB_COLLECTION)"
+        ref = db.collection(path).document("\(sender)-\(bookName)-\(bookAuthor)-\(reciver)")
+        
+        print("path: \(path)\nref: \(ref)")
+        ref.updateData([
+            UPDATED_TO_COREDATA_FIELD : status
+        ]) { err in
+            
+            _ = self.checkError(error: err, whileDoing: self.message)
+        }
+    }
     
     //MARK: Increment Methods
     //Method increments field "numberOfSwaps" by 1 inside Firestore: Users/currentUser/Friends/friendsEmail document

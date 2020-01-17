@@ -198,7 +198,7 @@ class FirebaseDatabase {
     func addHoldingBookToPerformBookSwap (bookOwnerEmail: String, bookRequester : String, bookName: String, bookAuthor: String ) {
         
         path = "\(USERS_MAIN_COLLECTIN)/\(bookRequester)/\(HOLDINGS_SUB_COLLECTION)"
-        ref = db.collection(path).document("\(bookName)-\(bookAuthor)")
+        ref = db.collection(path).document("\(bookOwnerEmail)-\(bookName)-\(bookAuthor)")
         
         ref.setData([
             
@@ -432,9 +432,6 @@ class FirebaseDatabase {
         
         //Changing the holder field inside Firestore: Users/currentUser's Email/OwnedBook/bookName-bookAuthor
         self.changeBookHoldersEmail(bookOwnersEmail: self.authInstance.getCurrentUserEmail(), bookReciversEmail: self.authInstance.getCurrentUserEmail(), bookName: bookName, bookAuthor: bookAuthor, bookStatus: true)
-        
-        //Removes the book book from holdingBooks
-        removeBookFromHoldings(bookName: bookName, bookAuthor: bookAuthor, bookHolder: sendersEmail)
         
         //Updating the Swap In Process in History Sub-Collection
         self.changeSwapInProcessToFalseInHistory(sendersEmail: reciversEmail, reciversEmail: sendersEmail, bookName: bookName, bookAuthor: bookAuthor)
@@ -1004,10 +1001,10 @@ class FirebaseDatabase {
     }
     
     
-    func removeBookFromHoldings (bookName: String, bookAuthor: String, bookHolder : String){
+    func removeBookFromHolding(bookName: String, bookAuthor: String, bookHolder : String, bookOwner: String){
         
         //Removing as book data from holdings of the bookHolder user
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(bookHolder)/\(HOLDINGS_SUB_COLLECTION)", documentName: "\(bookName)-\(bookAuthor)")
+        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(bookHolder)/\(HOLDINGS_SUB_COLLECTION)", documentName: "\(bookOwner)-\(bookName)-\(bookAuthor)")
         
     }
     
@@ -1053,8 +1050,15 @@ class FirebaseDatabase {
         removeField(path: path, documenName: friendsEmail, fieldName: UPDATED_TO_COREDATA_FIELD)
     }
     
-    
-    
+    func removeCoreDataFieldFromHoldingBook (currentUserEmail: String, bookOwner: String, bookName: String, bookAuthor: String) {
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(HOLDINGS_SUB_COLLECTION)/"
+        
+        removeField(path: path, documenName: "\(bookOwner)-\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
+        
+        //Another function call to remove book as book owner wasn't part of document name in the beginning 
+        removeField(path: path, documenName: "\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
+    }
     
     
     //Checks if user is holding the max number of book allowed to hold

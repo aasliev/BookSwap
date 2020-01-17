@@ -44,12 +44,15 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        //Checking if it's logged-in user's holding screen, otherwise skip this updating core data function calls
         if (!authInstance.isItOtherUsersPage(userEmail: currentUser!)){
-            databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
-                print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
-                self.coreDataClassInstance.addHoldingBook(holdingBook: dict)
-                self.loadItems()
-            }
+            
+            //When user opens Holding Page, this method will get books which need to add into CoreData
+            addHoldingBooksToCoreData()
+            
+            //This method will get HoldBooks where Swap is completed and needed to be removed from CoreData, later will remove from Firestore.
+            removeHoldingBooksFromCoreData_Firestore()
         }
     }
     
@@ -169,5 +172,39 @@ class HoldingBookListScreen: UITableViewController, HoldBookCellDelegate {
         }
         
         coreDataClassInstance.saveContext()
+    }
+    
+    //MARK: Updating CoreData & Firestore
+    
+     //When user opens Holding Page, this method will get books which need to add into CoreData
+    func addHoldingBooksToCoreData () {
+        
+        //To get documents where 'updatedToCoreData' field is equals to false
+        databaseInstance.getListofHoldingBooksNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            
+            print("Result of CoreData Search inside Holding Books: \(dict as AnyObject)")
+            //Adding into CoreData
+            self.coreDataClassInstance.addHoldingBook(holdingBook: dict)
+            self.loadItems()
+        }
+        
+    }
+    
+    //This method will get HoldBooks where Swap is completed and needed to be removed from CoreData, later will remove from Firestore.
+    func removeHoldingBooksFromCoreData_Firestore () {
+        databaseInstance.getListofHoldBook_RemoveFromCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+            print("HoldBook search to remove from CoreData: \(dict as AnyObject)")
+            
+            for (_, data) in dict {
+                
+                let bookOwner = (data[self.databaseInstance.BOOK_OWNER_FIELD] as! String)
+                let bookName = (data[self.databaseInstance.BOOKNAME_FIELD] as! String)
+                let author = (data[self.databaseInstance.AUTHOR_FIELD] as! String)
+                
+                self.databaseInstance.removeBookFromHolding(bookName: bookName, bookAuthor: author, bookHolder: self.authInstance.getCurrentUserEmail(), bookOwner: bookOwner)
+                
+                self.coreDataClassInstance.removeHoldingBook(bookOwner: bookOwner, bookName: bookName, bookAuthor: author)
+            }
+        }
     }
 }

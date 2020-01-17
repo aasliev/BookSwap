@@ -43,7 +43,7 @@ class CoreDataClass {
     }
     
     func resetOneEntity(entityName : String) {
-
+        
         let entityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let entityDeleteRequest = NSBatchDeleteRequest(fetchRequest: entityFetchRequest)
         do {
@@ -55,7 +55,7 @@ class CoreDataClass {
             print("Error deteting entitry \(error)")
         }
     }
-
+    
     
     //Use of this function is when user sign out, this method will clear all data from all entities
     func resetAllEntities() {
@@ -84,13 +84,13 @@ class CoreDataClass {
         }
     }
     
-
+    
     //MARK: Update all entities
     func updateCoreData () {
         
         //First, in case there is data stored inside Core Data resetAllEntities() will clear it.
         resetAllEntities()
-
+        
         //Second, adding data into CoreData. Which is recived from Firestore.
         addDataIntoAllEntities()
     }
@@ -129,7 +129,7 @@ class CoreDataClass {
             print("OwnedBook From CoreDataClass addDataIntoEntities: \(dict as AnyObject)")
             self.addBooksIntoOwnedBook(dictionary: dict)
         }
-       
+        
     }
     
     func addDataIntoWishListEntity () {
@@ -149,7 +149,7 @@ class CoreDataClass {
             //call function to add holding book
             self.addHoldingBook(holdingBook: holdingBookDict)
         }
-    
+        
     }
     
     func addDataIntoHistoryEntity () {
@@ -161,50 +161,50 @@ class CoreDataClass {
         
     }
     
-
+    
     //MARK: Add methods to add data to entities
     //Adding books into OwnedBook when user signUp
     private func addBooksIntoOwnedBook (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
-
+        
         
         for (_, data) in dictionary {
-
+            
             let newOwnedBook = OwnedBook(context: getContext())
             newOwnedBook.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
             newOwnedBook.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
             newOwnedBook.status = data[databaseInstance.BOOK_STATUS_FIELD] as! Bool
             newOwnedBook.holder = (data[databaseInstance.BOOK_HOLDER_FIELD] as! String)
-
+            
             ownedBook.append(newOwnedBook)
             
         }
         
-         //Once all necessary changes has been made, saving the context into persistent container.
+        //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
     }
     
-
+    
     //Adding books into WishList when user signUp
     private func addBooksIntoWishList(dictionary : Dictionary<Int, Dictionary<String, Any>>) {
-
+        
         //Empty Array of WishList object
         var wishList = [WishList]()
-     
+        
         for (_, data) in dictionary {
-
+            
             //Getting the latest Context, as saveContext is called before loop ends
             let newWishList = WishList(context: getContext())
             newWishList.bookName = (data[databaseInstance.BOOKNAME_FIELD] as! String)
             newWishList.author = (data[databaseInstance.AUTHOR_FIELD] as! String)
-
+            
             //Adding new book into wishList array
             wishList.append(newWishList)
         }
         
-         //Once all necessary changes has been made, saving the context into persistent container.
+        //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
     }
-
+    
     
     //add holdingBook to Core Data
     func addHoldingBook(holdingBook : Dictionary<Int, Dictionary<String, Any>>){
@@ -231,34 +231,37 @@ class CoreDataClass {
         
         saveContext()
     }
-
+    
     //Adding list of friends and their details inside Core Data Model
     func addFriendList (friendList : Dictionary<Int , Dictionary<String  , Any>>) {
-
+        
         var friends = [Friends]()
-
+        
         for (_, data) in friendList {
-
-            let friendsEmail = data[databaseInstance.FRIENDSEMAIL_FIELD] as! String
-            let currentUser = authInstance.getCurrentUserEmail()
             
-            if (!checkIfFriend(friendEmail: friendsEmail)) {
-                //Getting the latest Context, as saveContext is called before loop ends
-                let newFriend = Friends(context: getContext())
-                newFriend.friendsEmail = friendsEmail
-                newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
-                newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
+            if data[databaseInstance.REMOVE_FROM_COREDATA_FIELD] == nil {
                 
-                friends.append(newFriend)
-            } else {
-                print ("Friend already exist in core data")
+                let friendsEmail = (data[databaseInstance.FRIENDSEMAIL_FIELD] ?? "") as! String
+                let currentUser = authInstance.getCurrentUserEmail()
+                
+                if (!checkIfFriend(friendEmail: friendsEmail)) {
+                    //Getting the latest Context, as saveContext is called before loop ends
+                    let newFriend = Friends(context: getContext())
+                    newFriend.friendsEmail = friendsEmail
+                    newFriend.numOfSwaps = (data[databaseInstance.NUMBER_OF_SWAPS_FIELD] as! Int32)
+                    newFriend.userName = (data[databaseInstance.USERNAME_FIELD] as! String)
+                    
+                    friends.append(newFriend)
+                } else {
+                    print ("Friend already exist in core data")
+                }
+                
+                databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: currentUser, friendsEmail: friendsEmail)
             }
-            
-            databaseInstance.removeCoreDataFieldFromFriends(currentUserEmail: currentUser, friendsEmail: friendsEmail)
         }
-    
-         //Once all necessary changes has been made, saving the context into persistent container.
+        //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
+        
     }
     
     
@@ -277,8 +280,8 @@ class CoreDataClass {
         saveContext()
     }
     
-
-
+    
+    
     //Adding history data to core data model
     private func addHistoryData (dictionary : Dictionary<Int, Dictionary<String, Any>>) {
         
@@ -308,7 +311,7 @@ class CoreDataClass {
         
         //Once all necessary changes has been made, saving the context into persistent container.
         saveContext()
-
+        
     }
     
     
@@ -487,7 +490,7 @@ class CoreDataClass {
         }
     }
     
-    	
+    
     //MARK: Update CoreData
     //These methods are called to update the coredata, for changes made to Firestore while user were offline
     func updateOwnedBook(dictionary: Dictionary<Int, Dictionary<String, Any>>){
@@ -551,8 +554,8 @@ class CoreDataClass {
         
         databaseInstance.removeBookFromHolding (bookName: bookName, bookAuthor: bookAuthor, bookHolder: authInstance.getCurrentUserEmail(), bookOwner: bookOwner)
     }
-
-
+    
+    
     //The changes made in context, this method saves it into Persistent Container(Main SQLite database)
     func saveContext() {
         

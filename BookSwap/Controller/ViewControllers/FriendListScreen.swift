@@ -57,6 +57,18 @@ class FriendListScreen: UITableViewController {
                 self.loadItems()
             }
             
+            databaseIstance.getListofFriends_RemoveFromCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+                
+                for (_, data) in dict {
+                    let friendsEmail = data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String
+                    
+                    self.databaseIstance.removeFriend(friendsEmail: friendsEmail)
+                    
+                    self.coreDataClassInstance.removeFriend(friendsEmail: friendsEmail)
+                    
+                }
+            }
+            
         }
         
         loadItems()

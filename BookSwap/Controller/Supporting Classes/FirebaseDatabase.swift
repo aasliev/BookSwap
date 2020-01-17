@@ -1052,9 +1052,12 @@ class FirebaseDatabase {
     
     func removeCoreDataFieldFromHoldingBook (currentUserEmail: String, bookOwner: String, bookName: String, bookAuthor: String) {
         
-        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)/"
+        path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(HOLDINGS_SUB_COLLECTION)/"
         
         removeField(path: path, documenName: "\(bookOwner)-\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
+        
+        //Another function call to remove book as book owner wasn't part of document name in the beginning 
+        removeField(path: path, documenName: "\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
     }
     
     

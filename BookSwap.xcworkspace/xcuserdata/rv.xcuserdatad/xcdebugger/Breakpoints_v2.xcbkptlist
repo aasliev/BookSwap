@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/Supporting Classes/FirebaseDatabase.swift"
-            timestampString = "600914898.86149"
+            timestampString = "600918340.932909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
+            startingLineNumber = "457"
+            endingLineNumber = "457"
             landmarkName = "changeSwapInProcessToFalseInHistory(sendersEmail:reciversEmail:bookName:bookAuthor:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BookSwap/Controller/ViewControllers/HistoryScreen.swift"
-            timestampString = "600914898.86272"
+            timestampString = "600918340.934216"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"

@@ -49,6 +49,7 @@ class FirebaseDatabase {
     let RETURN_REQUESTED_FIELD = "ReturnRequested"
     let SWAP_IN_PROCESS = "SwapInProcess"
     let UPDATED_TO_COREDATA_FIELD = "UpdatedToCoreData"
+    let REMOVE_FROM_COREDATA_FIELD = "RemoveFromCoreData"
     let TIMESTAMP = "Timestamp"
     
     //Notification Sub-Collections
@@ -70,6 +71,7 @@ class FirebaseDatabase {
     private var numberOfSwaps : Int?
     let MAX_HOLDING_BOOKS = 5
     
+    
     private init() {
         
         FirebaseApp.configure()
@@ -85,9 +87,6 @@ class FirebaseDatabase {
         ref = db.collection("Document Path").document("Document Name")
         
     }
-
-    func getFriendsData () {
-    }
     
     //MARK: Add Methods to Firestore
     //Adding New User to Firestore when user Sign Up
@@ -102,16 +101,16 @@ class FirebaseDatabase {
             NUMBER_OF_SWAPS_FIELD: 0,
             RATING_FIELD: 5.0,
             NUMBEROFFRIENDS_FIELD: 0,
-            NUMBER_OF_HOLD_BOOKS: 0])
-        { err in
+            NUMBER_OF_HOLD_BOOKS: 0
+            ]){ err in
             
-            if let err = err {
-                print("Error writing document: \(err)")
-                completion(false)
+                if let err = err {
+                    print("Error writing document: \(err)")
+                    completion(false)
 
-            } else {
-                print("Document successfully written!")
-                completion(true)
+                } else {
+                    print("Document successfully written!")
+                    completion(true)
             }
         }
     }
@@ -240,6 +239,44 @@ class FirebaseDatabase {
         
         print("Path: \(path)\n /\(bookName)-\(bookAuthor)")
         addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
+    }
+    
+    
+    //MARK: Add Field 'removeFromCoreData'
+    //This is function will be called by other Database functions to add a new field into a document
+    private func addRemoveFromCoreDataField (path: String, documentName: String, fieldStatus: Bool = true){
+        
+        db.collection(path).document(documentName).setData([
+            
+            REMOVE_FROM_COREDATA_FIELD : true
+            
+        ], merge: true) { err in
+            
+            _ = self.checkError(error: err, whileDoing: "adding \(self.REMOVE_FROM_COREDATA_FIELD) field for \(self.authInstance.getCurrentUserEmail())")
+        }
+    }
+    
+    //This method will call a functionto add a new field into a HoldBook sub-collection on Firestore
+    func addRemoveFromCoreDataFieldToHoldBookCollection (bookHolder: String, bookOwner: String, bookName: String, bookAuthor: String ){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(bookHolder)/\(HOLDINGS_SUB_COLLECTION)"
+        let docName = "\(bookName)-\(bookAuthor)"
+        
+        //Adding 'removeFromCoreData' field into friend's HoldBook Sub-Collection where document is equals to docName
+        //addRemoveFromCoreDataField(path: path, documentName: docName)
+        
+        //NOTE: Here adding bookOwner's email. As bookOwner has been added later for document in HoldBook
+        addRemoveFromCoreDataField(path: path, documentName: "\(bookOwner)-\(docName)")
+        
+    }
+    
+    //This method will call a functionto add a new field into a Friends sub-collection  on Firestore
+    func addRemoveFromCoreDataFieldToFriendsCollection (currentUserEmail: String, friendsEmail: String ){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)"
+        
+        //Adding 'removeFromCoreData' field into friend's Friend Sub-Collection where document is of current user
+        addRemoveFromCoreDataField(path: path, documentName: currentUserEmail)
     }
     
     //Method will add new field 'UpdatedCoreData' to a document inside History Sub-Collection.
@@ -731,10 +768,12 @@ class FirebaseDatabase {
     }
     
     
-    private func getListOfDocumentsNotAddedInCoreData(path: String, fieldStatus: Bool = false, message: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()) {
+    private func getListOfDocumentsNotAddedInCoreData(path: String, fieldStatus: Bool = false, message: String, forRemoveFromCoreDataField: Bool = false, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()) {
         
+        let field = forRemoveFromCoreDataField ? REMOVE_FROM_COREDATA_FIELD : UPDATED_TO_COREDATA_FIELD
         var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-        db.collection(path).whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: fieldStatus)
+        
+        db.collection(path).whereField(field, isEqualTo: fieldStatus)
             .getDocuments() { (querySnapshot, err) in
                 
                 
@@ -758,18 +797,6 @@ class FirebaseDatabase {
         getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
             completion(dict)
         }
-//        var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-//        db.collection("\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)").whereField(UPDATED_TO_COREDATA_FIELD, isEqualTo: false)
-//            .getDocuments() { (querySnapshot, err) in
-//                if (self.checkError(error: err , whileDoing: "getting friends which is not in CoreData")) {
-//                    var index = 0
-//                    for document in querySnapshot!.documents {
-//                        dictionary[index] = document.data()
-//                        index += 1
-//                    }
-//                }
-//            completion(dictionary)
-//        }
     }
     
     
@@ -802,7 +829,16 @@ class FirebaseDatabase {
         getListOfDocumentsNotAddedInCoreData(path: path, message: message) { (dict) in
             completion(dict)
         }
+    }
+    
+    func getListofFriends_RemoveFromCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
         
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)"
+        message = "getting friends which are need to remove in CoreData and Firestore"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, fieldStatus: false, message: message, forRemoveFromCoreDataField: true) { (dict) in
+            completion(dict)
+        }
     }
     
     //MARK: Get Field Data of a Document
@@ -994,9 +1030,10 @@ class FirebaseDatabase {
         increment_OR_DecrementNumberOfFriends(userEmail: authInstance.getCurrentUserEmail(), by: -1)
         
         //Removing as friend from other user's (Friend of current user) friends collection
-        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail())")
-        
-        increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
+        addRemoveFromCoreDataFieldToFriendsCollection(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
+//        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail())")
+//
+//        increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
         
     }
     
@@ -1056,7 +1093,7 @@ class FirebaseDatabase {
         
         removeField(path: path, documenName: "\(bookOwner)-\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
         
-        //Another function call to remove book as book owner wasn't part of document name in the beginning 
+        //Another function call to remove book as book owner wasn't part of document name in the beginning
         removeField(path: path, documenName: "\(bookName)-\(bookAuthor)", fieldName: UPDATED_TO_COREDATA_FIELD)
     }
     

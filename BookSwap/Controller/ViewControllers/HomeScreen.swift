@@ -16,30 +16,30 @@ class HomeScreen: UIViewController {
     let databaseIstance = FirebaseDatabase.shared
     let authInstance = FirebaseAuth.sharedFirebaseAuth
     let progressBarInstance = SVProgressHUDClass.shared
-
+    
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-//    @IBAction func unwindToHomeScreen(_ unwindSegue: UIStoryboardSegue) {
-//        let sourceViewController = unwindSegue.source
-//        // Use data from the view controller which initiated the unwind segue
-//    }
-//    
+    //    @IBAction func unwindToHomeScreen(_ unwindSegue: UIStoryboardSegue) {
+    //        let sourceViewController = unwindSegue.source
+    //        // Use data from the view controller which initiated the unwind segue
+    //    }
+    //    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        
-//        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: "Mr. One") { (dict) in
-//            print(dict as AnyObject)
-//        }
+        //        
+        //        databaseIstance.getListOfSearchFriends(usersEmail: authInstance.getCurrentUserEmail()!, searchText: "Mr. One") { (dict) in
+        //            print(dict as AnyObject)
+        //        }
         self.hideKeyboardWhenTappedAround()
         //self.moveScreenWithKeyboard()
-
+        
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     
     @IBAction func logInBtnPressed(_ sender: Any) {
-    
+        
         if (checkIfTextFieldIsEmpty()){
             
             //SVProgressHUD.show()
@@ -62,14 +62,14 @@ class HomeScreen: UIViewController {
                     self.authInstance.updateCurrentUser()
                     
                     CoreDataClass.sharedCoreData.updateCoreData()
-
+                    
                     // get a reference to the app delegate
                     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
                     
                     // call didFinishLaunchWithOptions, this will make HomeScreen as Root ViewController
                     //Take user to Home Screen (Log In Screen), where user can log in.
                     appDelegate?.applicationDidFinishLaunching(UIApplication.shared)
-    
+                    
                     // SVProgressHUD.dismiss()
                 }
             }
@@ -85,7 +85,7 @@ class HomeScreen: UIViewController {
         
         return userNameCheckStatus && passwordCheckStatus
     }
-
+    
     
     @IBAction func unwindToHomeScreen(_ sender: UIStoryboardSegue){}
     
@@ -97,7 +97,7 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -106,16 +106,16 @@ extension UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height-70
-
+                
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0

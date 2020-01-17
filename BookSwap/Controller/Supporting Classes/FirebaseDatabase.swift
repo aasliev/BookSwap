@@ -56,7 +56,7 @@ class FirebaseDatabase {
     let BOOKSWAP_REQUEST_NOTIFICATION = "BookSwap"
     let FRIEND_REQUEST_NOTIFICATION = "Friend Request"
     let RETURN_BOOK_REQUEST_NOTIFICATION = "Returning Book"
-
+    
     //MARK: Collection Paths
     let USER_COLLECTION_PATH : String
     
@@ -102,15 +102,15 @@ class FirebaseDatabase {
             RATING_FIELD: 5.0,
             NUMBEROFFRIENDS_FIELD: 0,
             NUMBER_OF_HOLD_BOOKS: 0
-            ]){ err in
+        ]){ err in
             
-                if let err = err {
-                    print("Error writing document: \(err)")
-                    completion(false)
-
-                } else {
-                    print("Document successfully written!")
-                    completion(true)
+            if let err = err {
+                print("Error writing document: \(err)")
+                completion(false)
+                
+            } else {
+                print("Document successfully written!")
+                completion(true)
             }
         }
     }
@@ -131,7 +131,7 @@ class FirebaseDatabase {
             
         ]) { err in
             
-             _ = self.checkError(error: err, whileDoing: "adding book to OwnedBook")
+            _ = self.checkError(error: err, whileDoing: "adding book to OwnedBook")
         }
     }
     
@@ -156,17 +156,17 @@ class FirebaseDatabase {
     
     //Add a New Friend
     func addNewFriend(currentUserEmail: String,friendsEmail: String, friendsUserName: String, recursion: Bool = true ) {
-       
+        
         path = "\(USERS_MAIN_COLLECTIN)/\(currentUserEmail)/\(FRIENDS_SUB_COLLECTION)"
         let ref = db.collection(path).document(friendsEmail)
         
-            ref.setData([
+        ref.setData([
             
             USERNAME_FIELD: friendsUserName,
             FRIENDSEMAIL_FIELD: friendsEmail,
             NUMBER_OF_SWAPS_FIELD: 0,
             //This field is used to check if data needs to be updated with CoreData.
-                //Note: 'recursion' is true while adding data for logged in user, flase while adding data fro friend
+            //Note: 'recursion' is true while adding data for logged in user, flase while adding data fro friend
             UPDATED_TO_COREDATA_FIELD : recursion
             
         ]) { err in
@@ -218,7 +218,7 @@ class FirebaseDatabase {
         increment_OR_DecrementNumberOfHoldBook(userEmail: bookRequester, by: 1)
         
         addBookSwapHistory(reciversEmail: bookRequester, sendersEmail: bookOwnerEmail, bookName: bookName, bookAuthor: bookAuthor)
-
+        
     }
     
     //This is function will be called by other Database functions to add a new field into a document
@@ -280,28 +280,28 @@ class FirebaseDatabase {
     }
     
     //Method will add new field 'UpdatedCoreData' to a document inside History Sub-Collection.
-//    func addUpdateCoreDataRequestToHistory(currentUsersEmail: String, sendersEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
-//
-//        path = "\(USERS_MAIN_COLLECTIN)/\(currentUsersEmail)/\(HISTORY_SUB_COLLECTION)"
-//        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
-//
-//        addCoreDataUpdatedField(path: path, documentName: docName)
-//    }
+    //    func addUpdateCoreDataRequestToHistory(currentUsersEmail: String, sendersEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+    //
+    //        path = "\(USERS_MAIN_COLLECTIN)/\(currentUsersEmail)/\(HISTORY_SUB_COLLECTION)"
+    //        let docName = "\(sendersEmail)-\(bookName)-\(bookAuthor)"
+    //
+    //        addCoreDataUpdatedField(path: path, documentName: docName)
+    //    }
     
     //Method will add new field 'UpdatedToCoreData' to a document inside HoldingBooks Sub-Collection.
-//    func addUpdateCoreDataRequestToHoldings (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
-//
-//        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
-//
-//        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
-//
-//    }
+    //    func addUpdateCoreDataRequestToHoldings (userEmail: String, bookName: String, bookAuthor: String, fieldStatus: Bool = false) {
+    //
+    //        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
+    //
+    //        addCoreDataUpdatedField(path: path, documentName: "\(bookName)-\(bookAuthor)", fieldStatus: fieldStatus)
+    //
+    //    }
     
     //MARK: Add Notification Methods
     //Method to add swap reqest on Firestore: Users/reciver's user email/Notification/
     func addSwapReqestNotification (senderEmail: String, sendersUserName: String, receiversEmail : String, bookName : String ,bookAuthor :String) {
         
-       path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
+        path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         ref = db.collection(path).document("\(senderEmail)-\(bookName)-\(bookAuthor)")
         
         ref.setData([
@@ -325,14 +325,14 @@ class FirebaseDatabase {
         
         path = "\(USERS_MAIN_COLLECTIN)/\(receiversEmail)/\(NOTIFICATION_SUB_COLLECTION)"
         ref = db.collection(path).document("\(senderEmail)-\(FRIEND_REQUEST_NOTIFICATION)")
-            
+        
         ref.setData([
             
             SENDERS_EMAIL_FIELD : senderEmail,
             SENDERS_USER_NAME_FIELD: sendersUserName,
             NOTIFICATION_TYPE : FRIEND_REQUEST_NOTIFICATION,
             TIMESTAMP : FieldValue.serverTimestamp()
-        
+            
         ]) { err in
             
             _ = self.checkError(error: err, whileDoing: "adding Friend Request")
@@ -475,9 +475,9 @@ class FirebaseDatabase {
         
         //Decreasing number of book holding. Field "NumberOfHoldingBook" in Firestore: Users/currentUser
         increment_OR_DecrementNumberOfHoldBook(userEmail: sendersEmail, by: -1)
-
+        
         incrementNumberOfSwapsInFriendsSubCollection(currentUserEmail: reciversEmail, friendsEmail: sendersEmail)
-//       }
+        //       }
     }
     
     
@@ -520,7 +520,7 @@ class FirebaseDatabase {
             _ = self.checkError(error: err, whileDoing: self.message)
         }
     }
-
+    
     
     
     //MARK: Increment Methods
@@ -545,7 +545,7 @@ class FirebaseDatabase {
         }
     }
     
-
+    
     //Method increments field "numberOfSwaps" inside Firestore: Users/currentUser document
     private func incrementNumberOfSwapsInUserCollection (currentUserEmail: String, ref: DocumentReference) {
         
@@ -630,8 +630,8 @@ class FirebaseDatabase {
     private func getDocuments (docPath : String, docMessage : String, completion: @escaping (Dictionary<Int , Dictionary<String  , Any>>)->())  {
         
         var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-       // db.collection("Users").document("as@li.com").collection("Friends")
-            db.collection(docPath).getDocuments { (querySnapshot, error) in
+        // db.collection("Users").document("as@li.com").collection("Friends")
+        db.collection(docPath).getDocuments { (querySnapshot, error) in
             
             if (self.checkError(error: error , whileDoing: docMessage)) {
                 var index = 0
@@ -658,21 +658,21 @@ class FirebaseDatabase {
             
             completion(friendListDictionary)
         }
-//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
-//
-//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-//
-//            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
-//                var index = 0
-//                for document in querySnapshot!.documents {
-//                    dictionary[index] = document.data()
-//                    //dictionary[document.documentID] = document.data()
-//                    index += 1
-//                }
-//            }
-//
-//            completion(dictionary)
-//        }
+        //        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(FRIENDS_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+        //
+        //            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+        //
+        //            if (self.checkError(error: error , whileDoing: "getting list of friends")) {
+        //                var index = 0
+        //                for document in querySnapshot!.documents {
+        //                    dictionary[index] = document.data()
+        //                    //dictionary[document.documentID] = document.data()
+        //                    index += 1
+        //                }
+        //            }
+        //
+        //            completion(dictionary)
+        //        }
     }
     
     
@@ -690,23 +690,23 @@ class FirebaseDatabase {
             
             completion(bookListDictionary)
         }
-//
-//        //Users/"user'sEmail"/SubCollection
-//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
-//
-//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-//
-//            if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
-//
-//                var index = 0
-//                for document in querySnapshot!.documents {
-//                    dictionary[index] = document.data()
-//                    index += 1
-//                }
-//            }
-//
-//            completion(dictionary)
-//        }
+        //
+        //        //Users/"user'sEmail"/SubCollection
+        //        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+        //
+        //            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+        //
+        //            if (self.checkError(error: error , whileDoing: "getting books from \(SUB_COLLECTION)")) {
+        //
+        //                var index = 0
+        //                for document in querySnapshot!.documents {
+        //                    dictionary[index] = document.data()
+        //                    index += 1
+        //                }
+        //            }
+        //
+        //            completion(dictionary)
+        //        }
     }
     
     
@@ -722,22 +722,22 @@ class FirebaseDatabase {
         }
         
         
-//        //Users/"user'sEmail"/SubCollection
-//        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
-//
-//            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
-//
-//            if (self.checkError(error: error , whileDoing: "getting history data from History Collection")) {
-//
-//                var index = 0
-//                for document in querySnapshot!.documents {
-//                    dictionary[index] = document.data()
-//                    index += 1
-//                }
-//            }
-//
-//            completion(dictionary)
-//        }
+        //        //Users/"user'sEmail"/SubCollection
+        //        db.collection("\(USERS_MAIN_COLLECTIN)/\(usersEmail)/\(HISTORY_SUB_COLLECTION)").getDocuments { (querySnapshot, error) in
+        //
+        //            var dictionary : Dictionary<Int, Dictionary<String  , Any>> = [:]
+        //
+        //            if (self.checkError(error: error , whileDoing: "getting history data from History Collection")) {
+        //
+        //                var index = 0
+        //                for document in querySnapshot!.documents {
+        //                    dictionary[index] = document.data()
+        //                    index += 1
+        //                }
+        //            }
+        //
+        //            completion(dictionary)
+        //        }
     }
     
     //Method used to get all holding books from From Firestore:  Holding Books sub-collection
@@ -787,7 +787,7 @@ class FirebaseDatabase {
                 completion(dictionary)
         }
     }
-
+    
     
     func getListofFriendsNotAddedInCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
         
@@ -831,12 +831,24 @@ class FirebaseDatabase {
         }
     }
     
+    //Method to get list of friends who needs to remove from firestore and coredata. When unfriended
     func getListofFriends_RemoveFromCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
         
         path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(FRIENDS_SUB_COLLECTION)"
-        message = "getting friends which are need to remove in CoreData and Firestore"
+        message = "getting friends which are need to remove from CoreData and Firestore"
         
-        getListOfDocumentsNotAddedInCoreData(path: path, fieldStatus: false, message: message, forRemoveFromCoreDataField: true) { (dict) in
+        getListOfDocumentsNotAddedInCoreData(path: path, fieldStatus: true, message: message, forRemoveFromCoreDataField: true) { (dict) in
+            completion(dict)
+        }
+    }
+    
+    //Method to get list of holdBook which are needs to be removed from firestore and coredata. When swap completed
+    func getListofHoldBook_RemoveFromCoreData(userEmail: String, completion : @escaping (Dictionary<Int , Dictionary<String  , Any>>)->()){
+        
+        path = "\(USERS_MAIN_COLLECTIN)/\(userEmail)/\(HOLDINGS_SUB_COLLECTION)"
+        message = "getting hold books which are need to remove from CoreData and Firestore"
+        
+        getListOfDocumentsNotAddedInCoreData(path: path, fieldStatus: true, message: message, forRemoveFromCoreDataField: true) { (dict) in
             completion(dict)
         }
     }
@@ -866,8 +878,8 @@ class FirebaseDatabase {
             //completion(userRating)
         }
     }
-
-
+    
+    
     //Get Number of Friends
     func getNumberOfFriends(usersEmail: String, completion: @escaping (Int)->()) {
         
@@ -883,20 +895,20 @@ class FirebaseDatabase {
     func getUserName(usersEmail: String, completion: @escaping (String)->()){
         
         getFieldData(usersEmail: usersEmail, fieldName: USERNAME_FIELD) { uName in
-                
-                let userName : String
-                userName = Int("\(uName)") == nil ? uName as! String : ""
-                if (userName != ""){
-                    completion(userName)
+            
+            let userName : String
+            userName = Int("\(uName)") == nil ? uName as! String : ""
+            if (userName != ""){
+                completion(userName)
+            } else {
+                if (self.authInstance.isItOtherUsersPage(userEmail: usersEmail)) {
+                    completion("User Name")
                 } else {
-                    if (self.authInstance.isItOtherUsersPage(userEmail: usersEmail)) {
-                        completion("User Name")
-                    } else {
-                        completion(self.authInstance.getCurrentUserName())
-
-                    }
+                    completion(self.authInstance.getCurrentUserName())
+                    
                 }
             }
+        }
     }
     
     //Gets rating of current user from Firestore: Users/currentUser/Document "Rating"
@@ -1022,18 +1034,21 @@ class FirebaseDatabase {
     
     
     //Remove Friend from Friends from Firestore: Users/currentUser/Friends/Document "friend's email"
-    func removeFriend (friendsEmail: String ){
+    func removeFriend (friendsEmail: String, updatingCoreData: Bool = false){
         
         //Removing as friend from current user's  friends collection
         deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(authInstance.getCurrentUserEmail())/\(FRIENDS_SUB_COLLECTION)", documentName: "\(friendsEmail)")
         
         increment_OR_DecrementNumberOfFriends(userEmail: authInstance.getCurrentUserEmail(), by: -1)
         
-        //Removing as friend from other user's (Friend of current user) friends collection
-        addRemoveFromCoreDataFieldToFriendsCollection(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
-//        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail())")
-//
-//        increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
+        if (!updatingCoreData) {
+            //Removing as friend from other user's (Friend of current user) friends collection
+            addRemoveFromCoreDataFieldToFriendsCollection(currentUserEmail: authInstance.getCurrentUserEmail(), friendsEmail: friendsEmail)
+        }
+        
+        //        deleteDocument(documentPath: "\(USERS_MAIN_COLLECTIN)/\(friendsEmail)/\(FRIENDS_SUB_COLLECTION)", documentName: "\(authInstance.getCurrentUserEmail())")
+        //
+        //        increment_OR_DecrementNumberOfFriends(userEmail: friendsEmail, by: -1)
         
     }
     
@@ -1129,7 +1144,7 @@ class FirebaseDatabase {
             print("Error while \(whileDoing) .: \(String(describing: error)) Class: FirebaseDatabase.swift")
             return false
         }
-            
+        
     }
     
     

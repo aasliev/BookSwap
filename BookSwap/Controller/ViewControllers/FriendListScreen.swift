@@ -49,6 +49,7 @@ class FriendListScreen: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
         
+        //checking if logged-in user is on the page, otherwise skip updating the core data
         if (!authInstance.isItOtherUsersPage(userEmail: usersFriendsList!)){
             
             databaseIstance.getListofFriendsNotAddedInCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
@@ -58,21 +59,18 @@ class FriendListScreen: UITableViewController {
             }
             
             databaseIstance.getListofFriends_RemoveFromCoreData(userEmail: authInstance.getCurrentUserEmail()) { (dict) in
+                print("Friend search to remove from CoreData: \(dict as AnyObject)")
                 
                 for (_, data) in dict {
                     let friendsEmail = data[self.databaseIstance.FRIENDSEMAIL_FIELD] as! String
                     
-                    self.databaseIstance.removeFriend(friendsEmail: friendsEmail)
+                    self.databaseIstance.removeFriend(friendsEmail: friendsEmail, updatingCoreData: true)
                     
                     self.coreDataClassInstance.removeFriend(friendsEmail: friendsEmail)
-                    
                 }
             }
-            
         }
-        
         loadItems()
-        
     }
     
     //MARK: TableView DataSource Methods
